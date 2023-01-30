@@ -18,8 +18,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int attackDamage;
 
     private bool attackBlocked;
-    private Transform target;
+    private GameObject target;
     private Vector2 moveDirection = Vector2.zero;
+
+    public bool isHoldingBeerKeg = false;
+    public bool isHoldingGlassOfBeer = false;
+
 
 
 
@@ -45,6 +49,7 @@ public class PlayerController : MonoBehaviour
     {
         move.Disable();
         fire.Disable();
+        interact.Disable();
     }
 
     void Update()
@@ -56,6 +61,34 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void GetBeerKeg()
+    {
+        isHoldingBeerKeg = true;
+        Debug.Log("holding keg");
+    }
+    public void ReleaseBeerKeg()
+    {
+        Debug.Log("release keg");
+        isHoldingBeerKeg = false;
+    }
+    public void GetGlassOfBeer()
+    {
+        Debug.Log("holding glass");
+        isHoldingGlassOfBeer = true;
+    }
+
+    public void SellGlassOfBeer()
+    {
+        Debug.Log("release glass");
+        isHoldingGlassOfBeer = false;
+    }
+
+    public void SetTarget(GameObject newTarget)
+    {
+        target = newTarget;
+        Debug.Log(target.name);
+    }
+
     public void Fire(InputAction.CallbackContext ctx)
     {
         if (ctx.performed)
@@ -64,6 +97,7 @@ public class PlayerController : MonoBehaviour
             {
                 return;
             }
+            Debug.Log("Attack");
             attackBlocked = true;
             StartCoroutine(DelayAttack());
             
@@ -72,9 +106,17 @@ public class PlayerController : MonoBehaviour
 
     public void Interact(InputAction.CallbackContext ctx)
     {
-        if (ctx.performed)
+        if (ctx.performed && target != null)
         {
-            Debug.Log("Interact");
+            if(target.TryGetComponent(out PlayerInterractible visitor))
+            {
+                visitor.PlayerInterraction();
+            }
+           
+        }
+        else
+        {
+            Debug.Log("No Target to interract");
         }
     }
 

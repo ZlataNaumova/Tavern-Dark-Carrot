@@ -6,7 +6,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    public static GameState State = GameState.StartScreen;
+
+    public static GameState State = GameState.GameStart;
 
 
     private void Awake()
@@ -20,8 +21,9 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
     }
+
+   
 
     public static void UpdateGameState(GameState newState)
     {
@@ -29,7 +31,7 @@ public class GameManager : MonoBehaviour
         State = newState;
         switch (newState)
         {
-            case GameState.StartScreen:
+            case GameState.GameStart:
               
                 break;
 
@@ -47,10 +49,12 @@ public class GameManager : MonoBehaviour
         }
 
     }
+
+   
 }
 public enum GameState
 {
-    StartScreen,
+    GameStart,
     Day,
     Night,
     GameOver

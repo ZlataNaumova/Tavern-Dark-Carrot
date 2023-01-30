@@ -2,20 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HirePoint : MonoBehaviour
+public class Chair : MonoBehaviour
 {
     public bool isEmpty = true;
-  
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Defender"))
+        if (other.CompareTag("Visitor"))
         {
-            other.GetComponent<Defender>().DefenderIsOnHiringPoint();
+            Debug.Log("visiter Reached chair");
+            other.GetComponent<VisitorAI>().VisitorSits();
         }
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Defender"))
+        if (other.CompareTag("Visitor"))
         {
             isEmpty = true;
         }
