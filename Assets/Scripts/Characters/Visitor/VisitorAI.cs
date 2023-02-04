@@ -86,6 +86,7 @@ public class VisitorAI : PlayerInterractible
             player.SellGlassOfBeer();
             drinksCount++;
             StatsUpdate(drinksCount);
+            TavernEventsManager.OnVisitorBecomeDefender(this);
         }
     }
 

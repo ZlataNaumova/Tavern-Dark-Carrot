@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -5,34 +6,42 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-
-    [SerializeField] private GameObject startNightButton;
+    [SerializeField] private GameObject daySummaryPanel;
     [SerializeField] private TMP_Text coinsValueText;
     [SerializeField] private TMP_Text soulsValueText;
 
     private void OnEnable()
     {
-        TavernEventsManager.TavernReadyForNight += TavernReadyForNightHandler;
+        TavernEventsManager.NightStarts += NightHandler;
         TavernEventsManager.CoinsValueChanged += CoinsValueChangedHandler;
         TavernEventsManager.SoulsValueChanged += SoulsValueChangedHandler;
+        TavernEventsManager.DefendersToCards += DefendersToCardsHandler;
     }
     private void OnDisable()
     {
-        TavernEventsManager.TavernReadyForNight -= TavernReadyForNightHandler;
+        TavernEventsManager.NightStarts -= NightHandler;
         TavernEventsManager.CoinsValueChanged -= CoinsValueChangedHandler;
         TavernEventsManager.SoulsValueChanged -= SoulsValueChangedHandler;
+        TavernEventsManager.DefendersToCards -= DefendersToCardsHandler;
     }
 
-    private void TavernReadyForNightHandler()
+    private void DefendersToCardsHandler(List<VisitorAI> defenders)
     {
-        startNightButton.SetActive(true);
+        throw new NotImplementedException();
     }
+
     private void CoinsValueChangedHandler(int newValue)
     {
         coinsValueText.text = "Coins: " + newValue.ToString();
     }
+
     private void SoulsValueChangedHandler(int newValue)
     {
         soulsValueText.text = "Souls: " + newValue.ToString();
+    }
+
+    private void NightHandler()
+    {
+        daySummaryPanel.SetActive(true);
     }
 }

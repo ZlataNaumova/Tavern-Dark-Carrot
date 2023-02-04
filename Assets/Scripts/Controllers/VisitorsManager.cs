@@ -12,24 +12,30 @@ public class VisitorsManager : MonoBehaviour
     [SerializeField] private int visitorsSpawnDelayMin;
     [SerializeField] private int visitorsSpawnDelayMax;
 
-    [SerializeField] private int currentVisitorsQuantity;
-
     private System.Random random = new System.Random();
     private Chair[] chairs;
-
+    private List<VisitorAI> defenders = new List<VisitorAI>();
     private ObjectPool<GameObject> pool;
 
     private void OnEnable()
     {
         TavernEventsManager.HeartRepaired += StartVisitersSpawn;
         TavernEventsManager.VisitorLeaveTavern += RespawnVisitor;
+        TavernEventsManager.VisitorBecomeDefender += AddVisitorToDefendersList;
+        TavernEventsManager.NightStarts += NightHandler;
     }
 
     private void OnDisable()
     {
         TavernEventsManager.HeartRepaired -= StartVisitersSpawn;
         TavernEventsManager.VisitorLeaveTavern -= RespawnVisitor;
-
+        TavernEventsManager.VisitorBecomeDefender -= AddVisitorToDefendersList;
+        TavernEventsManager.NightStarts -= NightHandler;
+    }
+   
+    private void AddVisitorToDefendersList(VisitorAI visitor)
+    {
+        defenders.Add(visitor);
     }
 
     private void Start() => chairs = FindObjectsOfType<Chair>();
@@ -56,20 +62,18 @@ public class VisitorsManager : MonoBehaviour
             v = visitor.GetComponent<VisitorAI>();
             v.SetStats(10, 1);
             v.SetTarget(emptyChair.transform);
-            currentVisitorsQuantity++;
         }
     }
 
     private void OnReturnVisitorToPool(GameObject visitor)
     {
         visitor.SetActive(false);
-        currentVisitorsQuantity--;
     }
+
     private void RespawnVisitor(VisitorAI v)
     {
         StartCoroutine(SpawnOneVisitorCoroutine());
     }
-
 
     private void StartVisitersSpawn()
     {
@@ -106,4 +110,13 @@ public class VisitorsManager : MonoBehaviour
         }
             return (chair != null);
     }
+
+    private void NightHandler()
+    {
+        if(defenders.Count > 0)
+        {
+            TavernEventsManager.OnDefendersToCards(defenders);
+        }
+    }
+   
 }
