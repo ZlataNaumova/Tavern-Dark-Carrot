@@ -2,61 +2,108 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class VisitorsManager : MonoBehaviour
 {
     [SerializeField] private GameObject visitorPrefab;
     [SerializeField] private Transform visitorSpawnPoint;
     [SerializeField] private int visitorsSpawnQuantity;
+    [SerializeField] private int visitorsSpawnDelayMin;
+    [SerializeField] private int visitorsSpawnDelayMax;
+
+    [SerializeField] private int currentVisitorsQuantity;
+
+    private System.Random random = new System.Random();
+    private Chair[] chairs;
+
+    private ObjectPool<GameObject> pool;
 
     private void OnEnable()
     {
         TavernEventsManager.HeartRepaired += StartVisitersSpawn;
+        TavernEventsManager.VisitorLeaveTavern += RespawnVisitor;
     }
-
 
     private void OnDisable()
     {
         TavernEventsManager.HeartRepaired -= StartVisitersSpawn;
+        TavernEventsManager.VisitorLeaveTavern -= RespawnVisitor;
+
     }
+
+    private void Start() => chairs = FindObjectsOfType<Chair>();
+    
+    private void Awake() => pool = new ObjectPool<GameObject>(CreateVisitor, OnGetVisitorFromPool, OnReturnVisitorToPool);
+
+    private GameObject CreateVisitor()
+    {
+        var v = Instantiate(visitorPrefab, visitorSpawnPoint);
+        v.GetComponent<VisitorAI>().SetPool(pool);
+        v.SetActive(false);
+        return v;
+    }
+
+    private void OnGetVisitorFromPool(GameObject visitor)
+    {
+        Debug.Log("pool get method");
+        Chair emptyChair;
+        VisitorAI v;
+        if (TryGetEmptyChair(out emptyChair))
+        {
+            emptyChair.isEmpty = false;
+            visitor.SetActive(true);
+            v = visitor.GetComponent<VisitorAI>();
+            v.SetStats(10, 1);
+            v.SetTarget(emptyChair.transform);
+            currentVisitorsQuantity++;
+        }
+    }
+
+    private void OnReturnVisitorToPool(GameObject visitor)
+    {
+        visitor.SetActive(false);
+        currentVisitorsQuantity--;
+    }
+    private void RespawnVisitor(VisitorAI v)
+    {
+        StartCoroutine(SpawnOneVisitorCoroutine());
+    }
+
 
     private void StartVisitersSpawn()
     {
-        StartCoroutine(SpawnDelayCoroutine());
+        StartCoroutine(SpawnDelayCoroutine(visitorsSpawnQuantity));
     }
 
-  
-
-    IEnumerator SpawnDelayCoroutine()
+    IEnumerator SpawnDelayCoroutine(int quantity)
     {
-        for (int i = 0; i < visitorsSpawnQuantity; ++i)
+        for (int i = 0; i < quantity; ++i)
         {
             TrySpawnVisitor();
-            yield return new WaitForSeconds(visitorsSpawnQuantity);
+            yield return new WaitForSeconds(random.Next(visitorsSpawnDelayMin,visitorsSpawnDelayMax));
         }
-
-
+    }
+    IEnumerator SpawnOneVisitorCoroutine()
+    {
+        yield return new WaitForSeconds(random.Next(visitorsSpawnDelayMin, visitorsSpawnDelayMax));
+        Debug.Log("One spawn coroutine");
+        TrySpawnVisitor();
     }
 
     private void TrySpawnVisitor()
     {
-        Chair emptyChair;
-        if (TryGetEmptyChair(out emptyChair))
-        {
-            emptyChair.isEmpty = false;
-            GameObject visitor = Instantiate(visitorPrefab, visitorSpawnPoint);
-            visitor.GetComponent<VisitorAI>().SetTarget(emptyChair.transform);
-        }
-        else
-        {
-            Debug.Log("No empty hire places");
-        }
-
+        pool.Get();
     }
 
     private bool TryGetEmptyChair(out Chair chair)
     {
-            chair = Array.Find(FindObjectsOfType<Chair>(), chair => chair.isEmpty == true);
+        chair = null;
+        Chair[] emptyChairs = Array.FindAll(chairs, chair => chair.isEmpty == true);
+        if(emptyChairs.Length > 0)
+        {
+            chair = emptyChairs[random.Next(0, emptyChairs.Length)];
+        }
             return (chair != null);
     }
 }

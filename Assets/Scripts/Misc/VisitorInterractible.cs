@@ -2,20 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Chair : MonoBehaviour
+[RequireComponent(typeof(BoxCollider))]
+
+public abstract class VisitorInterractible : MonoBehaviour
 {
-    public bool isEmpty = true;
-    private VisitorAI visitor;
+    protected VisitorAI visitor;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Visitor"))
         {
+            Debug.Log(visitor.gameObject.name);
             visitor = other.GetComponent<VisitorAI>();
-            if (!visitor.isLeaving)
-            {
-                visitor.VisitorSits();
-            }
+            VisitorInterraction(visitor);
         }
     }
 
@@ -23,11 +22,10 @@ public class Chair : MonoBehaviour
     {
         if (other.CompareTag("Visitor"))
         {
-            if (visitor.isLeaving)
-            {
-                isEmpty = true;
-            }
-               
+            
+
         }
     }
+    public abstract void VisitorInterraction(VisitorAI visitor);
 }
+

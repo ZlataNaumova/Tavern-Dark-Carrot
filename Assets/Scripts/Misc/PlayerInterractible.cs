@@ -14,8 +14,8 @@ public abstract class PlayerInterractible : MonoBehaviour
         {
             player = other.GetComponent<PlayerController>();
             player.SetTarget(gameObject);
-
         }
+       
     }
 
     private void OnTriggerExit(Collider other)
@@ -23,8 +23,9 @@ public abstract class PlayerInterractible : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             player.SetTarget(player.gameObject);
-
         }
-    }
+          }
+
+
     public abstract void PlayerInterraction();
 }

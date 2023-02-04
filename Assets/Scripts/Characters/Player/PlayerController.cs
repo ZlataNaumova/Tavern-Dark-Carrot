@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float speed = 6f;
     [SerializeField] private int attackDelay;
     [SerializeField] private int attackDamage;
+    [SerializeField] private GameObject glassOfBeer;
+    [SerializeField] private GameObject kegOfBeer;
 
     private bool attackBlocked;
     private GameObject target;
@@ -44,6 +46,9 @@ public class PlayerController : MonoBehaviour
         interact.Enable();
         interact.performed += Interact;
 
+        kegOfBeer.SetActive(false);
+        glassOfBeer.SetActive(false);
+
     }
     private void OnDisable()
     {
@@ -64,23 +69,23 @@ public class PlayerController : MonoBehaviour
     public void GetBeerKeg()
     {
         isHoldingBeerKeg = true;
-        Debug.Log("holding keg");
+        kegOfBeer.SetActive(true);
     }
     public void ReleaseBeerKeg()
     {
-        Debug.Log("release keg");
         isHoldingBeerKeg = false;
+        kegOfBeer.SetActive(false);
     }
     public void GetGlassOfBeer()
     {
-        Debug.Log("holding glass");
         isHoldingGlassOfBeer = true;
+        glassOfBeer.SetActive(true);
     }
 
     public void SellGlassOfBeer()
     {
-        Debug.Log("release glass");
         isHoldingGlassOfBeer = false;
+        glassOfBeer.SetActive(false);
     }
 
     public void SetTarget(GameObject newTarget)
@@ -108,9 +113,9 @@ public class PlayerController : MonoBehaviour
     {
         if (ctx.performed && target != null)
         {
-            if(target.TryGetComponent(out PlayerInterractible visitor))
+            if(target.TryGetComponent(out PlayerInterractible interractible))
             {
-                visitor.PlayerInterraction();
+                interractible.PlayerInterraction();
             }
            
         }

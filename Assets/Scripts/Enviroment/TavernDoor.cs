@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class TavernDoor : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private VisitorAI visitor;
+
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if (other.CompareTag("Visitor"))
+        {
+            visitor = other.GetComponent<VisitorAI>();
+            if (visitor.isLeaving)
+            {
+                visitor.ReachedDoor();
+            }
+            
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 }

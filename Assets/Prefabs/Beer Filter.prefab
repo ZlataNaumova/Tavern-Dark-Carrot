@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3581515348380131757
+--- !u!1 &1949842769828489977
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,46 +8,46 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4569825165257291523}
-  - component: {fileID: 982233732528636848}
-  - component: {fileID: 5545800558985017227}
+  - component: {fileID: 3185272875784411924}
+  - component: {fileID: 243676955721461265}
+  - component: {fileID: 9179750970681572252}
   m_Layer: 0
-  m_Name: Beer Keg
+  m_Name: Beer Keg (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4569825165257291523
+--- !u!4 &3185272875784411924
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3581515348380131757}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_GameObject: {fileID: 1949842769828489977}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.75, z: 0}
   m_LocalScale: {x: 0.4, y: 0.5, z: 0.4}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4587350974134235933}
+  m_Father: {fileID: 5438534605477058148}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &982233732528636848
+--- !u!33 &243676955721461265
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3581515348380131757}
+  m_GameObject: {fileID: 1949842769828489977}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &5545800558985017227
+--- !u!23 &9179750970681572252
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3581515348380131757}
+  m_GameObject: {fileID: 1949842769828489977}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -83,7 +83,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &4587350974134235922
+--- !u!1 &5438534605477058151
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -91,49 +91,49 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4587350974134235933}
-  - component: {fileID: 4587350974134235934}
-  - component: {fileID: 4587350974134235935}
-  - component: {fileID: 4587350974134235921}
-  - component: {fileID: 4587350974134235932}
+  - component: {fileID: 5438534605477058148}
+  - component: {fileID: 5438534605477058144}
+  - component: {fileID: 5438534605477058147}
+  - component: {fileID: 5438534605477058146}
+  - component: {fileID: 5438534605477058149}
   m_Layer: 0
-  m_Name: Tavern Heart
+  m_Name: Beer Filter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4587350974134235933
+--- !u!4 &5438534605477058148
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4587350974134235922}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.9310856, y: 1.074009, z: 1.5146444}
+  m_GameObject: {fileID: 5438534605477058151}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.08, y: 0.5, z: 0.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4569825165257291523}
+  - {fileID: 3185272875784411924}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &4587350974134235934
+--- !u!33 &5438534605477058144
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4587350974134235922}
+  m_GameObject: {fileID: 5438534605477058151}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &4587350974134235935
+--- !u!23 &5438534605477058147
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4587350974134235922}
+  m_GameObject: {fileID: 5438534605477058151}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -169,33 +169,30 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &4587350974134235921
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4587350974134235922}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8cde54d3c3c504a06abb3e1ab28f580f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damaged: {fileID: 2100000, guid: e8c7cf5bbe1124b37800f0d04f622a8a, type: 2}
-  notDamaged: {fileID: 2100000, guid: dca98d927a5c64a8697d4799fb83fb12, type: 2}
-  beerKegPriceInSouls: 1
-  beerKegProducingTime: 2
-  kegOfBeer: {fileID: 3581515348380131757}
---- !u!65 &4587350974134235932
+--- !u!65 &5438534605477058146
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4587350974134235922}
+  m_GameObject: {fileID: 5438534605477058151}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 3.304618, y: 1, z: 2.8942223}
-  m_Center: {x: 0.57306767, y: 0, z: 0.10502672}
+  m_Size: {x: 3, y: 1, z: 3}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5438534605477058149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5438534605477058151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db8201818aaec431ca42215a7979eac9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fillingGlassTime: 2
+  kegOfBeer: {fileID: 1949842769828489977}
