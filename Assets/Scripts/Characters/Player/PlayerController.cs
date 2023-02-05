@@ -90,6 +90,8 @@ public class PlayerController : MonoBehaviour
     public void SetTarget(GameObject newTarget)
     {
         target = newTarget;
+        Debug.Log(target.name);
+
     }
 
     public void Fire(InputAction.CallbackContext ctx)

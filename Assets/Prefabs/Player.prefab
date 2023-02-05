@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 8d2abff691f464e9fbfa29a312785f7c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -144,7 +144,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9a2f53536905d4b1ebd2afa9ed55a18d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -362,12 +362,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4eefed6ef3da447249a42345e3fb57a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 6725711740664703616}
   speed: 6
   attackDelay: 0
   attackDamage: 0
   glassOfBeer: {fileID: 5123392040171208506}
   kegOfBeer: {fileID: 6355826440147959844}
+  controller: {fileID: 6725711740664703616}
   isHoldingBeerKeg: 0
   isHoldingGlassOfBeer: 0
 --- !u!1 &6725711741315939433
