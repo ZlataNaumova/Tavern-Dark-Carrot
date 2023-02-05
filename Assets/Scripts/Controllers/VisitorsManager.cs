@@ -52,7 +52,6 @@ public class VisitorsManager : MonoBehaviour
 
     private void OnGetVisitorFromPool(GameObject visitor)
     {
-        Debug.Log("pool get method");
         Chair emptyChair;
         VisitorAI v;
         if (TryGetEmptyChair(out emptyChair))
@@ -91,7 +90,6 @@ public class VisitorsManager : MonoBehaviour
     IEnumerator SpawnOneVisitorCoroutine()
     {
         yield return new WaitForSeconds(random.Next(visitorsSpawnDelayMin, visitorsSpawnDelayMax));
-        Debug.Log("One spawn coroutine");
         TrySpawnVisitor();
     }
 

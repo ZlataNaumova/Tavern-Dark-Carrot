@@ -6,7 +6,8 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] private GameObject daySummaryPanel;
+    [SerializeField] private GameObject dayCanvas;
+    [SerializeField] private GameObject nightCanvas;
     [SerializeField] private TMP_Text coinsValueText;
     [SerializeField] private TMP_Text soulsValueText;
 
@@ -42,6 +43,7 @@ public class UIManager : MonoBehaviour
 
     private void NightHandler()
     {
-        daySummaryPanel.SetActive(true);
+        dayCanvas.SetActive(false);
+        nightCanvas.SetActive(true);
     }
 }

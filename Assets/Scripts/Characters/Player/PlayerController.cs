@@ -5,19 +5,18 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private float speed = 6f;
+    [SerializeField] private int attackDelay;
+    [SerializeField] private int attackDamage;
+    [SerializeField] private GameObject glassOfBeer;
+    [SerializeField] private GameObject kegOfBeer;
+
     public CharacterController controller;
     public PlayerInputActions playerControls;
 
     private InputAction move;
     private InputAction fire;
     private InputAction interact;
-
-
-    [SerializeField] private float speed = 6f;
-    [SerializeField] private int attackDelay;
-    [SerializeField] private int attackDamage;
-    [SerializeField] private GameObject glassOfBeer;
-    [SerializeField] private GameObject kegOfBeer;
 
     private bool attackBlocked;
     private GameObject target;
@@ -26,13 +25,11 @@ public class PlayerController : MonoBehaviour
     public bool isHoldingBeerKeg = false;
     public bool isHoldingGlassOfBeer = false;
 
-
-
-
     private void Awake()
     {
         playerControls = new PlayerInputActions();
     }
+
     private void OnEnable()
     {
         move = playerControls.Player.Move;
@@ -48,8 +45,8 @@ public class PlayerController : MonoBehaviour
 
         kegOfBeer.SetActive(false);
         glassOfBeer.SetActive(false);
-
     }
+
     private void OnDisable()
     {
         move.Disable();
@@ -71,11 +68,13 @@ public class PlayerController : MonoBehaviour
         isHoldingBeerKeg = true;
         kegOfBeer.SetActive(true);
     }
+
     public void ReleaseBeerKeg()
     {
         isHoldingBeerKeg = false;
         kegOfBeer.SetActive(false);
     }
+
     public void GetGlassOfBeer()
     {
         isHoldingGlassOfBeer = true;
@@ -91,7 +90,6 @@ public class PlayerController : MonoBehaviour
     public void SetTarget(GameObject newTarget)
     {
         target = newTarget;
-        Debug.Log(target.name);
     }
 
     public void Fire(InputAction.CallbackContext ctx)

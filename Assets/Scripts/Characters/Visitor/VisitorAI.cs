@@ -10,8 +10,8 @@ public class VisitorAI : PlayerInterractible
     private Transform target;
     private CharacterController controller;
     private BoxCollider coll;
-    private int strength;
-    private int type;
+    private int strenght = 1;
+    private int defenderType;
     private int drinksCount;
     private IObjectPool<GameObject> pool;
 
@@ -94,17 +94,17 @@ public class VisitorAI : PlayerInterractible
     {
         switch (drinksCount){
             case 1:
-                strength += 10;
+                strenght += 10;
                 TavernEventsManager.OnAddCoins(10);
                 TavernEventsManager.OnAddSouls(3);
                 break;
             case 2:
-                strength += 10;
+                strenght += 10;
                 TavernEventsManager.OnAddCoins(15);
                 TavernEventsManager.OnAddSouls(2);
                 break;
             case 3:
-                strength += 10;
+                strenght += 10;
                 TavernEventsManager.OnAddCoins(20);
                 TavernEventsManager.OnAddSouls(1);
                 break;
@@ -149,12 +149,15 @@ public class VisitorAI : PlayerInterractible
 
     public void SetStats(int strength, int type)
     {
-        this.strength = strength;
-        this.type = type;
+        this.strenght = strength;
+        this.defenderType = type;
     }
     public void SetPool(ObjectPool<GameObject> myPool)
     {
         pool = myPool;
     }
 
+    public int GetStrenght() => strenght;
+    
+    public int GetDefenderType() => defenderType;
 }
