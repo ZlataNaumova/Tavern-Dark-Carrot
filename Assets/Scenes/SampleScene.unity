@@ -1215,7 +1215,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 254493786}
-  m_LocalRotation: {x: 0.28000662, y: 0.000000033036184, z: -0.0000000096358015, w: 0.9599981}
+  m_LocalRotation: {x: 0.28000662, y: -0.000000033036184, z: 0.0000000096358015, w: 0.9599981}
   m_LocalPosition: {x: -1.4410855, y: 8.314009, z: -10.815355}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3834,7 +3834,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 875830909}
-  m_LocalRotation: {x: 0.28000662, y: 0.000000016518094, z: -0.0000000048179007, w: 0.9599981}
+  m_LocalRotation: {x: 0.28000662, y: -0.000000016518094, z: 0.0000000048179007, w: 0.9599981}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -6595,6 +6595,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6725711740664703618, guid: 197b3813702c348c0b2a4ca5224a547b, type: 3}
+      propertyPath: camera
+      value: 
+      objectReference: {fileID: 254493787}
     - target: {fileID: 6725711740664703629, guid: 197b3813702c348c0b2a4ca5224a547b, type: 3}
       propertyPath: m_Name
       value: Player

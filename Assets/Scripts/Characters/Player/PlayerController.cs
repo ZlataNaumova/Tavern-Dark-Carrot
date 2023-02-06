@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
 
     public CharacterController controller;
     public PlayerInputActions playerControls;
+    public Transform camera;
 
     private InputAction move;
     private InputAction fire;
@@ -21,6 +22,8 @@ public class PlayerController : MonoBehaviour
     private bool attackBlocked;
     private GameObject target;
     private Vector2 moveDirection = Vector2.zero;
+    private float turnSmoothTime = 0.1f;
+    private float turnSmoothVelocity;
 
     public bool isHoldingBeerKeg = false;
     public bool isHoldingGlassOfBeer = false;
@@ -57,9 +60,14 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         moveDirection = move.ReadValue<Vector2>();
-        if(moveDirection.magnitude >= 0.1f)
+        Vector3 direction = new Vector3(moveDirection.x, 0f, moveDirection.y).normalized;
+        if (moveDirection.magnitude >= 0.1f)
         {
-            controller.Move(new Vector3(moveDirection.x,0f,moveDirection.y) * speed * Time.deltaTime);
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + camera.eulerAngles.y;
+            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+            controller.Move(moveDir.normalized * speed * Time.deltaTime);
         }
     }
 
