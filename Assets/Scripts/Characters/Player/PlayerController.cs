@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,7 +14,7 @@ public class PlayerController : MonoBehaviour
 
     public CharacterController controller;
     public PlayerInputActions playerControls;
-    public Transform camera;
+    public Transform cam;
 
     private InputAction move;
     private InputAction fire;
@@ -36,18 +37,16 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
         move = playerControls.Player.Move;
-        move.Enable();
-
         fire = playerControls.Player.Fire;
-        fire.Enable();
         fire.performed += Fire;
-
         interact = playerControls.Player.Interact;
-        interact.Enable();
         interact.performed += Interact;
 
         kegOfBeer.SetActive(false);
         glassOfBeer.SetActive(false);
+
+        TavernEventsManager.DayStarts += DayStartsHandler;
+        TavernEventsManager.NightStarts += NightStartsHandler;
     }
 
     private void OnDisable()
@@ -55,6 +54,9 @@ public class PlayerController : MonoBehaviour
         move.Disable();
         fire.Disable();
         interact.Disable();
+
+        TavernEventsManager.DayStarts -= DayStartsHandler;
+        TavernEventsManager.NightStarts -= NightStartsHandler;
     }
 
     void Update()
@@ -63,12 +65,26 @@ public class PlayerController : MonoBehaviour
         Vector3 direction = new Vector3(moveDirection.x, 0f, moveDirection.y).normalized;
         if (moveDirection.magnitude >= 0.1f)
         {
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + camera.eulerAngles.y;
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
             controller.Move(moveDir.normalized * speed * Time.deltaTime);
         }
+    }
+
+    private void NightStartsHandler()
+    {
+        move.Disable();
+        fire.Disable();
+        interact.Disable();
+    }
+
+    private void DayStartsHandler()
+    {
+        interact.Enable();
+        fire.Enable();
+        move.Enable();
     }
 
     public void GetBeerKeg()
@@ -99,7 +115,6 @@ public class PlayerController : MonoBehaviour
     {
         target = newTarget;
         Debug.Log(target.name);
-
     }
 
     public void Fire(InputAction.CallbackContext ctx)

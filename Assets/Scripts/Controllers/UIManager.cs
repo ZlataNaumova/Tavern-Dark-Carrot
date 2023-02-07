@@ -16,19 +16,13 @@ public class UIManager : MonoBehaviour
         TavernEventsManager.NightStarts += NightHandler;
         TavernEventsManager.CoinsValueChanged += CoinsValueChangedHandler;
         TavernEventsManager.SoulsValueChanged += SoulsValueChangedHandler;
-        TavernEventsManager.DefendersToCards += DefendersToCardsHandler;
     }
+
     private void OnDisable()
     {
         TavernEventsManager.NightStarts -= NightHandler;
         TavernEventsManager.CoinsValueChanged -= CoinsValueChangedHandler;
         TavernEventsManager.SoulsValueChanged -= SoulsValueChangedHandler;
-        TavernEventsManager.DefendersToCards -= DefendersToCardsHandler;
-    }
-
-    private void DefendersToCardsHandler(List<VisitorAI> defenders)
-    {
-        throw new NotImplementedException();
     }
 
     private void CoinsValueChangedHandler(int newValue)

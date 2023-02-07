@@ -5,10 +5,13 @@ using UnityEngine;
 
 public class CardGameManager : MonoBehaviour
 {
-    private List<PlayingCard> playerDeck;
-    private List<PlayingCard> enemyDeck;
-    private List<PlayingCard> playerActionDeck;
-    private List<PlayingCard> enemyActionDeck;
+    [SerializeField] private GameObject playerDeck;
+    [SerializeField] private PlayingCardView cardPrefab;
+
+    private List<PlayingCard> playerCards = new List<PlayingCard>();
+    private List<PlayingCard> enemyCards = new List<PlayingCard>();
+    private List<PlayingCard> playerActionDeck = new List<PlayingCard>();
+    private List<PlayingCard> enemyActionDeck = new List<PlayingCard>();
 
     private int enemyStrength = 0;
     private int playerStrength = 0;
@@ -19,42 +22,44 @@ public class CardGameManager : MonoBehaviour
 
     private void OnEnable()
     {
-        TavernEventsManager.DefendersToCards += GeneratePlayersDeck;
+        TavernEventsManager.DefendersToCards += GeneratePlayersCards;
+
+        UpdateCardGameState(CardGameState.start);
     }
 
     private void OnDisable()
     {
-        TavernEventsManager.DefendersToCards -= GeneratePlayersDeck;
+        TavernEventsManager.DefendersToCards -= GeneratePlayersCards;
+    }
+    private void AddCardToDeck(VisitorAI defender)
+    {
+        var cardView = Instantiate(cardPrefab, playerDeck.transform);
+        cardView.Render(defender);
     }
 
-    private void Start()
-    {
-        currentCardGameState = CardGameState.start;
-        playerDeck =  new List<PlayingCard>();
-        enemyDeck = new List<PlayingCard>();
-        playerActionDeck = new List<PlayingCard>();
-        enemyActionDeck = new List<PlayingCard>();
-}
-
-private void GeneratePlayersDeck(List<VisitorAI> defenders)
+    private void GeneratePlayersCards(List<VisitorAI> defenders)
     {
         foreach (VisitorAI d in defenders)
         {
-            playerDeck.Add(new PlayingCard(d.GetStrenght(), d.GetDefenderType()));
+            AddCardToDeck(d);
         }
-        GenerateEnemyDeck();
+        //foreach (VisitorAI d in defenders)
+        //{
+        //    playerCards.Add(new PlayingCard(d.Strenght, d.DefenderType));
+        //}
+        //GenerateEnemyDeck();
     }
     private void GenerateEnemyDeck()
     {
-        foreach (PlayingCard c in playerDeck)
+        foreach (PlayingCard c in playerCards)
         {
-            enemyDeck.Add(new PlayingCard(c.strength - 1, c.cardType));
+            enemyCards.Add(new PlayingCard(c.strength - 1, c.cardType));
         }
     }
 
     private void CardGameStarts()
     {
-        if(playerDeck.Count > 0)
+        if(playerCards.Count > 0)
         {
             
             UpdateCardGameState(CardGameState.enemyTurn);
@@ -65,11 +70,11 @@ private void GeneratePlayersDeck(List<VisitorAI> defenders)
 
     private void EnemyTurn()
     {
-        PlayingCard attackCard = enemyDeck.Find(c => c.isUsed == false);
+        PlayingCard attackCard = enemyCards.Find(c => c.isUsed == false);
         enemyStrength += attackCard.strength;
         attackCard.isUsed = true;
         enemyActionDeck.Add(attackCard);
-        enemyDeck.Remove(attackCard);
+        enemyCards.Remove(attackCard);
         UpdateCardGameState(CardGameState.playerTurn);
     }
 
@@ -79,7 +84,7 @@ private void GeneratePlayersDeck(List<VisitorAI> defenders)
         playerStrength += attackCard.strength;
         attackCard.isUsed = true;
         playerActionDeck.Add(attackCard);
-        playerDeck.Remove(attackCard);
+        playerCards.Remove(attackCard);
         UpdateCardGameState(CardGameState.fight);
     }
 
@@ -114,11 +119,11 @@ private void GeneratePlayersDeck(List<VisitorAI> defenders)
                 p.strength -= enemyStrength;
             }
         }
-        if(playerActionDeck.Count <= 0 || playerDeck.Count <= 0)
+        if(playerActionDeck.Count <= 0 || playerCards.Count <= 0)
         {
             EnemyWins();
         }
-        if (enemyActionDeck.Count <= 0 || enemyDeck.Count <= 0)
+        if (enemyActionDeck.Count <= 0 || enemyCards.Count <= 0)
         {
             PlayerWins();
         }

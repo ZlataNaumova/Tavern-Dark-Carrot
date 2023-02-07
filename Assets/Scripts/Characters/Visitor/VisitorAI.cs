@@ -22,8 +22,10 @@ public class VisitorAI : PlayerInterractible
     private bool isDrunk;
     public bool isLeaving;
 
-
     private Coroutine timerCoroutine = null;
+
+    public int Strenght => strenght;
+    public int DefenderType => defenderType;
 
     private void Start()
     {
@@ -81,35 +83,13 @@ public class VisitorAI : PlayerInterractible
                 StopCoroutine(timerCoroutine);
                 isDrunk = true;
                 leaveTimerBar.enabled = false;
-
+                TavernEventsManager.OnVisitorBecomeDefender(this);
             }
             player.SellGlassOfBeer();
             drinksCount++;
-            StatsUpdate(drinksCount);
-            TavernEventsManager.OnVisitorBecomeDefender(this);
-        }
-    }
-
-    private void StatsUpdate(int drinksCount)
-    {
-        switch (drinksCount){
-            case 1:
-                strenght += 10;
-                TavernEventsManager.OnAddCoins(10);
-                TavernEventsManager.OnAddSouls(3);
-                break;
-            case 2:
-                strenght += 10;
-                TavernEventsManager.OnAddCoins(15);
-                TavernEventsManager.OnAddSouls(2);
-                break;
-            case 3:
-                strenght += 10;
-                TavernEventsManager.OnAddCoins(20);
-                TavernEventsManager.OnAddSouls(1);
-                break;
-            default:
-                break;
+            strenght += 10;
+            TavernEventsManager.OnAddCoins(10);
+            TavernEventsManager.OnAddSouls(3);
         }
     }
 
@@ -157,7 +137,5 @@ public class VisitorAI : PlayerInterractible
         pool = myPool;
     }
 
-    public int GetStrenght() => strenght;
     
-    public int GetDefenderType() => defenderType;
 }

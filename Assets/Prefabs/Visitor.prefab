@@ -227,7 +227,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leaveTimerBar: {fileID: 4999767687453947060}
   speed: 2
-  secondsToLeave: 15
+  secondsToLeave: 3
   isLeaving: 0
 --- !u!143 &4619408317014488126
 CharacterController:

@@ -11,6 +11,9 @@ public static class TavernEventsManager
     public static event UnityAction NightStarts;
     public static void OnNightStarts() => NightStarts?.Invoke();
 
+    public static event UnityAction DayStarts;
+    public static void OnDayStarts() => DayStarts?.Invoke();
+
     public static event UnityAction<int> CoinsValueChanged;
     public static void OnCoinsValueChanged(int newValue) => CoinsValueChanged?.Invoke(newValue);
 
