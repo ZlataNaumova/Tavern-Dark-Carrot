@@ -4,7 +4,16 @@ A game about managing the tavern during day and fight agains evil at night.
 
 Engine: Unity
 
-current version: 0.1
+current version 0.2
+
+Features Added:
+<ul>
+               <li>Card part of the game added;</li>
+               <li>Basic core gameloop is working;</li>
+</ul>
+
+
+ version: 0.1
 
 Implemented Features:
 <ul>
