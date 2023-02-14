@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(this);
+            //DontDestroyOnLoad(this);
         }
         else if (Instance != this)
         {
@@ -56,13 +56,15 @@ public class GameManager : MonoBehaviour
     private static void DayHandler()
     {
         TavernEventsManager.OnDayStarts();
+        TavernEventsManager.OnCameraSwitchToFollowPlayer();
+        TavernEventsManager.OnSwitchToDayCanvas();
         Instance.StartCoroutine(NightTimerCoroutine());
     }
 
     private static void NightHandler()
     {
         TavernEventsManager.OnNightStarts();
-        Instance.StartCoroutine(NightEndTimer());
+        Instance.StartCoroutine(CardGameTiming(6));
     }
 
     private static IEnumerator NightTimerCoroutine()
@@ -71,17 +73,29 @@ public class GameManager : MonoBehaviour
         UpdateGameState(GameState.Night);
     }
 
-    private static IEnumerator NightEndTimer()
+    private static IEnumerator CardGameTiming(int seconds)
     {
-        yield return new WaitForSeconds(secondsToNight);
-        UpdateGameState(GameState.Day);
+        int counter = seconds;
+        TavernEventsManager.OnCameraSwitchToCardGame();
+        while (counter > 0)
+        {
+            counter--;
+            if(counter == 3)
+            {
+                TavernEventsManager.OnSwitchToNightCanvas();
+            }
+            if(counter == 2)
+            {
+                TavernEventsManager.OnRenderCards();
+            }
+            yield return new WaitForSeconds(1);
+        }
     }
-
+    
     public enum GameState
     {
         GameStart,
         Day,
         Night
     }
-
 }

@@ -1,20 +1,30 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class CardGameManager : MonoBehaviour
 {
-    [SerializeField] private GameObject playerDeck;
+    [SerializeField] private Transform playerDeckTransform;
+    [SerializeField] private Transform enemyDeckTransform;
+    [SerializeField] private Transform playerAttackDeckTransform;
+    [SerializeField] private Transform enemyAttackDeckTransform;
+
+    [SerializeField] private TMP_Text playerStrengthText;
+    [SerializeField] private TMP_Text enemyStrengthText;
+
     [SerializeField] private PlayingCardView cardPrefab;
 
-    private List<PlayingCard> playerCards = new List<PlayingCard>();
-    private List<PlayingCard> enemyCards = new List<PlayingCard>();
-    private List<PlayingCard> playerActionDeck = new List<PlayingCard>();
-    private List<PlayingCard> enemyActionDeck = new List<PlayingCard>();
+    private List<VisitorAI> visitors;
 
-    private int enemyStrength = 0;
-    private int playerStrength = 0;
+    private List<PlayingCardView> playersDeck = new List<PlayingCardView>();
+    private List<PlayingCardView> enemysDeck = new List<PlayingCardView>();
+    private Stack<PlayingCardView> playersAttackDeck = new Stack<PlayingCardView>();
+    private Stack<PlayingCardView> enemysAttackDeck = new Stack<PlayingCardView>();
+
+    private int enemyAttackStrength = 0;
+    private int playerAttackStrength = 0;
 
     private CardGameState currentCardGameState;
 
@@ -22,135 +32,196 @@ public class CardGameManager : MonoBehaviour
 
     private void OnEnable()
     {
-        TavernEventsManager.DefendersToCards += GeneratePlayersCards;
+        TavernEventsManager.DefendersToCards += SetVisitorsList;
+        TavernEventsManager.RenderCards += RenderAllCard;
+        TavernEventsManager.PlayerChooseCard += PlayerChooseCardHandler;
 
         UpdateCardGameState(CardGameState.start);
     }
 
     private void OnDisable()
     {
-        TavernEventsManager.DefendersToCards -= GeneratePlayersCards;
+        TavernEventsManager.DefendersToCards -= SetVisitorsList;
+        TavernEventsManager.RenderCards -= RenderAllCard;
+        TavernEventsManager.PlayerChooseCard += PlayerChooseCardHandler;
     }
-    private void AddCardToDeck(VisitorAI defender)
+
+    private void SetVisitorsList(List<VisitorAI> visitorsList)
     {
-        var cardView = Instantiate(cardPrefab, playerDeck.transform);
-        cardView.Render(defender);
+        visitors = visitorsList;
+    }
+
+    private void RenderAllCard()
+    {
+        GeneratePlayersCards(visitors);
+        UpdateCardGameState(CardGameState.start);
+    }
+
+    private void AddCardToDeck(int cardType, int cardStrength, Transform deck, bool isPlayersDeck)
+    {
+        PlayingCardView cardView = Instantiate(cardPrefab, deck);
+        cardView.Init(cardType, cardStrength);
+        if (isPlayersDeck)
+        {
+            playersDeck.Add(cardView);
+        } else
+        {
+            enemysDeck.Add(cardView);
+        }
+    }
+
+    private void TestGeneratingCards()
+    {
+        AddCardToDeck(1, 10, playerDeckTransform,true);
+        AddCardToDeck(1, 15, playerDeckTransform, true);
+        AddCardToDeck(1, 5, playerDeckTransform, true);
+        AddCardToDeck(1, 7, playerDeckTransform, true);
+        AddCardToDeck(1, 10, enemyDeckTransform, false);
+        AddCardToDeck(1, 4, enemyDeckTransform, false);
+        AddCardToDeck(1, 9, enemyDeckTransform, false);
+        AddCardToDeck(1, 10, enemyDeckTransform, false);
     }
 
     private void GeneratePlayersCards(List<VisitorAI> defenders)
     {
         foreach (VisitorAI d in defenders)
         {
-            AddCardToDeck(d);
-        }
-        //foreach (VisitorAI d in defenders)
-        //{
-        //    playerCards.Add(new PlayingCard(d.Strenght, d.DefenderType));
-        //}
-        //GenerateEnemyDeck();
-    }
-    private void GenerateEnemyDeck()
-    {
-        foreach (PlayingCard c in playerCards)
-        {
-            enemyCards.Add(new PlayingCard(c.strength - 1, c.cardType));
+            AddCardToDeck(d.DefenderType, d.Strenght, playerDeckTransform, true);
+            AddCardToDeck(d.DefenderType, d.Strenght-1, enemyDeckTransform,false);
         }
     }
-
+    
     private void CardGameStarts()
     {
-        if(playerCards.Count > 0)
+        //TestGeneratingCards();
+        if (playersDeck.Count > 0)
         {
             
             UpdateCardGameState(CardGameState.enemyTurn);
         }
-        
-
     }
 
     private void EnemyTurn()
     {
-        PlayingCard attackCard = enemyCards.Find(c => c.isUsed == false);
-        enemyStrength += attackCard.strength;
-        attackCard.isUsed = true;
-        enemyActionDeck.Add(attackCard);
-        enemyCards.Remove(attackCard);
-        UpdateCardGameState(CardGameState.playerTurn);
+            int randomIndex = random.Next(enemysDeck.Count);
+            PlayingCardView card = enemysDeck[randomIndex];
+            enemyAttackStrength += card.Strength;
+            enemyStrengthText.text = enemyAttackStrength.ToString();
+            card.transform.SetParent(enemyAttackDeckTransform);
+            enemysDeck.Remove(card);
+            enemysAttackDeck.Push(card);
+            UpdateCardGameState(CardGameState.playerTurn);
     }
 
     private void PlayerTurn()
     {
-        PlayingCard attackCard = ClickOnAttackCard();
-        playerStrength += attackCard.strength;
-        attackCard.isUsed = true;
-        playerActionDeck.Add(attackCard);
-        playerCards.Remove(attackCard);
-        UpdateCardGameState(CardGameState.fight);
+        foreach (PlayingCardView c in playersDeck)
+        {
+            c.SetButtonEnebled(true);
+        }
     }
 
-    private PlayingCard ClickOnAttackCard()
+    public void PlayerChooseCardHandler(PlayingCardView card)
     {
-        throw new NotImplementedException();
+        foreach (PlayingCardView c in playersDeck)
+        {
+            c.SetButtonEnebled(false);
+        }
+        playerAttackStrength += card.Strength;
+        playerStrengthText.text = playerAttackStrength.ToString();
+        card.transform.SetParent(playerAttackDeckTransform.transform);
+        playersDeck.Remove(card);
+        playersAttackDeck.Push(card);
+        UpdateCardGameState(CardGameState.fight);
     }
 
     private void CardFight()
     {
-        foreach (PlayingCard p in enemyActionDeck)
+        PlayingCardView card;
+        int res = playerAttackStrength - enemyAttackStrength;
+        if(res >= 0)
         {
-            playerStrength -= p.strength;
-            if (playerStrength <= 0)
+            enemyAttackStrength = 0;
+            enemyStrengthText.text = enemyAttackStrength.ToString();
+            playerAttackStrength = res;
+            playerStrengthText.text = playerAttackStrength.ToString();
+            enemysAttackDeck.Clear();
+            foreach (Transform child in enemyAttackDeckTransform)
             {
-                enemyActionDeck.Remove(p);
+                Destroy(child.gameObject);
             }
-            else
+            if (playersAttackDeck.TryPop(out card))
             {
-                p.strength -= playerStrength;
-            }
-        }
-        foreach (PlayingCard p in playerActionDeck)
-        {
-            enemyStrength -= p.strength;
-            if (enemyStrength <= 0)
-            {
-                playerActionDeck.Remove(p);
-            }
-            else
-            {
-                p.strength -= enemyStrength;
+                card.SetStrength(res);
+                playersAttackDeck.Clear();
+                playersAttackDeck.Push(card);
             }
         }
-        if(playerActionDeck.Count <= 0 || playerCards.Count <= 0)
+        else
         {
-            EnemyWins();
+            playerAttackStrength = 0;
+            playerStrengthText.text = playerAttackStrength.ToString();
+            enemyAttackStrength = -res;
+            enemyStrengthText.text = enemyAttackStrength.ToString();
+            playersAttackDeck.Clear();
+            foreach (Transform child in playerAttackDeckTransform)
+            {
+                Destroy(child.gameObject);
+            }
+            if (enemysAttackDeck.TryPop(out card))
+            {
+                card.SetStrength(-res);
+                enemysAttackDeck.Clear();
+                enemysAttackDeck.Push(card);
+            }
         }
-        if (enemyActionDeck.Count <= 0 || enemyCards.Count <= 0)
+        if((playersDeck.Count > 0 || playersAttackDeck.Count > 0) && (enemysDeck.Count > 0 || enemysAttackDeck.Count > 0))
         {
-            PlayerWins();
+            UpdateCardGameState(CardGameState.enemyTurn);
+        }else
+        {
+            UpdateCardGameState(CardGameState.gameOver);
         }
-
-        UpdateCardGameState(CardGameState.enemyTurn);
     }
-
-    private void PlayerWins()
-    {
-        UpdateCardGameState(CardGameState.gameOver);
-    }
-
-    private void EnemyWins()
-    {
-        UpdateCardGameState(CardGameState.gameOver);
-    }
-
+  
     private void CardGameOver()
     {
+        Debug.Log("Game Over");
+        ClearAllDecks();
+        GameManager.UpdateGameState(GameManager.GameState.Day);
+    }
 
+    private void ClearAllDecks()
+    {
+        playersDeck.Clear();
+        playersAttackDeck.Clear();
+        enemysDeck.Clear();
+        enemysAttackDeck.Clear();
+        foreach (Transform child in playerDeckTransform)
+        {
+            Destroy(child.gameObject);
+        }
+        foreach (Transform child in playerAttackDeckTransform)
+        {
+            Destroy(child.gameObject);
+        }
+        foreach (Transform child in enemyAttackDeckTransform)
+        {
+            Destroy(child.gameObject);
+        }
+        foreach (Transform child in enemyDeckTransform)
+        {
+            Destroy(child.gameObject);
+        }
     }
 
     private void UpdateCardGameState(CardGameState newState)
     {
-        currentCardGameState = newState;
+        //currentCardGameState = newState;
         switch (newState)
         {
+            case CardGameState.day:
+                break;
             case CardGameState.start:
                 CardGameStarts();
                 break;
@@ -175,9 +246,11 @@ public class CardGameManager : MonoBehaviour
 }
 
 public enum CardGameState{
+    day,
     start,
     enemyTurn,
     playerTurn,
     fight,
     gameOver
 }
+

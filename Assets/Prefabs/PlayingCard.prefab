@@ -619,6 +619,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46ceddcc63c5e4546a817e423fe042fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defenderType: {fileID: 3168880025574062049}
-  defenderStrength: {fileID: 3168880026036646943}
+  typeText: {fileID: 3168880025574062049}
+  strengthText: {fileID: 3168880026036646943}
   useButton: {fileID: 3168880026453896099}

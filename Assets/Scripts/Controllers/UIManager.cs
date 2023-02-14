@@ -11,16 +11,20 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text coinsValueText;
     [SerializeField] private TMP_Text soulsValueText;
 
+    [SerializeField] private int secondsCameraToFly;
+
     private void OnEnable()
     {
-        TavernEventsManager.NightStarts += NightHandler;
+        TavernEventsManager.SwitchToDayCanvas += SwitchToDayCanvas;
+        TavernEventsManager.SwitchToNightCanvas += SwitchToNightCanvas;
         TavernEventsManager.CoinsValueChanged += CoinsValueChangedHandler;
         TavernEventsManager.SoulsValueChanged += SoulsValueChangedHandler;
     }
 
     private void OnDisable()
     {
-        TavernEventsManager.NightStarts -= NightHandler;
+        TavernEventsManager.SwitchToDayCanvas -= SwitchToDayCanvas;
+        TavernEventsManager.SwitchToNightCanvas -= SwitchToNightCanvas;
         TavernEventsManager.CoinsValueChanged -= CoinsValueChangedHandler;
         TavernEventsManager.SoulsValueChanged -= SoulsValueChangedHandler;
     }
@@ -35,9 +39,16 @@ public class UIManager : MonoBehaviour
         soulsValueText.text = "Souls: " + newValue.ToString();
     }
 
-    private void NightHandler()
+    private void SwitchToDayCanvas()
+    {
+        dayCanvas.SetActive(true);
+        nightCanvas.SetActive(false);
+    }
+
+    private void SwitchToNightCanvas()
     {
         dayCanvas.SetActive(false);
         nightCanvas.SetActive(true);
     }
+
 }

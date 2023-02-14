@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class TavernHeart : PlayerInterractible
 {
-   
     [SerializeField] private Material damaged;
     [SerializeField] private Material notDamaged;
 
@@ -19,12 +18,21 @@ public class TavernHeart : PlayerInterractible
     private bool isBeerProduced = false;
     private bool isBeerProducing = false;
 
-
     private void Start()
     {
         gameObject.GetComponent<Renderer>().material = damaged;
         resourcesManager = FindObjectOfType<ResourcesManager>();
         kegOfBeer.SetActive(false);
+    }
+
+    private void OnEnable()
+    {
+        TavernEventsManager.NightStarts += NigthStartsHandler;
+    }
+
+    private void OnDisable()
+    {
+        TavernEventsManager.NightStarts -= NigthStartsHandler;
     }
 
     public override void PlayerInterraction()
@@ -68,7 +76,6 @@ public class TavernHeart : PlayerInterractible
             Debug.Log("Not enought souls to produce beer");
             return false;
         }
-        
     }
 
     IEnumerator KegProducingCoroutine()
@@ -77,7 +84,6 @@ public class TavernHeart : PlayerInterractible
         kegOfBeer.SetActive(true);
         isBeerProducing = false;
         isBeerProduced = true;
-
     }
 
     private void HeartRepair()
@@ -87,5 +93,11 @@ public class TavernHeart : PlayerInterractible
         gameObject.GetComponent<Renderer>().material = notDamaged;
     }
 
-    
+    private void NigthStartsHandler()
+    {
+        isHeartDamaged = true;
+        gameObject.GetComponent<Renderer>().material = damaged;
+    }
+
+
 }

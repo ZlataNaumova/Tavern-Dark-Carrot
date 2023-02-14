@@ -10,16 +10,23 @@ public class VirtualCamerasManager : MonoBehaviour
 
     private void OnEnable()
     {
-        TavernEventsManager.NightStarts += SwitchCams;
+        TavernEventsManager.CameraSwitchToCardGame += SwitchCameraToCardGame;
+        TavernEventsManager.CameraSwitchToFollowPlayer += SwitchCameraToFollowPlayer;
     }
     private void OnDisable()
     {
-        TavernEventsManager.NightStarts -= SwitchCams;
+        TavernEventsManager.CameraSwitchToCardGame -= SwitchCameraToCardGame;
+        TavernEventsManager.CameraSwitchToFollowPlayer -= SwitchCameraToFollowPlayer;
     }
 
-    public void SwitchCams()
+    private void SwitchCameraToCardGame()
     {
-        followPlayerCam.enabled = !followPlayerCam.enabled;
+        followPlayerCam.enabled = false;
+
+    }
+    private void SwitchCameraToFollowPlayer()
+    {
+        followPlayerCam.enabled = true;
     }
 
 }

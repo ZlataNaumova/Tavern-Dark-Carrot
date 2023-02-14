@@ -26,8 +26,8 @@ public class PlayerController : MonoBehaviour
     private float turnSmoothTime = 0.1f;
     private float turnSmoothVelocity;
 
-    public bool isHoldingBeerKeg = false;
-    public bool isHoldingGlassOfBeer = false;
+    public bool isHoldingBeerKeg;
+    public bool isHoldingGlassOfBeer;
 
     private void Awake()
     {
@@ -42,14 +42,22 @@ public class PlayerController : MonoBehaviour
         interact = playerControls.Player.Interact;
         interact.performed += Interact;
 
+        interact.Enable();
+        fire.Enable();
+        move.Enable();
+
         kegOfBeer.SetActive(false);
         glassOfBeer.SetActive(false);
 
         TavernEventsManager.DayStarts += DayStartsHandler;
         TavernEventsManager.NightStarts += NightStartsHandler;
-    }
 
-    private void OnDisable()
+        isHoldingBeerKeg = false;
+        isHoldingGlassOfBeer = false;
+
+}
+
+private void OnDisable()
     {
         move.Disable();
         fire.Disable();

@@ -34,4 +34,22 @@ public static class TavernEventsManager
 
     public static event UnityAction<VisitorAI> VisitorLeaveTavern;
     public static void OnVisitorLeaveTavern(VisitorAI v) => VisitorLeaveTavern?.Invoke(v);
+
+    public static event UnityAction SwitchToNightCanvas;
+    public static void OnSwitchToNightCanvas() => SwitchToNightCanvas?.Invoke();
+
+    public static event UnityAction SwitchToDayCanvas;
+    public static void OnSwitchToDayCanvas() => SwitchToDayCanvas?.Invoke();
+
+    public static event UnityAction CameraSwitchToCardGame;
+    public static void OnCameraSwitchToCardGame() => CameraSwitchToCardGame?.Invoke();
+
+    public static event UnityAction CameraSwitchToFollowPlayer;
+    public static void OnCameraSwitchToFollowPlayer() => CameraSwitchToFollowPlayer?.Invoke();
+
+    public static event UnityAction RenderCards;
+    public static void OnRenderCards() => RenderCards?.Invoke();
+
+    public static event UnityAction<PlayingCardView> PlayerChooseCard;
+    public static void OnPlayerChooseCard(PlayingCardView card) => PlayerChooseCard?.Invoke(card);
 }
