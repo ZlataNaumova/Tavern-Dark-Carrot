@@ -100,17 +100,17 @@ public class VisitorsManager : MonoBehaviour
 
     private void TrySpawnVisitor()
     {
-        //VisitorAI v;
         GameObject visitor = pool.Get();
         visitors.Add(visitor);
-        //if (TryGetEmptyChair(out emptyChair))
-        //{
-        //    emptyChair.isEmpty = false;
-        //    visitor.SetActive(true);
-        //    v = visitor.GetComponent<VisitorAI>();
-        //    v.SetStats(10, 1);
-        //    v.SetTarget(emptyChair.transform);
-        //}
+        VisitorAI v;
+        if (TryGetEmptyChair(out emptyChair))
+        {
+            emptyChair.isEmpty = false;
+            visitor.SetActive(true);
+            v = visitor.GetComponent<VisitorAI>();
+            v.SetStats(10, 1);
+            v.SetTarget(emptyChair.transform);
+        }
     }
 
     private bool TryGetEmptyChair(out Chair chair)
@@ -128,24 +128,21 @@ public class VisitorsManager : MonoBehaviour
     {
         StopCoroutine(respawnCoroutine);
         StopCoroutine(spawnCoroutine);
-        if(defenders.Count > 0)
+        foreach (Chair chair in chairs)
+        {
+            chair.isEmpty = true;
+        }
+        if (defenders.Count > 0)
         {
             TavernEventsManager.OnDefendersToCards(new List<VisitorAI>(defenders));
-            foreach (GameObject visitor in visitors)
-            {
-                Destroy(visitor);
-            }
-            foreach (VisitorAI v in defenders)
-            {
-                Destroy(v.gameObject);
-            }
-            defenders.Clear();
-            visitors.Clear();
-            foreach (Chair chair in chairs)
-            {
-                chair.isEmpty = false;
-            }
         }
+        foreach (GameObject visitor in visitors)
+        {
+            pool.Release(visitor);
+        }
+
+        defenders.Clear();
+        visitors.Clear();
     }
    
 }
