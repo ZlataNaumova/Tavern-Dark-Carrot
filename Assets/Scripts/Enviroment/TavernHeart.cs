@@ -18,16 +18,14 @@ public class TavernHeart : PlayerInterractible
     private bool isBeerProduced = false;
     private bool isBeerProducing = false;
 
-    private void Start()
-    {
-        gameObject.GetComponent<Renderer>().material = damaged;
-        resourcesManager = FindObjectOfType<ResourcesManager>();
-        kegOfBeer.SetActive(false);
-    }
-
     private void OnEnable()
     {
         TavernEventsManager.NightStarts += NigthStartsHandler;
+
+        gameObject.GetComponent<Renderer>().material = damaged;
+        resourcesManager = FindObjectOfType<ResourcesManager>();
+        kegOfBeer.SetActive(false);
+
     }
 
     private void OnDisable()
