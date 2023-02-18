@@ -16,8 +16,8 @@ public class VisitorAI : PlayerInterractible
     private IObjectPool<GameObject> pool;
 
     [SerializeField] private Image leaveTimerBar;
-    [SerializeField] private float speed = 1f;
-    [SerializeField] private int secondsToLeave = 15;
+    [SerializeField] private float speed;
+    [SerializeField] private int secondsToLeave;
 
     private bool isDrunk;
     public bool isLeaving;
@@ -33,6 +33,8 @@ public class VisitorAI : PlayerInterractible
         coll = GetComponent<BoxCollider>();
         coll.enabled = false;
 
+        secondsToLeave = GameConfigManager.VisitorSecondsToLeave;
+        speed = GameConfigManager.VisitorSpeed;
 
     }
     private void OnEnable()

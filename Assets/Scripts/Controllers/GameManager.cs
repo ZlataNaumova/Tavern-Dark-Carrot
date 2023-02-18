@@ -9,8 +9,9 @@ public class GameManager : MonoBehaviour
 
     public static GameState State;
 
-    private static int secondsToNight = 30;
+    private static int secondsToNight;
 
+   
     private void Awake()
     {
         if (Instance == null)
@@ -26,6 +27,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        secondsToNight = GameConfigManager.SecondsToNightStarts;
         UpdateGameState(GameState.Day);
     }
 
@@ -47,6 +49,8 @@ public class GameManager : MonoBehaviour
                 break;
         }
     }
+
+    
 
     private static void StartScreenHandler()
     {
