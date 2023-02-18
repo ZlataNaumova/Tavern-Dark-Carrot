@@ -26,7 +26,7 @@ public class CardGameManager : MonoBehaviour
     private int enemyAttackStrength = 0;
     private int playerAttackStrength = 0;
 
-    private CardGameState currentCardGameState;
+    //private CardGameState currentCardGameState;
 
     private System.Random random = new System.Random();
 
@@ -53,11 +53,11 @@ public class CardGameManager : MonoBehaviour
 
     private void RenderAllCard()
     {
-        if(visitors != null)
+        if (visitors != null)
         {
             GeneratePlayersCards(visitors);
             UpdateCardGameState(CardGameState.start);
-        }else
+        } else
         {
             UpdateCardGameState(CardGameState.gameOver);
         }

@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float speed = 6f;
+    [SerializeField] private float speed;
     [SerializeField] private int attackDelay;
     [SerializeField] private int attackDamage;
     [SerializeField] private GameObject glassOfBeer;
@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
 
     public CharacterController controller;
     public PlayerInputActions playerControls;
-    public Transform cam;
+    public Transform mainCamera;
 
     private InputAction move;
     private InputAction fire;
@@ -67,13 +67,18 @@ private void OnDisable()
         TavernEventsManager.NightStarts -= NightStartsHandler;
     }
 
+    private void Start()
+    {
+        speed = GameConfigManager.PlayerSpeed;
+    }
+
     void Update()
     {
         moveDirection = move.ReadValue<Vector2>();
         Vector3 direction = new Vector3(moveDirection.x, 0f, moveDirection.y).normalized;
         if (moveDirection.magnitude >= 0.1f)
         {
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + mainCamera.eulerAngles.y;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
