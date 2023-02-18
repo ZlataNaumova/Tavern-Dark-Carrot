@@ -126,8 +126,14 @@ public class VisitorsManager : MonoBehaviour
 
     private void NightHandler()
     {
-        StopCoroutine(respawnCoroutine);
-        StopCoroutine(spawnCoroutine);
+        if(respawnCoroutine != null)
+        {
+            StopCoroutine(respawnCoroutine);
+        }
+       if(spawnCoroutine != null)
+        {
+            StopCoroutine(spawnCoroutine);
+        }
         foreach (Chair chair in chairs)
         {
             chair.isEmpty = true;

@@ -53,8 +53,14 @@ public class CardGameManager : MonoBehaviour
 
     private void RenderAllCard()
     {
-        GeneratePlayersCards(visitors);
-        UpdateCardGameState(CardGameState.start);
+        if(visitors != null)
+        {
+            GeneratePlayersCards(visitors);
+            UpdateCardGameState(CardGameState.start);
+        }else
+        {
+            UpdateCardGameState(CardGameState.gameOver);
+        }
     }
 
     private void AddCardToDeck(int cardType, int cardStrength, Transform deck, bool isPlayersDeck)
@@ -87,7 +93,7 @@ public class CardGameManager : MonoBehaviour
         foreach (VisitorAI d in defenders)
         {
             AddCardToDeck(d.DefenderType, d.Strenght, playerDeckTransform, true);
-            AddCardToDeck(d.DefenderType, d.Strenght-1, enemyDeckTransform,false);
+            AddCardToDeck(d.DefenderType, d.Strenght - 1, enemyDeckTransform, false);
         }
     }
     
