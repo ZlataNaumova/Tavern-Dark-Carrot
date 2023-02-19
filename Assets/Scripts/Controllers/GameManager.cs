@@ -28,6 +28,8 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         secondsToNight = GameConfigManager.SecondsToNightStarts;
+        Debug.Log(secondsToNight);
+
         UpdateGameState(GameState.Day);
     }
 

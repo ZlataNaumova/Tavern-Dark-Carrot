@@ -31,12 +31,9 @@ public class GameConfigManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
-
-    private void Start()
-    {
         CurrentGameConfigHandler();
     }
+
 
     private void CurrentGameConfigHandler()
     {
