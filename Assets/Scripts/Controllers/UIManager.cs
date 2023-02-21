@@ -15,16 +15,16 @@ public class UIManager : MonoBehaviour
 
     private void OnEnable()
     {
-        TavernEventsManager.SwitchToDayCanvas += SwitchToDayCanvas;
-        TavernEventsManager.SwitchToNightCanvas += SwitchToNightCanvas;
+        TavernEventsManager.SwitchedToDayCanvas += SwitchToDayCanvas;
+        TavernEventsManager.SwitchedToNightCanvas += SwitchToNightCanvas;
         TavernEventsManager.CoinsValueChanged += CoinsValueChangedHandler;
         TavernEventsManager.SoulsValueChanged += SoulsValueChangedHandler;
     }
 
     private void OnDisable()
     {
-        TavernEventsManager.SwitchToDayCanvas -= SwitchToDayCanvas;
-        TavernEventsManager.SwitchToNightCanvas -= SwitchToNightCanvas;
+        TavernEventsManager.SwitchedToDayCanvas -= SwitchToDayCanvas;
+        TavernEventsManager.SwitchedToNightCanvas -= SwitchToNightCanvas;
         TavernEventsManager.CoinsValueChanged -= CoinsValueChangedHandler;
         TavernEventsManager.SoulsValueChanged -= SoulsValueChangedHandler;
     }

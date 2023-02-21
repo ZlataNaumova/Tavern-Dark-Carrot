@@ -10,14 +10,14 @@ public class EnviromentManager : MonoBehaviour
 
     private void OnEnable()
     {
-        TavernEventsManager.SwitchToNightCanvas += DisableDayEnviroment;
-        TavernEventsManager.DayStarts += EnableDayEnviroment;
+        TavernEventsManager.SwitchedToNightCanvas += DisableDayEnviroment;
+        TavernEventsManager.DayStarted += EnableDayEnviroment;
     }
 
     private void OnDisable()
     {
-        TavernEventsManager.SwitchToNightCanvas -= DisableDayEnviroment;
-        TavernEventsManager.DayStarts -= EnableDayEnviroment;
+        TavernEventsManager.SwitchedToNightCanvas -= DisableDayEnviroment;
+        TavernEventsManager.DayStarted -= EnableDayEnviroment;
     }
 
     private void DisableDayEnviroment()

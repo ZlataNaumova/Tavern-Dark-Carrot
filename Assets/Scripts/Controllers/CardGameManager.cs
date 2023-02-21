@@ -33,8 +33,8 @@ public class CardGameManager : MonoBehaviour
     private void OnEnable()
     {
         TavernEventsManager.DefendersToCards += SetVisitorsList;
-        TavernEventsManager.RenderCards += RenderAllCard;
-        TavernEventsManager.PlayerChooseCard += PlayerChooseCardHandler;
+        TavernEventsManager.CardsRendered += RenderAllCard;
+        TavernEventsManager.PlayerChoseCard += PlayerChooseCardHandler;
 
         UpdateCardGameState(CardGameState.start);
     }
@@ -42,8 +42,8 @@ public class CardGameManager : MonoBehaviour
     private void OnDisable()
     {
         TavernEventsManager.DefendersToCards -= SetVisitorsList;
-        TavernEventsManager.RenderCards -= RenderAllCard;
-        TavernEventsManager.PlayerChooseCard += PlayerChooseCardHandler;
+        TavernEventsManager.CardsRendered -= RenderAllCard;
+        TavernEventsManager.PlayerChoseCard += PlayerChooseCardHandler;
     }
 
     private void SetVisitorsList(List<VisitorAI> visitorsList)
@@ -92,8 +92,8 @@ public class CardGameManager : MonoBehaviour
     {
         foreach (VisitorAI d in defenders)
         {
-            AddCardToDeck(d.DefenderType, d.Strenght, playerDeckTransform, true);
-            AddCardToDeck(d.DefenderType, d.Strenght - 1, enemyDeckTransform, false);
+            AddCardToDeck(d.DefenderType, d.Strength, playerDeckTransform, true);
+            AddCardToDeck(d.DefenderType, d.Strength - 1, enemyDeckTransform, false);
         }
     }
     

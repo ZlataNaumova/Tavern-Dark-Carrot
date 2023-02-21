@@ -19,15 +19,15 @@ public class Chair : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Visitor"))
-        {
-            if (visitor.isLeaving)
-            {
-                isEmpty = true;
-            }
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    if (other.CompareTag("Visitor"))
+    //    {
+    //        if (visitor.isLeaving)
+    //        {
+    //            isEmpty = true;
+    //        }
                
-        }
-    }
+    //    }
+    //}
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TavernHeart : PlayerInterractible
+public class TavernHeart : PlayerInteractable
 {
     [SerializeField] private Material damaged;
     [SerializeField] private Material notDamaged;
@@ -11,6 +11,8 @@ public class TavernHeart : PlayerInterractible
     [SerializeField] private int beerKegProducingTime;
 
     [SerializeField] private GameObject kegOfBeer;
+    [SerializeField] private GameObject beerProducingIndicator;
+
 
     private ResourcesManager resourcesManager;
 
@@ -20,20 +22,21 @@ public class TavernHeart : PlayerInterractible
 
     private void OnEnable()
     {
-        TavernEventsManager.NightStarts += NigthStartsHandler;
+        TavernEventsManager.NightStarted += NigthStartsHandler;
 
         gameObject.GetComponent<Renderer>().material = damaged;
         resourcesManager = FindObjectOfType<ResourcesManager>();
         kegOfBeer.SetActive(false);
+        beerProducingIndicator.SetActive(false);
 
     }
 
     private void OnDisable()
     {
-        TavernEventsManager.NightStarts -= NigthStartsHandler;
+        TavernEventsManager.NightStarted -= NigthStartsHandler;
     }
 
-    public override void PlayerInterraction()
+    public override void PlayerInteraction()
     {
         if (isHeartDamaged)
         {
@@ -67,6 +70,7 @@ public class TavernHeart : PlayerInterractible
         if (!isBeerProducing && !player.isHoldingBeerKeg && resourcesManager.TrySpendSouls(beerKegPriceInSouls))
         {
             isBeerProducing = true;
+            beerProducingIndicator.SetActive(true);
             StartCoroutine(KegProducingCoroutine());
             return true;
         } else
@@ -82,6 +86,7 @@ public class TavernHeart : PlayerInterractible
         kegOfBeer.SetActive(true);
         isBeerProducing = false;
         isBeerProduced = true;
+        beerProducingIndicator.SetActive(false);
     }
 
     private void HeartRepair()

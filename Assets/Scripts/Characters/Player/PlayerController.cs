@@ -13,12 +13,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject kegOfBeer;
 
     public CharacterController controller;
-    public PlayerInputActions playerControls;
+    public PlayerInputActions playerInputActions;
     public Transform mainCamera;
 
-    private InputAction move;
+    private InputAction movement;
     private InputAction fire;
-    private InputAction interact;
+    private InputAction interaction;
 
     private bool attackBlocked;
     private GameObject target;
@@ -31,26 +31,26 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        playerControls = new PlayerInputActions();
+        playerInputActions = new PlayerInputActions();
     }
 
     private void OnEnable()
     {
-        move = playerControls.Player.Move;
-        fire = playerControls.Player.Fire;
+        movement = playerInputActions.Player.Move;
+        fire = playerInputActions.Player.Fire;
         fire.performed += Fire;
-        interact = playerControls.Player.Interact;
-        interact.performed += Interact;
+        interaction = playerInputActions.Player.Interact;
+        interaction.performed += Interact;
 
-        interact.Enable();
+        interaction.Enable();
         fire.Enable();
-        move.Enable();
+        movement.Enable();
 
         kegOfBeer.SetActive(false);
         glassOfBeer.SetActive(false);
 
-        TavernEventsManager.DayStarts += DayStartsHandler;
-        TavernEventsManager.NightStarts += NightStartsHandler;
+        TavernEventsManager.DayStarted += DayStartsHandler;
+        TavernEventsManager.NightStarted += NightStartsHandler;
 
         isHoldingBeerKeg = false;
         isHoldingGlassOfBeer = false;
@@ -59,12 +59,12 @@ public class PlayerController : MonoBehaviour
 
 private void OnDisable()
     {
-        move.Disable();
+        movement.Disable();
         fire.Disable();
-        interact.Disable();
+        interaction.Disable();
 
-        TavernEventsManager.DayStarts -= DayStartsHandler;
-        TavernEventsManager.NightStarts -= NightStartsHandler;
+        TavernEventsManager.DayStarted -= DayStartsHandler;
+        TavernEventsManager.NightStarted -= NightStartsHandler;
     }
 
     private void Start()
@@ -74,7 +74,7 @@ private void OnDisable()
 
     void Update()
     {
-        moveDirection = move.ReadValue<Vector2>();
+        moveDirection = movement.ReadValue<Vector2>();
         Vector3 direction = new Vector3(moveDirection.x, 0f, moveDirection.y).normalized;
         if (moveDirection.magnitude >= 0.1f)
         {
@@ -88,16 +88,16 @@ private void OnDisable()
 
     private void NightStartsHandler()
     {
-        move.Disable();
+        movement.Disable();
         fire.Disable();
-        interact.Disable();
+        interaction.Disable();
     }
 
     private void DayStartsHandler()
     {
-        interact.Enable();
+        interaction.Enable();
         fire.Enable();
-        move.Enable();
+        movement.Enable();
     }
 
     public void GetBeerKeg()
@@ -149,9 +149,9 @@ private void OnDisable()
     {
         if (ctx.performed && target != null)
         {
-            if(target.TryGetComponent(out PlayerInterractible interractible))
+            if(target.TryGetComponent(out PlayerInteractable interactable))
             {
-                interractible.PlayerInterraction();
+                interactable.PlayerInteraction();
             }
            
         }

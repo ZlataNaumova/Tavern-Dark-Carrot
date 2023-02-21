@@ -14,5 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerSpeed: 6
   visitorSpeed: 3
-  visitorSecondsToLeave: 5
+  visitorSecondsToLeave: 8
+  drinksToBecomeDefenderCard: 2
+  visitorsSpawnDelayMin: 1
+  visitorsSpawnDelayMax: 3
+  maxVisitersQuantity: 8
   secondsToNightStarts: 5
+  beerSoldRewardInCoins: 1
+  beerSoldRewardInSouls: 1

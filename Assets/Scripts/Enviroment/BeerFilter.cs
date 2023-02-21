@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BeerFilter : PlayerInterractible
+public class BeerFilter : PlayerInteractable
 {
 
     [SerializeField] private int fillingGlassTime;
@@ -31,7 +31,7 @@ public class BeerFilter : PlayerInterractible
            
         }
     }
-    public override void PlayerInterraction()
+    public override void PlayerInteraction()
     {
         if (player.isHoldingBeerKeg)
         {

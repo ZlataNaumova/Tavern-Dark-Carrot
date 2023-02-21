@@ -31,6 +31,22 @@ public class GameManager : MonoBehaviour
         UpdateGameState(GameState.Day);
     }
 
+    private void OnEnable()
+    {
+        TavernEventsManager.HeartRepaired += HeartRepairedHandler;
+    }
+
+    private void OnDisable()
+    {
+        TavernEventsManager.HeartRepaired -= HeartRepairedHandler;
+    }
+
+    private void HeartRepairedHandler()
+    {
+        Instance.StartCoroutine(NightTimerCoroutine());
+
+    }
+
     public static void UpdateGameState(GameState newState)
     {
         State = newState;
@@ -50,8 +66,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    
-
     private static void StartScreenHandler()
     {
       
@@ -59,15 +73,14 @@ public class GameManager : MonoBehaviour
 
     private static void DayHandler()
     {
-        TavernEventsManager.OnDayStarts();
-        TavernEventsManager.OnCameraSwitchToFollowPlayer();
-        TavernEventsManager.OnSwitchToDayCanvas();
-        Instance.StartCoroutine(NightTimerCoroutine());
+        TavernEventsManager.OnDayStarted();
+        TavernEventsManager.OnCameraSwitchedToFollowPlayer();
+        TavernEventsManager.OnSwitchedToDayCanvas();
     }
 
     private static void NightHandler()
     {
-        TavernEventsManager.OnNightStarts();
+        TavernEventsManager.OnNightStarted();
         Instance.StartCoroutine(CardGameTiming(6));
     }
 
@@ -80,17 +93,17 @@ public class GameManager : MonoBehaviour
     private static IEnumerator CardGameTiming(int seconds)
     {
         int counter = seconds;
-        TavernEventsManager.OnCameraSwitchToCardGame();
+        TavernEventsManager.OnCameraSwitchedToCardGame();
         while (counter > 0)
         {
             counter--;
             if(counter == 3)
             {
-                TavernEventsManager.OnSwitchToNightCanvas();
+                TavernEventsManager.OnSwitchedToNightCanvas();
             }
             if(counter == 2)
             {
-                TavernEventsManager.OnRenderCards();
+                TavernEventsManager.OnCardsRendered();
             }
             yield return new WaitForSeconds(1);
         }

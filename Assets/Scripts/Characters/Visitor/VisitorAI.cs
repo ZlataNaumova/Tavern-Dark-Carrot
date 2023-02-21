@@ -4,27 +4,25 @@ using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.UI;
 
-public class VisitorAI : PlayerInterractible
+public class VisitorAI : PlayerInteractable
 {
+    [SerializeField] private Image leaveTimerBar;
 
     private Transform target;
+    private Chair occupiedChair;
     private CharacterController controller;
     private BoxCollider coll;
-    private int strenght = 1;
+    private int strength = 1;
     private int defenderType;
     private int drinksCount;
     private IObjectPool<GameObject> pool;
-
-    [SerializeField] private Image leaveTimerBar;
-    [SerializeField] private float speed;
-    [SerializeField] private int secondsToLeave;
-
+    private float speed;
+    private int secondsToLeave;
     private bool isDrunk;
     public bool isLeaving;
-
     private Coroutine timerCoroutine = null;
 
-    public int Strenght => strenght;
+    public int Strength => strength;
     public int DefenderType => defenderType;
 
     private void Start()
@@ -54,6 +52,7 @@ public class VisitorAI : PlayerInterractible
     public void VisitorSits()
     {
         coll.enabled = true;
+        leaveTimerBar.enabled = true;
         StartCoroutine(SnapToChairCoroutine());
         timerCoroutine = StartCoroutine(VisitorLeaveTimer(secondsToLeave));
     }
@@ -76,23 +75,34 @@ public class VisitorAI : PlayerInterractible
         target = null;
     }
 
-    public override void PlayerInterraction()
+    public override void PlayerInteraction()
     {
         if (player.isHoldingGlassOfBeer)
         {
+            
             if (!isDrunk)
             {
                 StopCoroutine(timerCoroutine);
                 isDrunk = true;
                 leaveTimerBar.enabled = false;
-                TavernEventsManager.OnVisitorBecomeDefender(this);
+                //TavernEventsManager.OnDefenderAdded(this);
             }
             player.SellGlassOfBeer();
             drinksCount++;
-            strenght += 10;
-            TavernEventsManager.OnAddCoins(10);
-            TavernEventsManager.OnAddSouls(3);
+            strength += 10;
+            TavernEventsManager.OnOneBeerGlassSold();
+            if (drinksCount >= GameConfigManager.DrinksToBecomeDefenderCard)
+            {
+                VisitorBecomeDefenderCardHandler();
+            }
         }
+    }
+
+    private void VisitorBecomeDefenderCardHandler()
+    {
+        occupiedChair.isEmpty = true;
+        TavernEventsManager.OnVisitorBecomeDefenderCard(this);
+        pool.Release(gameObject);
     }
 
     private void MoveToTarget()
@@ -108,30 +118,28 @@ public class VisitorAI : PlayerInterractible
     {
         isLeaving = true;
         coll.enabled = false;
+        occupiedChair.isEmpty = true;
         SetTarget(FindObjectOfType<TavernDoor>().transform);
     }
 
     public void ReachedDoor()
     {
-        TavernEventsManager.OnVisitorLeaveTavern(this);
-        if (pool != null)
-        {
-            pool.Release(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        TavernEventsManager.OnVisitorLeftTavern(gameObject);
     }
 
     public void SetTarget(Transform newTarget)
     {
         target = newTarget;
+        occupiedChair = target.GetComponent<Chair>();
+        if(occupiedChair != null)
+        {
+            occupiedChair.isEmpty = false;
+        }
     }
 
     public void SetStats(int strength, int type)
     {
-        this.strenght = strength;
+        this.strength = strength;
         this.defenderType = type;
     }
     public void SetPool(ObjectPool<GameObject> myPool)

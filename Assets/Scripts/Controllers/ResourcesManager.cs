@@ -9,14 +9,14 @@ public class ResourcesManager : MonoBehaviour
 
     private void OnEnable()
     {
-        TavernEventsManager.AddCoins += AddCoins;
-        TavernEventsManager.AddSouls += AddSouls;
+        TavernEventsManager.CoinsAdded += AddCoins;
+        TavernEventsManager.SoulsAdded += AddSouls;
     }
 
     private void OnDisable()
     {
-        TavernEventsManager.AddCoins -= AddCoins;
-        TavernEventsManager.AddSouls -= AddSouls;
+        TavernEventsManager.CoinsAdded -= AddCoins;
+        TavernEventsManager.SoulsAdded -= AddSouls;
     }
 
     private void Start()

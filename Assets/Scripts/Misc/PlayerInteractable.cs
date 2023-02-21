@@ -4,7 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider))]
 
-public abstract class PlayerInterractible : MonoBehaviour
+public abstract class PlayerInteractable : MonoBehaviour
 {
     protected PlayerController player;
 
@@ -27,5 +27,5 @@ public abstract class PlayerInterractible : MonoBehaviour
           }
 
 
-    public abstract void PlayerInterraction();
+    public abstract void PlayerInteraction();
 }
