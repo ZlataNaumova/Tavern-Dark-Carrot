@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class BeerFilter : PlayerInteractable
 {
-
+    [SerializeField] private TMP_Text filterStatusText;
     [SerializeField] private int fillingGlassTime;
     [SerializeField] private GameObject kegOfBeer;
 
@@ -15,6 +16,7 @@ public class BeerFilter : PlayerInteractable
     private void Start()
     {
         kegOfBeer.SetActive(false);
+        filterStatusText.text = "waiting for player";
     }
 
     private void OnTriggerExit(Collider other)
@@ -26,11 +28,13 @@ public class BeerFilter : PlayerInteractable
             {
                 StopCoroutine(fillingGlass);
                 isFillingGlass = false;
+                filterStatusText.text = "Filling Glass fail";
+                StartCoroutine(TextUpdateCoroutine());
                 Debug.Log("FillingGlass fail");
             }
-           
         }
     }
+
     public override void PlayerInteraction()
     {
         if (player.isHoldingBeerKeg)
@@ -41,7 +45,6 @@ public class BeerFilter : PlayerInteractable
         {
             TryGiveGlassToPlayer();
         }
-        
     }
 
     private void SetBeerKeg()
@@ -50,6 +53,7 @@ public class BeerFilter : PlayerInteractable
         kegOfBeer.SetActive(true);
         beerGlasses += 4;
     }
+
     private void TryGiveGlassToPlayer()
     {
         if (!isFillingGlass)
@@ -58,18 +62,27 @@ public class BeerFilter : PlayerInteractable
             {
                 kegOfBeer.SetActive(false);
             }
-            fillingGlass = StartCoroutine(FillingGlass());
+            fillingGlass = StartCoroutine(FillingGlassCroutine());
         } else
         {
             Debug.Log("You can not start filling glass now");
         }
-        
     }
-    private IEnumerator FillingGlass()
+
+    private IEnumerator FillingGlassCroutine()
     {
         isFillingGlass = true;
+        filterStatusText.text = "Pouring glass with beer";
         yield return new WaitForSeconds(fillingGlassTime);
+        filterStatusText.text = "Beer pouring success";
+        StartCoroutine(TextUpdateCoroutine());
         isFillingGlass = false;
         player.GetGlassOfBeer();
+    }
+
+    private IEnumerator TextUpdateCoroutine()
+    {
+        yield return new WaitForSeconds(1);
+        filterStatusText.text = "waiting for player";
     }
 }

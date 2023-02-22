@@ -19,7 +19,9 @@ public class GameConfigManager : MonoBehaviour
     private static int visitorsSpawnDelayMin;
     private static int visitorsSpawnDelayMax;
     private static int maxVisitersQuantity;
-
+    private static int secondsToGetHungry;
+    private static int carrotsPlayerHolding;
+    private static int maxCarrotsInBarrel;
 
     public static int PlayerSpeed { get { return playerSpeed; } }
     public static int VisitorSecondsToLeave { get { return visitorSecondsToLeave; } }
@@ -31,6 +33,10 @@ public class GameConfigManager : MonoBehaviour
     public static int VisitorsSpawnDelayMin { get { return visitorsSpawnDelayMin; } }
     public static int VisitorsSpawnDelayMax { get { return visitorsSpawnDelayMax; } }
     public static int MaxVisitersQuantity { get { return maxVisitersQuantity; } }
+    public static int CarrotsPlayerHolding { get { return carrotsPlayerHolding; } }
+    public static int SecondsToGetHungry { get { return secondsToGetHungry; } }
+    public static int MaxCarrotsInBarrel { get { return maxCarrotsInBarrel; } }
+
 
 
 
@@ -62,6 +68,9 @@ public class GameConfigManager : MonoBehaviour
             maxVisitersQuantity = presets[selectedPresetIndex].MaxVisitersQuantity;
             visitorsSpawnDelayMin = presets[selectedPresetIndex].VisitorsSpawnDelayMin;
             visitorsSpawnDelayMax = presets[selectedPresetIndex].VisitorsSpawnDelayMax;
+            secondsToGetHungry = presets[selectedPresetIndex].SecondsToGetHungry;
+            carrotsPlayerHolding = presets[selectedPresetIndex].CarrotsPlayerHolding;
+            maxCarrotsInBarrel = presets[selectedPresetIndex].MaxCarrotsInBarrel;
         }
         else
         {

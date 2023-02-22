@@ -7,8 +7,7 @@ public class GameConfig : ScriptableObject
 {
     [Header("Player Config")]
     [SerializeField] private int playerSpeed;
-    public int PlayerSpeed { get { return playerSpeed; } }
-
+    
     [Header("Visitors Config")]
     [SerializeField] private int visitorSpeed;
     [SerializeField] private int visitorSecondsToLeave;
@@ -16,13 +15,11 @@ public class GameConfig : ScriptableObject
     [SerializeField] private int visitorsSpawnDelayMin;
     [SerializeField] private int visitorsSpawnDelayMax;
     [SerializeField] private int maxVisitersQuantity;
+    [SerializeField] private int secondsToGetHungry;
 
-    public int VisitorSecondsToLeave { get { return visitorSecondsToLeave; } }
-    public int VisitorSpeed { get { return visitorSpeed; } }
-    public int DrinksToBecomeDefenderCard { get { return drinksToBecomeDefenderCard; } }
-    public int VisitorsSpawnDelayMin { get { return visitorsSpawnDelayMin; } }
-    public int VisitorsSpawnDelayMax { get { return visitorsSpawnDelayMax; } }
-    public int MaxVisitersQuantity { get { return maxVisitersQuantity; } }
+    [Header("Carrot Barrel Config")]
+    [SerializeField] private int carrotsPlayerHolding;
+    [SerializeField] private int maxCarrotsInBarrel;
 
 
     [Header("Main Config")]
@@ -30,9 +27,20 @@ public class GameConfig : ScriptableObject
     [SerializeField] private int beerSoldRewardInCoins;
     [SerializeField] private int beerSoldRewardInSouls;
 
+    public int PlayerSpeed { get { return playerSpeed; } }
+    public int VisitorSecondsToLeave { get { return visitorSecondsToLeave; } }
+    public int VisitorSpeed { get { return visitorSpeed; } }
+    public int DrinksToBecomeDefenderCard { get { return drinksToBecomeDefenderCard; } }
+    public int VisitorsSpawnDelayMin { get { return visitorsSpawnDelayMin; } }
+    public int VisitorsSpawnDelayMax { get { return visitorsSpawnDelayMax; } }
+    public int MaxVisitersQuantity { get { return maxVisitersQuantity; } }
+    public int SecondsToGetHungry { get { return secondsToGetHungry; } }
+    public int CarrotsPlayerHolding { get { return carrotsPlayerHolding; } }
     public int SecondsToNightStarts { get { return secondsToNightStarts; } }
     public int BeerSoldRewardInCoins { get { return beerSoldRewardInCoins; } }
     public int BeerSoldRewardInSouls { get { return beerSoldRewardInSouls; } }
+    public int MaxCarrotsInBarrel { get { return maxCarrotsInBarrel; } }
+
 
     //[Header("Card Game Config")]
 

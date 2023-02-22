@@ -20,7 +20,9 @@ public class VisitorAI : PlayerInteractable
     private int secondsToLeave;
     private bool isDrunk;
     public bool isLeaving;
-    private Coroutine timerCoroutine = null;
+    private bool isHungry;
+    private Coroutine visitorLeaveTimer = null;
+    private Coroutine tryToTakeCarrotCoroutine = null;
 
     public int Strength => strength;
     public int DefenderType => defenderType;
@@ -54,7 +56,8 @@ public class VisitorAI : PlayerInteractable
         coll.enabled = true;
         leaveTimerBar.enabled = true;
         StartCoroutine(SnapToChairCoroutine());
-        timerCoroutine = StartCoroutine(VisitorLeaveTimer(secondsToLeave));
+        visitorLeaveTimer = StartCoroutine(VisitorLeaveTimer(secondsToLeave));
+        tryToTakeCarrotCoroutine = StartCoroutine(TryToTakeCarrotCoroutine(GameConfigManager.SecondsToGetHungry));
     }
 
     IEnumerator VisitorLeaveTimer(int secondsToLeave)
@@ -75,6 +78,22 @@ public class VisitorAI : PlayerInteractable
         target = null;
     }
 
+    IEnumerator TryToTakeCarrotCoroutine(int seconds)
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(seconds);
+            isHungry = true;
+            TavernEventsManager.OnVisitorTriedTakeCarrot(this);
+        }
+       
+    }
+
+    public void EatCarrot()
+    {
+        isHungry = false;
+    }
+
     public override void PlayerInteraction()
     {
         if (player.isHoldingGlassOfBeer)
@@ -82,7 +101,7 @@ public class VisitorAI : PlayerInteractable
             
             if (!isDrunk)
             {
-                StopCoroutine(timerCoroutine);
+                StopCoroutine(visitorLeaveTimer);
                 isDrunk = true;
                 leaveTimerBar.enabled = false;
                 //TavernEventsManager.OnDefenderAdded(this);
@@ -101,6 +120,7 @@ public class VisitorAI : PlayerInteractable
     private void VisitorBecomeDefenderCardHandler()
     {
         occupiedChair.isEmpty = true;
+        StopCoroutine(tryToTakeCarrotCoroutine);
         TavernEventsManager.OnVisitorBecomeDefenderCard(this);
         pool.Release(gameObject);
     }
@@ -119,6 +139,7 @@ public class VisitorAI : PlayerInteractable
         isLeaving = true;
         coll.enabled = false;
         occupiedChair.isEmpty = true;
+        StopCoroutine(tryToTakeCarrotCoroutine);
         SetTarget(FindObjectOfType<TavernDoor>().transform);
     }
 

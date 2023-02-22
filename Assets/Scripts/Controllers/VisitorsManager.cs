@@ -77,11 +77,9 @@ public class VisitorsManager : MonoBehaviour
         {
             TrySpawnVisitor();
             yield return new WaitForSeconds(random.Next(GameConfigManager.VisitorsSpawnDelayMin, GameConfigManager.VisitorsSpawnDelayMax));
-            //(random.Next(GameConfigManager.VisitorsSpawnDelayMin, GameConfigManager.VisitorsSpawnDelayMax));
         }
     }
     
-
     private void TrySpawnVisitor()
     {
         VisitorAI v;
@@ -97,17 +95,6 @@ public class VisitorsManager : MonoBehaviour
             Debug.Log("No empty chairs");
         }
     }
-
-    //private bool TryGetEmptyChair(out Chair chair)
-    //{
-    //    chair = null;
-    //    Chair[] emptyChairs = Array.FindAll(chairs, chair => chair.isEmpty == true);
-    //    if(emptyChairs.Length > 0)
-    //    {
-    //        chair = emptyChairs[random.Next(0, emptyChairs.Length)];
-    //    }
-    //        return (chair != null);
-    //}
 
     private bool TryGetEmptyChair(out Chair emptyChair)
     {

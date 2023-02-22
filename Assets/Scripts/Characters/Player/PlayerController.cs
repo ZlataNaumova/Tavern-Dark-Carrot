@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int attackDamage;
     [SerializeField] private GameObject glassOfBeer;
     [SerializeField] private GameObject kegOfBeer;
+    [SerializeField] private GameObject carrots;
+
 
     public CharacterController controller;
     public PlayerInputActions playerInputActions;
@@ -28,6 +30,7 @@ public class PlayerController : MonoBehaviour
 
     public bool isHoldingBeerKeg;
     public bool isHoldingGlassOfBeer;
+    public bool isHoldingCarrots;
 
     private void Awake()
     {
@@ -48,12 +51,14 @@ public class PlayerController : MonoBehaviour
 
         kegOfBeer.SetActive(false);
         glassOfBeer.SetActive(false);
+        carrots.SetActive(false);
 
         TavernEventsManager.DayStarted += DayStartsHandler;
         TavernEventsManager.NightStarted += NightStartsHandler;
 
         isHoldingBeerKeg = false;
         isHoldingGlassOfBeer = false;
+        isHoldingCarrots = false;
 
 }
 
@@ -122,6 +127,18 @@ private void OnDisable()
     {
         isHoldingGlassOfBeer = false;
         glassOfBeer.SetActive(false);
+    }
+
+    public void FillCarrotBarrel()
+    {
+        isHoldingCarrots = false;
+        carrots.SetActive(false);
+    }
+
+    public void TakeCarrots()
+    {
+        isHoldingCarrots = true;
+        carrots.SetActive(true);
     }
 
     public void SetTarget(GameObject newTarget)

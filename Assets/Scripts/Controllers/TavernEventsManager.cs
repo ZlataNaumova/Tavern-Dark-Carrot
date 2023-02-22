@@ -33,6 +33,10 @@ public static class TavernEventsManager
         SoulsAdded?.Invoke(GameConfigManager.BeerSoldRewardInSouls);
         OneBeerGlassSold?.Invoke();
     }
+
+    public static event UnityAction<VisitorAI> VisitorTriedTakeCarrot;
+    public static void OnVisitorTriedTakeCarrot(VisitorAI visitor) => VisitorTriedTakeCarrot?.Invoke(visitor);
+
     public static event UnityAction<VisitorAI> DefenderAdded;
     public static void OnDefenderAdded(VisitorAI v) => DefenderAdded?.Invoke(v);
 
