@@ -13,12 +13,12 @@ public class CarrotBarrel : PlayerInteractable
 
     private void OnEnable()
     {
-        TavernEventsManager.VisitorTriedTakeCarrot += VisitorTriedTakeCarrotHandler;
+        TavernEventsManager.OnVisitorTriedTakeCarrot += VisitorTriedTakeCarrotHandler;
     }
 
     private void OnDisable()
     {
-        TavernEventsManager.VisitorTriedTakeCarrot -= VisitorTriedTakeCarrotHandler;
+        TavernEventsManager.OnVisitorTriedTakeCarrot -= VisitorTriedTakeCarrotHandler;
     }
 
     private void Start()
@@ -30,7 +30,7 @@ public class CarrotBarrel : PlayerInteractable
     {
         if (TryTakeCarrot())
         {
-            visitor.EatCarrot();
+            TavernEventsManager.OneCarrotSold(visitor);
         }
     }
 

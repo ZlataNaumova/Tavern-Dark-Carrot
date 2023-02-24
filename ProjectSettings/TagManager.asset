@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Defender
   - Visitor
+  - Door
   layers:
   - Default
   - TransparentFX

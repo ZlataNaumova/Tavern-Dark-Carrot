@@ -6,54 +6,62 @@ public class ResourcesManager : MonoBehaviour
 {
     private int coins = 0;
     private int souls = 10;
+    private List<VisitorAI> defendersCards = new List<VisitorAI>();
 
     private void OnEnable()
     {
-        TavernEventsManager.CoinsAdded += AddCoins;
-        TavernEventsManager.SoulsAdded += AddSouls;
+        TavernEventsManager.OnCoinsAdded += AddCoins;
+        TavernEventsManager.OnSoulsAdded += AddSouls;
+        TavernEventsManager.OnVisitorBecomeDefenderCard += OnVisitorBecomeDefenderCardHandler;
     }
 
     private void OnDisable()
     {
-        TavernEventsManager.CoinsAdded -= AddCoins;
-        TavernEventsManager.SoulsAdded -= AddSouls;
+        TavernEventsManager.OnCoinsAdded -= AddCoins;
+        TavernEventsManager.OnSoulsAdded -= AddSouls;
+        TavernEventsManager.OnVisitorBecomeDefenderCard -= OnVisitorBecomeDefenderCardHandler;
     }
 
     private void Start()
     {
-        TavernEventsManager.OnCoinsValueChanged(coins);
-        TavernEventsManager.OnSoulsValueChanged(souls);
+        TavernEventsManager.CoinsValueChanged(coins);
+        TavernEventsManager.SoulsValueChanged(souls);
         
     }
 
-    public void AddCoins(int value)
+    private void AddCoins(int value)
     {
         coins += value;
-        TavernEventsManager.OnCoinsValueChanged(coins);
+        TavernEventsManager.CoinsValueChanged(coins);
     }
     public bool TrySpendCoins(int value)
     {
         if(value <= coins)
         {
             coins -= value;
-            TavernEventsManager.OnCoinsValueChanged(coins);
+            TavernEventsManager.CoinsValueChanged(coins);
             return true;
         }
         return false;
     }
-    public void AddSouls(int value)
+    private void AddSouls(int value)
     {
         souls += value;
-        TavernEventsManager.OnSoulsValueChanged(souls);
+        TavernEventsManager.SoulsValueChanged(souls);
     }
     public bool TrySpendSouls(int value)
     {
         if(value <= souls)
         {
             souls -= value;
-            TavernEventsManager.OnSoulsValueChanged(souls);
+            TavernEventsManager.SoulsValueChanged(souls);
             return true;
         }
         return false;
+    }
+
+    private void OnVisitorBecomeDefenderCardHandler(VisitorAI visitor)
+    {
+        defendersCards.Add(visitor);
     }
 }

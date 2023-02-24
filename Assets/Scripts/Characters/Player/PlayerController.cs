@@ -53,8 +53,8 @@ public class PlayerController : MonoBehaviour
         glassOfBeer.SetActive(false);
         carrots.SetActive(false);
 
-        TavernEventsManager.DayStarted += DayStartsHandler;
-        TavernEventsManager.NightStarted += NightStartsHandler;
+        TavernEventsManager.OnDayStarted += DayStartsHandler;
+        TavernEventsManager.OnNightStarted += NightStartsHandler;
 
         isHoldingBeerKeg = false;
         isHoldingGlassOfBeer = false;
@@ -68,8 +68,8 @@ private void OnDisable()
         fire.Disable();
         interaction.Disable();
 
-        TavernEventsManager.DayStarted -= DayStartsHandler;
-        TavernEventsManager.NightStarted -= NightStartsHandler;
+        TavernEventsManager.OnDayStarted -= DayStartsHandler;
+        TavernEventsManager.OnNightStarted -= NightStartsHandler;
     }
 
     private void Start()

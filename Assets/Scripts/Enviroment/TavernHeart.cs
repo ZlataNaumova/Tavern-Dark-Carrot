@@ -22,7 +22,7 @@ public class TavernHeart : PlayerInteractable
 
     private void OnEnable()
     {
-        TavernEventsManager.NightStarted += NigthStartsHandler;
+        TavernEventsManager.OnNightStarted += NigthStartsHandler;
 
         gameObject.GetComponent<Renderer>().material = damaged;
         resourcesManager = FindObjectOfType<ResourcesManager>();
@@ -33,7 +33,7 @@ public class TavernHeart : PlayerInteractable
 
     private void OnDisable()
     {
-        TavernEventsManager.NightStarted -= NigthStartsHandler;
+        TavernEventsManager.OnNightStarted -= NigthStartsHandler;
     }
 
     public override void PlayerInteraction()
@@ -92,7 +92,7 @@ public class TavernHeart : PlayerInteractable
     private void HeartRepair()
     {
         isHeartDamaged = false;
-        TavernEventsManager.OnHeartRepaired();
+        TavernEventsManager.HeartRepaired();
         gameObject.GetComponent<Renderer>().material = notDamaged;
     }
 

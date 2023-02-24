@@ -41,7 +41,7 @@ public class PlayingCardView : MonoBehaviour
 
     private void OnButtonClick()
     {
-        TavernEventsManager.OnPlayerChoseCard(this);
+        TavernEventsManager.PlayerChoseCard(this);
     }
 
     public void SetButtonEnebled(bool isButtonEnabled)

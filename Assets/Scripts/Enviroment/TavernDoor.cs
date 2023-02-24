@@ -4,20 +4,7 @@ using UnityEngine;
 
 public class TavernDoor : MonoBehaviour
 {
-    private VisitorAI visitor;
+    [SerializeField] private Transform visitorTargetPoint;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Visitor"))
-        {
-            visitor = other.GetComponent<VisitorAI>();
-            if (visitor.isLeaving)
-            {
-                visitor.ReachedDoor();
-            }
-            
-        }
-    }
-
-    
+    public Transform VisitorTargetPoint { get { return visitorTargetPoint; } }
 }

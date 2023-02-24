@@ -22,6 +22,10 @@ public class GameConfigManager : MonoBehaviour
     private static int secondsToGetHungry;
     private static int carrotsPlayerHolding;
     private static int maxCarrotsInBarrel;
+    private static int onBeerDrinkStrengthReward;
+    private static int onCarrotEatStrengthReward;
+    private static int carrotSoldRewardInSouls;
+    private static int carrotSoldRewardInCoins;
 
     public static int PlayerSpeed { get { return playerSpeed; } }
     public static int VisitorSecondsToLeave { get { return visitorSecondsToLeave; } }
@@ -36,6 +40,12 @@ public class GameConfigManager : MonoBehaviour
     public static int CarrotsPlayerHolding { get { return carrotsPlayerHolding; } }
     public static int SecondsToGetHungry { get { return secondsToGetHungry; } }
     public static int MaxCarrotsInBarrel { get { return maxCarrotsInBarrel; } }
+    public static int OnBeerDrinkStrengthReward { get { return onBeerDrinkStrengthReward; } }
+    public static int OnCarrotEatStrengthReward { get { return onCarrotEatStrengthReward; } }
+    public static int CarrotSoldRewardInSouls { get { return carrotSoldRewardInSouls; } }
+    public static int CarrotSoldRewardInCoins { get { return carrotSoldRewardInCoins; } }
+
+
 
 
 
@@ -71,6 +81,11 @@ public class GameConfigManager : MonoBehaviour
             secondsToGetHungry = presets[selectedPresetIndex].SecondsToGetHungry;
             carrotsPlayerHolding = presets[selectedPresetIndex].CarrotsPlayerHolding;
             maxCarrotsInBarrel = presets[selectedPresetIndex].MaxCarrotsInBarrel;
+            onBeerDrinkStrengthReward = presets[selectedPresetIndex].OnBeerDrinkStrengthReward;
+            onCarrotEatStrengthReward = presets[selectedPresetIndex].OnCarrotEatStrengthReward;
+            carrotSoldRewardInSouls = presets[selectedPresetIndex].CarrotSoldRewardInSouls;
+            carrotSoldRewardInCoins = presets[selectedPresetIndex].CarrotSoldRewardInCoins;
+
         }
         else
         {

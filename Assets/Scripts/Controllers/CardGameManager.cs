@@ -32,18 +32,18 @@ public class CardGameManager : MonoBehaviour
 
     private void OnEnable()
     {
-        TavernEventsManager.DefendersToCards += SetVisitorsList;
-        TavernEventsManager.CardsRendered += RenderAllCard;
-        TavernEventsManager.PlayerChoseCard += PlayerChooseCardHandler;
+        TavernEventsManager.OnDefendersToCards += SetVisitorsList;
+        TavernEventsManager.OnCardsRendered += RenderAllCard;
+        TavernEventsManager.OnPlayerChoseCard += PlayerChooseCardHandler;
 
         UpdateCardGameState(CardGameState.start);
     }
 
     private void OnDisable()
     {
-        TavernEventsManager.DefendersToCards -= SetVisitorsList;
-        TavernEventsManager.CardsRendered -= RenderAllCard;
-        TavernEventsManager.PlayerChoseCard += PlayerChooseCardHandler;
+        TavernEventsManager.OnDefendersToCards -= SetVisitorsList;
+        TavernEventsManager.OnCardsRendered -= RenderAllCard;
+        TavernEventsManager.OnPlayerChoseCard += PlayerChooseCardHandler;
     }
 
     private void SetVisitorsList(List<VisitorAI> visitorsList)

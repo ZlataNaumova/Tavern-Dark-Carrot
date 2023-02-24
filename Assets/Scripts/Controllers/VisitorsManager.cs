@@ -13,45 +13,36 @@ public class VisitorsManager : MonoBehaviour
 
     private System.Random random = new System.Random();
     private Table[] tables;
-    private List<VisitorAI> defenders = new List<VisitorAI>();
     private static List<GameObject> activeVisitors = new List<GameObject>();
-
     private ObjectPool<GameObject> pool;
     private Coroutine spawnCoroutine;
-    private Coroutine respawnCoroutine;
     private Table emptyTable;
 
     private void OnEnable()
     {
-        TavernEventsManager.HeartRepaired += StartVisitersSpawn;
-        TavernEventsManager.VisitorLeftTavern += OnVisitorLeft;
-        TavernEventsManager.DefenderAdded += AddVisitorToDefendersList;
-        TavernEventsManager.NightStarted += NightHandler;
+        TavernEventsManager.OnHeartRepaired += HeartRepairedHandler;
+        TavernEventsManager.OnVisitorLeftTavern += OnVisitorLeftHandler;
+        TavernEventsManager.OnVisitorBecomeDefenderCard += OnVisitorBecomeDefenderCardHandler;
+        TavernEventsManager.OnNightStarted += OnNightStartedHandler;
     }
 
     private void OnDisable()
     {
-        TavernEventsManager.HeartRepaired -= StartVisitersSpawn;
-        TavernEventsManager.VisitorLeftTavern -= OnVisitorLeft;
-        TavernEventsManager.DefenderAdded -= AddVisitorToDefendersList;
-        TavernEventsManager.NightStarted -= NightHandler;
-    }
-   
-    private void AddVisitorToDefendersList(VisitorAI visitor)
-    {
-        defenders.Add(visitor);
+        TavernEventsManager.OnHeartRepaired -= HeartRepairedHandler;
+        TavernEventsManager.OnVisitorLeftTavern -= OnVisitorLeftHandler;
+        TavernEventsManager.OnVisitorBecomeDefenderCard -= OnVisitorBecomeDefenderCardHandler;
+        TavernEventsManager.OnNightStarted -= OnNightStartedHandler;
     }
 
     private void Start() => tables = FindObjectsOfType<Table>();
-    
+
     private void Awake() => pool = new ObjectPool<GameObject>(CreateVisitor, OnGetVisitorFromPool, OnReturnVisitorToPool);
 
     private GameObject CreateVisitor()
     {
-        var v = Instantiate(visitorPrefab, visitorSpawnPoint);
-        v.GetComponent<VisitorAI>().SetPool(pool);
-        v.SetActive(false);
-        return v;
+        var visitor = Instantiate(visitorPrefab, visitorSpawnPoint);
+        visitor.SetActive(false);
+        return visitor;
     }
 
     private void OnGetVisitorFromPool(GameObject visitor)
@@ -61,36 +52,36 @@ public class VisitorsManager : MonoBehaviour
         visitor.transform.position = visitorSpawnPoint.transform.position;
     }
 
-    private void OnReturnVisitorToPool(GameObject visitor)
-    {
-        visitor.SetActive(false);
-    }
-
-    private void StartVisitersSpawn()
-    {
-        spawnCoroutine = StartCoroutine(SpawnDelayCoroutine());
-    }
-
-    IEnumerator SpawnDelayCoroutine()
-    {
-        while(activeVisitors.Count <= GameConfigManager.MaxVisitersQuantity)
-        {
-            TrySpawnVisitor();
-            yield return new WaitForSeconds(random.Next(GameConfigManager.VisitorsSpawnDelayMin, GameConfigManager.VisitorsSpawnDelayMax));
-        }
-    }
+    private void OnReturnVisitorToPool(GameObject visitor) => visitor.SetActive(false);
     
+    private void HeartRepairedHandler() => spawnCoroutine = StartCoroutine(VisitorsSpawnCoroutine());
+
+    private bool IsSpawnNeeded() => activeVisitors.Count <= GameConfigManager.MaxVisitersQuantity;
+
+    IEnumerator VisitorsSpawnCoroutine()
+    {
+        yield return new WaitForSeconds(random.Next(GameConfigManager.VisitorsSpawnDelayMin, GameConfigManager.VisitorsSpawnDelayMax));
+        TrySpawnVisitor();
+    }
+
     private void TrySpawnVisitor()
     {
-        VisitorAI v;
+        VisitorAI tempVisitor;
         if (TryGetEmptyTable(out emptyTable))
         {
-            emptyTable.isEmpty = false;
             GameObject visitor = pool.Get();
-            v = visitor.GetComponent<VisitorAI>();
-            v.SetStats(10, 1);
-            v.SetTarget(emptyTable.transform);
-        } else
+            activeVisitors.Add(visitor);
+            tempVisitor = visitor.GetComponent<VisitorAI>();
+            tempVisitor.SetStats(10, 1);
+            Debug.Log(emptyTable);
+            tempVisitor.SetTarget(emptyTable.VisitorTargetPoint, VisitorTargets.Table);
+            emptyTable.SetVisitor(tempVisitor);
+            if (IsSpawnNeeded())
+            {
+                spawnCoroutine = StartCoroutine(VisitorsSpawnCoroutine());
+            }
+        }
+        else
         {
             Debug.Log("No empty chairs");
         }
@@ -98,41 +89,43 @@ public class VisitorsManager : MonoBehaviour
 
     private bool TryGetEmptyTable(out Table emptyTable)
     {
-        emptyTable = tables.Where(table => table.isEmpty).OrderBy(x => Guid.NewGuid()).FirstOrDefault();
+        emptyTable = tables.Where(table => table.IsEmpty).OrderBy(x => Guid.NewGuid()).FirstOrDefault();
         return (emptyTable != null);
     }
 
-    private void OnVisitorLeft(GameObject visitor)
+    private void OnVisitorLeftHandler(GameObject visitor)
     {
         activeVisitors.Remove(visitor);
         pool.Release(visitor);
+        if (IsSpawnNeeded())
+        {
+            spawnCoroutine = StartCoroutine(VisitorsSpawnCoroutine());
+        }
     }
 
-    private void NightHandler()
+    private void OnVisitorBecomeDefenderCardHandler(VisitorAI visitor) => pool.Release(visitor.gameObject);
+
+    private void OnNightStartedHandler()
     {
-        if(respawnCoroutine != null)
-        {
-            StopCoroutine(respawnCoroutine);
-        }
-       if(spawnCoroutine != null)
+
+        if (spawnCoroutine != null)
         {
             StopCoroutine(spawnCoroutine);
         }
-        foreach (Table chair in tables)
+        foreach (Table table in tables)
         {
-            chair.isEmpty = true;
-        }
-        if (defenders.Count > 0)
-        {
-            TavernEventsManager.OnDefendersToCards(new List<VisitorAI>(defenders));
+            table.ClearVisitor();
         }
         foreach (GameObject visitor in activeVisitors)
         {
             pool.Release(visitor);
         }
-
-        defenders.Clear();
         activeVisitors.Clear();
     }
-   
+}
+
+public enum VisitorTargets
+{
+    Table,
+    Door,
 }

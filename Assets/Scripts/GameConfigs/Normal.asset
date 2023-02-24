@@ -20,8 +20,12 @@ MonoBehaviour:
   visitorsSpawnDelayMax: 5
   maxVisitersQuantity: 6
   secondsToGetHungry: 3
+  onBeerDrinkStrengthReward: 10
+  onCarrotEatStrengthReward: 1
   carrotsPlayerHolding: 10
   maxCarrotsInBarrel: 30
   secondsToNightStarts: 120
   beerSoldRewardInCoins: 1
   beerSoldRewardInSouls: 1
+  carrotSoldRewardInSouls: 1
+  carrotSoldRewardInCoins: 1

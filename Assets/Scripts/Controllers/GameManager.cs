@@ -33,12 +33,12 @@ public class GameManager : MonoBehaviour
 
     private void OnEnable()
     {
-        TavernEventsManager.HeartRepaired += HeartRepairedHandler;
+        TavernEventsManager.OnHeartRepaired += HeartRepairedHandler;
     }
 
     private void OnDisable()
     {
-        TavernEventsManager.HeartRepaired -= HeartRepairedHandler;
+        TavernEventsManager.OnHeartRepaired -= HeartRepairedHandler;
     }
 
     private void HeartRepairedHandler()
@@ -73,14 +73,14 @@ public class GameManager : MonoBehaviour
 
     private static void DayHandler()
     {
-        TavernEventsManager.OnDayStarted();
-        TavernEventsManager.OnCameraSwitchedToFollowPlayer();
-        TavernEventsManager.OnSwitchedToDayCanvas();
+        TavernEventsManager.DayStarted();
+        TavernEventsManager.CameraSwitchedToFollowPlayer();
+        TavernEventsManager.SwitchedToDayCanvas();
     }
 
     private static void NightHandler()
     {
-        TavernEventsManager.OnNightStarted();
+        TavernEventsManager.NightStarted();
         Instance.StartCoroutine(CardGameTiming(6));
     }
 
@@ -93,17 +93,17 @@ public class GameManager : MonoBehaviour
     private static IEnumerator CardGameTiming(int seconds)
     {
         int counter = seconds;
-        TavernEventsManager.OnCameraSwitchedToCardGame();
+        TavernEventsManager.CameraSwitchedToCardGame();
         while (counter > 0)
         {
             counter--;
             if(counter == 3)
             {
-                TavernEventsManager.OnSwitchedToNightCanvas();
+                TavernEventsManager.SwitchedToNightCanvas();
             }
             if(counter == 2)
             {
-                TavernEventsManager.OnCardsRendered();
+                TavernEventsManager.CardsRendered();
             }
             yield return new WaitForSeconds(1);
         }

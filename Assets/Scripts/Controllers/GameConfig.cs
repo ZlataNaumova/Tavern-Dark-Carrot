@@ -16,6 +16,9 @@ public class GameConfig : ScriptableObject
     [SerializeField] private int visitorsSpawnDelayMax;
     [SerializeField] private int maxVisitersQuantity;
     [SerializeField] private int secondsToGetHungry;
+    [SerializeField] private int onBeerDrinkStrengthReward;
+    [SerializeField] private int onCarrotEatStrengthReward;
+
 
     [Header("Carrot Barrel Config")]
     [SerializeField] private int carrotsPlayerHolding;
@@ -26,6 +29,10 @@ public class GameConfig : ScriptableObject
     [SerializeField] private int secondsToNightStarts;
     [SerializeField] private int beerSoldRewardInCoins;
     [SerializeField] private int beerSoldRewardInSouls;
+    [SerializeField] private int carrotSoldRewardInSouls;
+    [SerializeField] private int carrotSoldRewardInCoins;
+
+
 
     public int PlayerSpeed { get { return playerSpeed; } }
     public int VisitorSecondsToLeave { get { return visitorSecondsToLeave; } }
@@ -40,6 +47,12 @@ public class GameConfig : ScriptableObject
     public int BeerSoldRewardInCoins { get { return beerSoldRewardInCoins; } }
     public int BeerSoldRewardInSouls { get { return beerSoldRewardInSouls; } }
     public int MaxCarrotsInBarrel { get { return maxCarrotsInBarrel; } }
+    public int OnBeerDrinkStrengthReward { get { return onBeerDrinkStrengthReward; } }
+    public int OnCarrotEatStrengthReward { get { return onCarrotEatStrengthReward; } }
+    public int CarrotSoldRewardInSouls { get { return carrotSoldRewardInSouls; } }
+    public int CarrotSoldRewardInCoins { get { return carrotSoldRewardInCoins; } }
+
+
 
 
     //[Header("Card Game Config")]
