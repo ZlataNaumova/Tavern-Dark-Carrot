@@ -12,14 +12,14 @@ public class VisitorsManager : MonoBehaviour
     [SerializeField] private int visitorsSpawnQuantity;
 
     private System.Random random = new System.Random();
-    private Chair[] chairs;
+    private Table[] tables;
     private List<VisitorAI> defenders = new List<VisitorAI>();
     private static List<GameObject> activeVisitors = new List<GameObject>();
 
     private ObjectPool<GameObject> pool;
     private Coroutine spawnCoroutine;
     private Coroutine respawnCoroutine;
-    private Chair emptyChair;
+    private Table emptyTable;
 
     private void OnEnable()
     {
@@ -42,7 +42,7 @@ public class VisitorsManager : MonoBehaviour
         defenders.Add(visitor);
     }
 
-    private void Start() => chairs = FindObjectsOfType<Chair>();
+    private void Start() => tables = FindObjectsOfType<Table>();
     
     private void Awake() => pool = new ObjectPool<GameObject>(CreateVisitor, OnGetVisitorFromPool, OnReturnVisitorToPool);
 
@@ -83,23 +83,23 @@ public class VisitorsManager : MonoBehaviour
     private void TrySpawnVisitor()
     {
         VisitorAI v;
-        if (TryGetEmptyChair(out emptyChair))
+        if (TryGetEmptyTable(out emptyTable))
         {
-            emptyChair.isEmpty = false;
+            emptyTable.isEmpty = false;
             GameObject visitor = pool.Get();
             v = visitor.GetComponent<VisitorAI>();
             v.SetStats(10, 1);
-            v.SetTarget(emptyChair.transform);
+            v.SetTarget(emptyTable.transform);
         } else
         {
             Debug.Log("No empty chairs");
         }
     }
 
-    private bool TryGetEmptyChair(out Chair emptyChair)
+    private bool TryGetEmptyTable(out Table emptyTable)
     {
-        emptyChair = chairs.Where(chair => chair.isEmpty).OrderBy(x => Guid.NewGuid()).FirstOrDefault();
-        return (emptyChair != null);
+        emptyTable = tables.Where(table => table.isEmpty).OrderBy(x => Guid.NewGuid()).FirstOrDefault();
+        return (emptyTable != null);
     }
 
     private void OnVisitorLeft(GameObject visitor)
@@ -118,7 +118,7 @@ public class VisitorsManager : MonoBehaviour
         {
             StopCoroutine(spawnCoroutine);
         }
-        foreach (Chair chair in chairs)
+        foreach (Table chair in tables)
         {
             chair.isEmpty = true;
         }

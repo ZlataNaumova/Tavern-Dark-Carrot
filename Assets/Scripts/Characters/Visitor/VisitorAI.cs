@@ -9,7 +9,7 @@ public class VisitorAI : PlayerInteractable
     [SerializeField] private Image leaveTimerBar;
 
     private Transform target;
-    private Chair occupiedChair;
+    private Table occupiedChair;
     private CharacterController controller;
     private BoxCollider coll;
     private int strength = 1;
@@ -140,6 +140,7 @@ public class VisitorAI : PlayerInteractable
         coll.enabled = false;
         occupiedChair.isEmpty = true;
         StopCoroutine(tryToTakeCarrotCoroutine);
+        outline.OutlineWidth = 0;
         SetTarget(FindObjectOfType<TavernDoor>().transform);
     }
 
@@ -151,7 +152,7 @@ public class VisitorAI : PlayerInteractable
     public void SetTarget(Transform newTarget)
     {
         target = newTarget;
-        occupiedChair = target.GetComponent<Chair>();
+        occupiedChair = target.GetComponent<Table>();
         if(occupiedChair != null)
         {
             occupiedChair.isEmpty = false;

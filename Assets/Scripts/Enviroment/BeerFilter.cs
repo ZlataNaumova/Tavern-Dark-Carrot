@@ -32,6 +32,7 @@ public class BeerFilter : PlayerInteractable
                 StartCoroutine(TextUpdateCoroutine());
                 Debug.Log("FillingGlass fail");
             }
+            outline.OutlineWidth = 0;
         }
     }
 

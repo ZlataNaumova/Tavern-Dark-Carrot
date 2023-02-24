@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Chair : MonoBehaviour
+public class Table : MonoBehaviour
 {
     public bool isEmpty = true;
     private VisitorAI visitor;

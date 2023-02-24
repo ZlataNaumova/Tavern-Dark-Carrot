@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2853366787572204361}
   - component: {fileID: 8423200104982862808}
   m_Layer: 0
-  m_Name: Bar Chair
+  m_Name: Table
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
