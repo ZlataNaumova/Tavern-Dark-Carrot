@@ -13,6 +13,7 @@ public class ResourcesManager : MonoBehaviour
         TavernEventsManager.OnCoinsAdded += AddCoins;
         TavernEventsManager.OnSoulsAdded += AddSouls;
         TavernEventsManager.OnVisitorBecomeDefenderCard += OnVisitorBecomeDefenderCardHandler;
+        TavernEventsManager.OnNightStarted += NightStartedHandler;
     }
 
     private void OnDisable()
@@ -20,13 +21,13 @@ public class ResourcesManager : MonoBehaviour
         TavernEventsManager.OnCoinsAdded -= AddCoins;
         TavernEventsManager.OnSoulsAdded -= AddSouls;
         TavernEventsManager.OnVisitorBecomeDefenderCard -= OnVisitorBecomeDefenderCardHandler;
+        TavernEventsManager.OnNightStarted -= NightStartedHandler;
     }
 
     private void Start()
     {
         TavernEventsManager.CoinsValueChanged(coins);
         TavernEventsManager.SoulsValueChanged(souls);
-        
     }
 
     private void AddCoins(int value)
@@ -34,6 +35,7 @@ public class ResourcesManager : MonoBehaviour
         coins += value;
         TavernEventsManager.CoinsValueChanged(coins);
     }
+
     public bool TrySpendCoins(int value)
     {
         if(value <= coins)
@@ -49,6 +51,7 @@ public class ResourcesManager : MonoBehaviour
         souls += value;
         TavernEventsManager.SoulsValueChanged(souls);
     }
+
     public bool TrySpendSouls(int value)
     {
         if(value <= souls)
@@ -60,8 +63,13 @@ public class ResourcesManager : MonoBehaviour
         return false;
     }
 
-    private void OnVisitorBecomeDefenderCardHandler(VisitorAI visitor)
+    private void OnVisitorBecomeDefenderCardHandler(VisitorAI visitor) => defendersCards.Add(visitor);
+
+    private void NightStartedHandler()
     {
-        defendersCards.Add(visitor);
+        if(defendersCards.Count > 0)
+        {
+            TavernEventsManager.DefendersToCards(defendersCards);
+        }
     }
 }

@@ -58,7 +58,7 @@ public class TavernHeart : PlayerInteractable
     {
         if(!player.isHoldingBeerKeg && !player.isHoldingGlassOfBeer)
         {
-            player.GetBeerKeg();
+            player.TakeBeerKeg();
             isBeerProduced = false;
             kegOfBeer.SetActive(false);
 

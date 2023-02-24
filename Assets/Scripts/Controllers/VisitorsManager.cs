@@ -73,7 +73,6 @@ public class VisitorsManager : MonoBehaviour
             activeVisitors.Add(visitor);
             tempVisitor = visitor.GetComponent<VisitorAI>();
             tempVisitor.SetStats(10, 1);
-            Debug.Log(emptyTable);
             tempVisitor.SetTarget(emptyTable.VisitorTargetPoint, VisitorTargets.Table);
             emptyTable.SetVisitor(tempVisitor);
             if (IsSpawnNeeded())
@@ -103,7 +102,11 @@ public class VisitorsManager : MonoBehaviour
         }
     }
 
-    private void OnVisitorBecomeDefenderCardHandler(VisitorAI visitor) => pool.Release(visitor.gameObject);
+    private void OnVisitorBecomeDefenderCardHandler(VisitorAI visitor)
+    {
+        activeVisitors.Remove(visitor.gameObject);
+        pool.Release(visitor.gameObject);
+    }
 
     private void OnNightStartedHandler()
     {

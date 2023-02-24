@@ -6,12 +6,10 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-
     public static GameState State;
 
     private static int secondsToNight;
 
-   
     private void Awake()
     {
         if (Instance == null)
@@ -33,18 +31,17 @@ public class GameManager : MonoBehaviour
 
     private void OnEnable()
     {
-        TavernEventsManager.OnHeartRepaired += HeartRepairedHandler;
+        TavernEventsManager.OnHeartRepaired += OnHeartRepairedHandler;
     }
 
     private void OnDisable()
     {
-        TavernEventsManager.OnHeartRepaired -= HeartRepairedHandler;
+        TavernEventsManager.OnHeartRepaired -= OnHeartRepairedHandler;
     }
 
-    private void HeartRepairedHandler()
+    private void OnHeartRepairedHandler()
     {
         Instance.StartCoroutine(NightTimerCoroutine());
-
     }
 
     public static void UpdateGameState(GameState newState)

@@ -16,7 +16,7 @@ public class CardGameManager : MonoBehaviour
 
     [SerializeField] private PlayingCardView cardPrefab;
 
-    private List<VisitorAI> visitors;
+    private List<VisitorAI> defenders;
 
     private List<PlayingCardView> playersDeck = new List<PlayingCardView>();
     private List<PlayingCardView> enemysDeck = new List<PlayingCardView>();
@@ -32,7 +32,7 @@ public class CardGameManager : MonoBehaviour
 
     private void OnEnable()
     {
-        TavernEventsManager.OnDefendersToCards += SetVisitorsList;
+        TavernEventsManager.OnDefendersToCards += OnDefendersToCardsHandler;
         TavernEventsManager.OnCardsRendered += RenderAllCard;
         TavernEventsManager.OnPlayerChoseCard += PlayerChooseCardHandler;
 
@@ -41,21 +41,21 @@ public class CardGameManager : MonoBehaviour
 
     private void OnDisable()
     {
-        TavernEventsManager.OnDefendersToCards -= SetVisitorsList;
+        TavernEventsManager.OnDefendersToCards -= OnDefendersToCardsHandler;
         TavernEventsManager.OnCardsRendered -= RenderAllCard;
         TavernEventsManager.OnPlayerChoseCard += PlayerChooseCardHandler;
     }
 
-    private void SetVisitorsList(List<VisitorAI> visitorsList)
+    private void OnDefendersToCardsHandler(List<VisitorAI> defendersList)
     {
-        visitors = visitorsList;
+        defenders = defendersList;
     }
 
     private void RenderAllCard()
     {
-        if (visitors != null)
+        if (defenders != null)
         {
-            GeneratePlayersCards(visitors);
+            GeneratePlayersCards(defenders);
             UpdateCardGameState(CardGameState.start);
         } else
         {

@@ -17,10 +17,7 @@ public class VisitorAI : MonoBehaviour
     public int Strength => strength;
     public int DefenderType => defenderType;
 
-    private void Start()
-    {
-        characterController = GetComponent<CharacterController>();
-    }
+    private void Start() => characterController = GetComponent<CharacterController>();
 
     private void Update()
     {
@@ -41,7 +38,6 @@ public class VisitorAI : MonoBehaviour
             float distanceToTarget = Vector3.Distance(transform.position, target.transform.position);
             if (distanceToTarget < targetThreshold) 
             {
-                Debug.Log("Reached Table");
                 ReachTargetHandler();
             }
         }
@@ -70,8 +66,6 @@ public class VisitorAI : MonoBehaviour
         if(targetType == VisitorTargets.Table)
         {
             occupiedTable = newTarget.GetComponentInParent<Table>();
-
-
         }
     }
 

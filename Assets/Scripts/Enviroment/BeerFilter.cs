@@ -78,7 +78,7 @@ public class BeerFilter : PlayerInteractable
         filterStatusText.text = "Beer pouring success";
         StartCoroutine(TextUpdateCoroutine());
         isFillingGlass = false;
-        player.GetGlassOfBeer();
+        player.TakeGlassOfBeer();
     }
 
     private IEnumerator TextUpdateCoroutine()

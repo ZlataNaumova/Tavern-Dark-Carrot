@@ -8,12 +8,10 @@ public class Table : PlayerInteractable
 {
     [SerializeField] private Transform visitorTargetPoint;
     [SerializeField] private Image leaveTimerBar;
+    [SerializeField] private GameObject dirt;
     private bool isEmpty = true;
     private bool isDirty = false;
-    private bool isVisitorReachTheTable = false;
     private bool isServed;
-    private bool isLeaving;
-    private bool isHungry;
     private VisitorAI visitor;
     private int drinksCount;
     private int secondsToLeave;
@@ -30,12 +28,20 @@ public class Table : PlayerInteractable
     {
         secondsToLeave = GameConfigManager.VisitorSecondsToLeave;
         leaveTimerBar.enabled = false;
+        dirt.SetActive(false);
 
     }
 
     public void GetDirty()
     {
         isDirty = true;
+        dirt.SetActive(true);
+    }
+
+    public void GetCleaned()
+    {
+        isDirty = false;
+        dirt.SetActive(false);
     }
 
     public void ClearVisitor()
@@ -48,7 +54,7 @@ public class Table : PlayerInteractable
     {
         if (player.isHoldingGlassOfBeer)
         {
-
+            GetDirty();
             if (!isServed)
             {
                 StopCoroutine(visitorLeaveTimer);
@@ -62,6 +68,10 @@ public class Table : PlayerInteractable
             {
                 VisitorBecomeDefenderCardHandler();
             }
+        }
+        if (player.isHoldingCleaningMaterials && isDirty)
+        {
+            GetCleaned();
         }
     }
 
@@ -79,7 +89,6 @@ public class Table : PlayerInteractable
 
     public void VisitorReachTheTable()
     {
-        isVisitorReachTheTable = true;
         leaveTimerBar.enabled = true;
         visitorLeaveTimer = StartCoroutine(VisitorLeaveTimer(GameConfigManager.VisitorSecondsToLeave));
         tryToTakeCarrotCoroutine = StartCoroutine(TryToTakeCarrotCoroutine(GameConfigManager.SecondsToGetHungry));
@@ -94,9 +103,7 @@ public class Table : PlayerInteractable
             leaveTimerBar.fillAmount = (float)counter / secondsToLeave;
             yield return new WaitForSeconds(1);
         }
-        isLeaving = true;
         isEmpty = true;
-        isVisitorReachTheTable = false;
         StopCoroutine(tryToTakeCarrotCoroutine);
         visitor.SetTarget(FindObjectOfType<TavernDoor>().VisitorTargetPoint, VisitorTargets.Door);
     }
@@ -106,7 +113,6 @@ public class Table : PlayerInteractable
         while (true)
         {
             yield return new WaitForSeconds(seconds);
-            isHungry = true;
             TavernEventsManager.VisitorTriedTakeCarrot(visitor);
         }
 

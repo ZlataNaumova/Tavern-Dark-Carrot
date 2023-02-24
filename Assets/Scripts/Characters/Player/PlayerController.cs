@@ -6,12 +6,12 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float speed;
     [SerializeField] private int attackDelay;
     [SerializeField] private int attackDamage;
     [SerializeField] private GameObject glassOfBeer;
     [SerializeField] private GameObject kegOfBeer;
     [SerializeField] private GameObject carrots;
+    [SerializeField] private GameObject cleaningMaterials;
 
 
     public CharacterController controller;
@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
     public bool isHoldingBeerKeg;
     public bool isHoldingGlassOfBeer;
     public bool isHoldingCarrots;
+    public bool isHoldingCleaningMaterials;
 
     private void Awake()
     {
@@ -52,6 +53,7 @@ public class PlayerController : MonoBehaviour
         kegOfBeer.SetActive(false);
         glassOfBeer.SetActive(false);
         carrots.SetActive(false);
+        cleaningMaterials.SetActive(false);
 
         TavernEventsManager.OnDayStarted += DayStartsHandler;
         TavernEventsManager.OnNightStarted += NightStartsHandler;
@@ -59,7 +61,7 @@ public class PlayerController : MonoBehaviour
         isHoldingBeerKeg = false;
         isHoldingGlassOfBeer = false;
         isHoldingCarrots = false;
-
+        isHoldingCleaningMaterials = false;
 }
 
 private void OnDisable()
@@ -72,11 +74,6 @@ private void OnDisable()
         TavernEventsManager.OnNightStarted -= NightStartsHandler;
     }
 
-    private void Start()
-    {
-        speed = GameConfigManager.PlayerSpeed;
-    }
-
     void Update()
     {
         moveDirection = movement.ReadValue<Vector2>();
@@ -87,7 +84,7 @@ private void OnDisable()
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            controller.Move(moveDir.normalized * speed * Time.deltaTime);
+            controller.Move(moveDir.normalized * GameConfigManager.PlayerSpeed * Time.deltaTime);
         }
     }
 
@@ -105,7 +102,7 @@ private void OnDisable()
         movement.Enable();
     }
 
-    public void GetBeerKeg()
+    public void TakeBeerKeg()
     {
         isHoldingBeerKeg = true;
         kegOfBeer.SetActive(true);
@@ -117,7 +114,7 @@ private void OnDisable()
         kegOfBeer.SetActive(false);
     }
 
-    public void GetGlassOfBeer()
+    public void TakeGlassOfBeer()
     {
         isHoldingGlassOfBeer = true;
         glassOfBeer.SetActive(true);
@@ -141,12 +138,20 @@ private void OnDisable()
         carrots.SetActive(true);
     }
 
-    public void SetTarget(GameObject newTarget)
+    public void TakeCleaningMaterials()
     {
-        target = newTarget;
-        Debug.Log(target.name);
+        isHoldingCleaningMaterials = true;
+        cleaningMaterials.SetActive(true);
     }
 
+    public void ReleaseCleaningMaterials()
+    {
+        isHoldingCleaningMaterials = false;
+        cleaningMaterials.SetActive(false);
+    }
+
+    public void SetTarget(GameObject newTarget) => target = newTarget;
+  
     public void Fire(InputAction.CallbackContext ctx)
     {
         if (ctx.performed)
@@ -158,7 +163,6 @@ private void OnDisable()
             Debug.Log("Attack");
             attackBlocked = true;
             StartCoroutine(DelayAttack());
-            
         }
     }
 
@@ -170,7 +174,6 @@ private void OnDisable()
             {
                 interactable.PlayerInteraction();
             }
-           
         }
         else
         {

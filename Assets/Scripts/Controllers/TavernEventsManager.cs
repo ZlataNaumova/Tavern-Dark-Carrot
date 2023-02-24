@@ -47,9 +47,6 @@ public static class TavernEventsManager
     public static event UnityAction<VisitorAI> OnVisitorTriedTakeCarrot;
     public static void VisitorTriedTakeCarrot(VisitorAI visitor) => OnVisitorTriedTakeCarrot?.Invoke(visitor);
 
-    public static event UnityAction<VisitorAI> OnDefenderAdded;
-    public static void DefenderAdded(VisitorAI v) => OnDefenderAdded?.Invoke(v);
-
     public static event UnityAction<VisitorAI> OnVisitorBecomeDefenderCard;
     public static void VisitorBecomeDefenderCard(VisitorAI defender) => OnVisitorBecomeDefenderCard?.Invoke(defender);
 
