@@ -36,12 +36,14 @@ public class Table : PlayerInteractable
     {
         isDirty = true;
         dirt.SetActive(true);
+        TavernEventsManager.HappinessRateChanged(-1);
     }
 
     public void GetCleaned()
     {
         isDirty = false;
         dirt.SetActive(false);
+        TavernEventsManager.HappinessRateChanged(1);
     }
 
     public void ClearVisitor()

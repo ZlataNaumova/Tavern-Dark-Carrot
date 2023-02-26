@@ -6,13 +6,17 @@ public class ResourcesManager : MonoBehaviour
 {
     private int coins = 0;
     private int souls = 10;
+    private int happiness = 0;
+    private int happinessRate = 0;
     private List<VisitorAI> defendersCards = new List<VisitorAI>();
+    private Coroutine updateHappinessCoroutine;
 
     private void OnEnable()
     {
         TavernEventsManager.OnCoinsAdded += AddCoins;
         TavernEventsManager.OnSoulsAdded += AddSouls;
-        TavernEventsManager.OnVisitorBecomeDefenderCard += OnVisitorBecomeDefenderCardHandler;
+        TavernEventsManager.OnVisitorBecomeDefenderCard += VisitorBecomeDefenderCardHandler;
+        TavernEventsManager.OnHappinessRateChanged += HappinessRateChangedHandler;
         TavernEventsManager.OnNightStarted += NightStartedHandler;
     }
 
@@ -20,7 +24,8 @@ public class ResourcesManager : MonoBehaviour
     {
         TavernEventsManager.OnCoinsAdded -= AddCoins;
         TavernEventsManager.OnSoulsAdded -= AddSouls;
-        TavernEventsManager.OnVisitorBecomeDefenderCard -= OnVisitorBecomeDefenderCardHandler;
+        TavernEventsManager.OnVisitorBecomeDefenderCard -= VisitorBecomeDefenderCardHandler;
+        TavernEventsManager.OnHappinessRateChanged -= HappinessRateChangedHandler;
         TavernEventsManager.OnNightStarted -= NightStartedHandler;
     }
 
@@ -28,6 +33,7 @@ public class ResourcesManager : MonoBehaviour
     {
         TavernEventsManager.CoinsValueChanged(coins);
         TavernEventsManager.SoulsValueChanged(souls);
+        updateHappinessCoroutine = StartCoroutine(UpdateHappiness());
     }
 
     private void AddCoins(int value)
@@ -63,13 +69,30 @@ public class ResourcesManager : MonoBehaviour
         return false;
     }
 
-    private void OnVisitorBecomeDefenderCardHandler(VisitorAI visitor) => defendersCards.Add(visitor);
+    private void VisitorBecomeDefenderCardHandler(VisitorAI visitor) => defendersCards.Add(visitor);
 
     private void NightStartedHandler()
     {
+        StopCoroutine(updateHappinessCoroutine);
+        happiness = happinessRate = 0;
         if(defendersCards.Count > 0)
         {
             TavernEventsManager.DefendersToCards(defendersCards);
         }
+    }
+
+    private IEnumerator UpdateHappiness()
+    {
+        while (true)
+        {
+            happiness += happinessRate;
+            happinessRate = 0;
+            yield return new WaitForSeconds(1);
+        }
+    }
+
+    private void HappinessRateChangedHandler(int value)
+    {
+        happinessRate += value;
     }
 }

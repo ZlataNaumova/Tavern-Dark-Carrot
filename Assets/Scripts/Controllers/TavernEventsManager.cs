@@ -26,6 +26,9 @@ public static class TavernEventsManager
     public static event UnityAction<int> OnSoulsAdded;
     public static void SoulsAdded(int soulsValue) => OnSoulsAdded?.Invoke(soulsValue);
 
+    public static event UnityAction<int> OnHappinessRateChanged;
+    public static void HappinessRateChanged(int value) => OnHappinessRateChanged?.Invoke(value);
+
     public static event UnityAction<VisitorAI> OnOneBeerGlassSold;
     public static void OneBeerGlassSold(VisitorAI visitor)
     {
