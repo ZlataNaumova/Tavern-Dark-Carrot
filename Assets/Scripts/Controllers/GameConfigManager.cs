@@ -26,6 +26,10 @@ public class GameConfigManager : MonoBehaviour
     private static int onCarrotEatStrengthReward;
     private static int carrotSoldRewardInSouls;
     private static int carrotSoldRewardInCoins;
+    private static int dirtyTableHappinessEffect;
+    private static int emptyCarrotBarrelHappinessEffect;
+    private static int lowGramophoneVolumeHappinessEffect;
+    private static int positiveHappinessEffect;
 
     public static int PlayerSpeed { get { return playerSpeed; } }
     public static int VisitorSecondsToLeave { get { return visitorSecondsToLeave; } }
@@ -44,6 +48,10 @@ public class GameConfigManager : MonoBehaviour
     public static int OnCarrotEatStrengthReward { get { return onCarrotEatStrengthReward; } }
     public static int CarrotSoldRewardInSouls { get { return carrotSoldRewardInSouls; } }
     public static int CarrotSoldRewardInCoins { get { return carrotSoldRewardInCoins; } }
+    public static int DirtyTableHappinessEffect { get { return dirtyTableHappinessEffect; } }
+    public static int EmptyCarrotBarrelHappinessEffect { get { return emptyCarrotBarrelHappinessEffect; } }
+    public static int LowGramophoneVolumeHappinessEffect { get { return lowGramophoneVolumeHappinessEffect; } }
+    public static int PositiveHappinessEffect { get { return positiveHappinessEffect; } }
 
 
 
@@ -85,6 +93,10 @@ public class GameConfigManager : MonoBehaviour
             onCarrotEatStrengthReward = presets[selectedPresetIndex].OnCarrotEatStrengthReward;
             carrotSoldRewardInSouls = presets[selectedPresetIndex].CarrotSoldRewardInSouls;
             carrotSoldRewardInCoins = presets[selectedPresetIndex].CarrotSoldRewardInCoins;
+            dirtyTableHappinessEffect = presets[selectedPresetIndex].DirtyTableHappinessEffect;
+            emptyCarrotBarrelHappinessEffect = presets[selectedPresetIndex].EmptyCarrotBarrelHappinessEffect;
+            lowGramophoneVolumeHappinessEffect = presets[selectedPresetIndex].LowGramophoneVolumeHappinessEffect;
+            positiveHappinessEffect = presets[selectedPresetIndex].PositiveHappinessEffect;
 
         }
         else

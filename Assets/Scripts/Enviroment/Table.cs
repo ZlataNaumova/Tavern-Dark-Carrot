@@ -36,14 +36,14 @@ public class Table : PlayerInteractable
     {
         isDirty = true;
         dirt.SetActive(true);
-        TavernEventsManager.HappinessRateChanged(-1);
+        TavernEventsManager.HappinessRateChanged(-GameConfigManager.DirtyTableHappinessEffect);
     }
 
     public void GetCleaned()
     {
         isDirty = false;
         dirt.SetActive(false);
-        TavernEventsManager.HappinessRateChanged(1);
+        TavernEventsManager.HappinessRateChanged(GameConfigManager.DirtyTableHappinessEffect);
     }
 
     public void ClearVisitor()
@@ -54,15 +54,24 @@ public class Table : PlayerInteractable
 
     public override void PlayerInteraction()
     {
+        if (isDirty)
+        {
+            GetCleaned();
+        }
         if (player.isHoldingGlassOfBeer)
         {
-            GetDirty();
+            if (!isDirty)
+            {
+                GetDirty();
+            }
+
             if (!isServed)
             {
                 StopCoroutine(visitorLeaveTimer);
                 isServed = true;
                 leaveTimerBar.enabled = false;
             }
+
             player.SellGlassOfBeer();
             drinksCount++;
             TavernEventsManager.OneBeerGlassSold(visitor);
@@ -70,10 +79,6 @@ public class Table : PlayerInteractable
             {
                 VisitorBecomeDefenderCardHandler();
             }
-        }
-        if (player.isHoldingCleaningMaterials && isDirty)
-        {
-            GetCleaned();
         }
     }
 

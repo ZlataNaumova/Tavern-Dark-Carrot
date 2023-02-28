@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class ResourcesManager : MonoBehaviour
 {
+    [SerializeField] private TMP_Text happinessText;
+    [SerializeField] private TMP_Text happinessRateText;
+
     private int coins = 0;
     private int souls = 10;
     private int happiness = 0;
@@ -85,10 +89,20 @@ public class ResourcesManager : MonoBehaviour
     {
         while (true)
         {
+            if (happinessRate == 0)
+            {
+                happiness += GameConfigManager.PositiveHappinessEffect;
+            }
             happiness += happinessRate;
-            happinessRate = 0;
+            UpdateText();
             yield return new WaitForSeconds(1);
         }
+    }
+
+    private void UpdateText()
+    {
+        happinessText.text = happiness.ToString();
+        happinessRateText.text = happinessRate.ToString();
     }
 
     private void HappinessRateChangedHandler(int value)

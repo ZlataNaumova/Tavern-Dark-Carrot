@@ -47,7 +47,8 @@ public class Gramophone : PlayerInteractable
 
         if (wasVolumeLow != isVolumeLow)
         {
-            int happinessRateChange = isVolumeLow ? -3 : 3;
+            int happinessRateChange = isVolumeLow ?
+                -GameConfigManager.LowGramophoneVolumeHappinessEffect : GameConfigManager.LowGramophoneVolumeHappinessEffect;
             TavernEventsManager.HappinessRateChanged(happinessRateChange);
         }
     }

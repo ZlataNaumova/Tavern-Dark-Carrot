@@ -49,7 +49,6 @@ public class VisitorsManager : MonoBehaviour
     {
         visitor.SetActive(true);
         visitor.GetComponent<VisitorAI>().SetStats(10, 1);
-        visitor.transform.position = visitorSpawnPoint.transform.position;
     }
 
     private void OnReturnVisitorToPool(GameObject visitor) => visitor.SetActive(false);
@@ -72,6 +71,7 @@ public class VisitorsManager : MonoBehaviour
             GameObject visitor = pool.Get();
             activeVisitors.Add(visitor);
             tempVisitor = visitor.GetComponent<VisitorAI>();
+            tempVisitor.transform.position = visitorSpawnPoint.transform.position;
             tempVisitor.SetStats(10, 1);
             tempVisitor.SetTarget(emptyTable.VisitorTargetPoint, VisitorTargets.Table);
             emptyTable.SetVisitor(tempVisitor);

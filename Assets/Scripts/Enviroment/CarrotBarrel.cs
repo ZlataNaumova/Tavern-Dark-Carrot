@@ -8,8 +8,8 @@ public class CarrotBarrel : PlayerInteractable
     [SerializeField] private TMP_Text carrotsQuantityText;
     [SerializeField] private TMP_Text barrelStatusText;
 
-
     private int currentCarrotsQuantity;
+    private bool isCarrotBarrelEmpty;
 
     private void OnEnable()
     {
@@ -51,11 +51,13 @@ public class CarrotBarrel : PlayerInteractable
             currentCarrotsQuantity = GameConfigManager.MaxCarrotsInBarrel;
         }
         UpdateCarrotsText();
+        HappinessHandler();
     }
 
     private bool TryTakeCarrot()
     {
-        if(currentCarrotsQuantity > 0)
+        HappinessHandler();
+        if (currentCarrotsQuantity > 0)
         {
             currentCarrotsQuantity--;
             UpdateCarrotsText();
@@ -80,5 +82,18 @@ public class CarrotBarrel : PlayerInteractable
             barrelStatusText.text = "Have some";
         }
     }
-    
+
+    private void HappinessHandler()
+    {
+        bool wasCarrotBarrelEmpty = isCarrotBarrelEmpty;
+        isCarrotBarrelEmpty = (currentCarrotsQuantity <= 0);
+
+        if (wasCarrotBarrelEmpty != isCarrotBarrelEmpty)
+        {
+            int happinessRateChange = isCarrotBarrelEmpty ?
+                -GameConfigManager.EmptyCarrotBarrelHappinessEffect : GameConfigManager.EmptyCarrotBarrelHappinessEffect;
+            TavernEventsManager.HappinessRateChanged(happinessRateChange);
+        }
+    }
+
 }

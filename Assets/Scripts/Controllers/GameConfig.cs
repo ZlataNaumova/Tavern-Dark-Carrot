@@ -19,11 +19,15 @@ public class GameConfig : ScriptableObject
     [SerializeField] private int onBeerDrinkStrengthReward;
     [SerializeField] private int onCarrotEatStrengthReward;
 
-
     [Header("Carrot Barrel Config")]
     [SerializeField] private int carrotsPlayerHolding;
     [SerializeField] private int maxCarrotsInBarrel;
 
+    [Header("Happiness")]
+    [SerializeField] private int dirtyTableHappinessEffect;
+    [SerializeField] private int emptyCarrotBarrelHappinessEffect;
+    [SerializeField] private int lowGramophoneVolumeHappinessEffect;
+    [SerializeField] private int positiveHappinessEffect;
 
     [Header("Main Config")]
     [SerializeField] private int secondsToNightStarts;
@@ -31,8 +35,6 @@ public class GameConfig : ScriptableObject
     [SerializeField] private int beerSoldRewardInSouls;
     [SerializeField] private int carrotSoldRewardInSouls;
     [SerializeField] private int carrotSoldRewardInCoins;
-
-
 
     public int PlayerSpeed { get { return playerSpeed; } }
     public int VisitorSecondsToLeave { get { return visitorSecondsToLeave; } }
@@ -51,10 +53,9 @@ public class GameConfig : ScriptableObject
     public int OnCarrotEatStrengthReward { get { return onCarrotEatStrengthReward; } }
     public int CarrotSoldRewardInSouls { get { return carrotSoldRewardInSouls; } }
     public int CarrotSoldRewardInCoins { get { return carrotSoldRewardInCoins; } }
-
-
-
-
-    //[Header("Card Game Config")]
+    public int DirtyTableHappinessEffect { get { return dirtyTableHappinessEffect; } }
+    public int EmptyCarrotBarrelHappinessEffect { get { return emptyCarrotBarrelHappinessEffect; } }
+    public int LowGramophoneVolumeHappinessEffect { get { return lowGramophoneVolumeHappinessEffect; } }
+    public int PositiveHappinessEffect { get { return positiveHappinessEffect; } }
 
 }
