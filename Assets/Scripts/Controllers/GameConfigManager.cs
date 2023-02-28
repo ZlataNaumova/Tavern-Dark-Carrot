@@ -72,6 +72,7 @@ public class GameConfigManager : MonoBehaviour
         CurrentGameConfigHandler();
     }
 
+
     private void CurrentGameConfigHandler()
     {
         if (selectedPresetIndex >= 0 && selectedPresetIndex < presets.Length)
