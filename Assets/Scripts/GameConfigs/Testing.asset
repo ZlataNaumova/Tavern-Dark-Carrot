@@ -24,6 +24,11 @@ MonoBehaviour:
   onCarrotEatStrengthReward: 1
   carrotsPlayerHolding: 3
   maxCarrotsInBarrel: 10
+  dirtyTableHappinessEffect: 1
+  emptyCarrotBarrelHappinessEffect: 2
+  lowGramophoneVolumeHappinessEffect: 3
+  positiveHappinessEffect: 3
+  happinessMaxLevel: 20
   secondsToNightStarts: 5
   beerSoldRewardInCoins: 1
   beerSoldRewardInSouls: 1

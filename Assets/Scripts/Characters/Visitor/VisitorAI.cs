@@ -1,21 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.UI;
 
 public class VisitorAI : MonoBehaviour
 {
+   
     private Transform target;
     private VisitorTargets currentTargetType;
     private Table occupiedTable;
     private CharacterController characterController;
     private int strength = 1;
-    private int defenderType;
     private float targetThreshold = 0.2f;
+    private VisitorType visitorType;
 
     public int Strength => strength;
-    public int DefenderType => defenderType;
+    public VisitorType CurrentType => visitorType;
 
     private void Start() => characterController = GetComponent<CharacterController>();
 
@@ -29,12 +31,10 @@ public class VisitorAI : MonoBehaviour
    
     private void MoveToTarget()
     {
-        
         if (target)
         {
             Vector3 targetDirection = (target.transform.position - this.transform.position).normalized;
             characterController.Move(new Vector3(targetDirection.x, 0f, targetDirection.z) * GameConfigManager.VisitorSpeed * Time.deltaTime);
-
             float distanceToTarget = Vector3.Distance(transform.position, target.transform.position);
             if (distanceToTarget < targetThreshold) 
             {
@@ -69,14 +69,30 @@ public class VisitorAI : MonoBehaviour
         }
     }
 
-    public void SetStats(int strength, int type)
+    public void SetStats(int strength, VisitorType type)
     {
         this.strength = strength;
-        this.defenderType = type;
+        this.visitorType = type;
     }
-   
-    public void OnBeerDrinkEffect() => strength += GameConfigManager.OnBeerDrinkStrengthReward;
 
-    public void OnCarrotEatEffect() => strength += GameConfigManager.OnCarrotEatStrengthReward;
-        
+    public void OnBeerDrinkEffect()
+    {
+        AddStrength(GameConfigManager.OnBeerDrinkStrengthReward);
+    }
+
+    public void OnCarrotEatEffect()
+    {
+        AddStrength(GameConfigManager.OnCarrotEatStrengthReward);
+    }
+
+    public void AddStrength(int valueToAdd)
+    {
+        strength += valueToAdd;
+    }
+
+}
+public enum VisitorType
+{
+    VisitorType1,
+    VisitorType2
 }

@@ -15,6 +15,8 @@ public class ResourcesManager : MonoBehaviour
     private List<VisitorAI> defendersCards = new List<VisitorAI>();
     private Coroutine updateHappinessCoroutine;
 
+    private int CardsQuantity => defendersCards.Count;
+
     private void OnEnable()
     {
         TavernEventsManager.OnCoinsAdded += AddCoins;
@@ -93,7 +95,16 @@ public class ResourcesManager : MonoBehaviour
             {
                 happiness += GameConfigManager.PositiveHappinessEffect;
             }
+            if (happiness > GameConfigManager.HappinessMaxLevel)
+            {
+                happiness = GameConfigManager.HappinessMaxLevel;
+            }
+            if (happiness < -GameConfigManager.HappinessMaxLevel)
+            {
+                happiness = -GameConfigManager.HappinessMaxLevel;
+            }
             happiness += happinessRate;
+            TavernEventsManager.HappinessChanged(happiness);
             UpdateText();
             yield return new WaitForSeconds(1);
         }

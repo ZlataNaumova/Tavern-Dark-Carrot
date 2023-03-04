@@ -14,6 +14,9 @@ public static class TavernEventsManager
     public static event UnityAction OnDayStarted;
     public static void DayStarted() => OnDayStarted?.Invoke();
 
+    public static event UnityAction<int> OnCardsQuantityChanged;
+    public static void CardsQuantityChanged(int newCardsQuantity) => OnCardsQuantityChanged?.Invoke(newCardsQuantity);
+
     public static event UnityAction<int> OnCoinsValueChanged;
     public static void CoinsValueChanged(int newCoinsValue) => OnCoinsValueChanged?.Invoke(newCoinsValue);
 
@@ -28,6 +31,9 @@ public static class TavernEventsManager
 
     public static event UnityAction<int> OnHappinessRateChanged;
     public static void HappinessRateChanged(int value) => OnHappinessRateChanged?.Invoke(value);
+
+    public static event UnityAction<int> OnHappinessChanged;
+    public static void HappinessChanged(int newHappinessValue) => OnHappinessChanged?.Invoke(newHappinessValue);
 
     public static event UnityAction<VisitorAI> OnOneBeerGlassSold;
     public static void OneBeerGlassSold(VisitorAI visitor)

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -10,15 +11,25 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject nightCanvas;
     [SerializeField] private TMP_Text coinsValueText;
     [SerializeField] private TMP_Text soulsValueText;
+    [SerializeField] private TMP_Text cardsValueText;
+    [SerializeField] private Image nigthTimerIndicator;
+    [SerializeField] private Image happinesIconImage;
+    [SerializeField] private Sprite happinessGoodSprite;
+    [SerializeField] private Sprite happinessNormalSprite;
+    [SerializeField] private Sprite happinessBadSprite;
+    [SerializeField] private Slider happinessSlider;
 
-    [SerializeField] private int secondsCameraToFly;
-
+    private void Start() => happinesIconImage.sprite = happinessNormalSprite;
+    
     private void OnEnable()
     {
         TavernEventsManager.OnSwitchedToDayCanvas += SwitchToDayCanvas;
         TavernEventsManager.OnSwitchedToNightCanvas += SwitchToNightCanvas;
         TavernEventsManager.OnCoinsValueChanged += CoinsValueChangedHandler;
         TavernEventsManager.OnSoulsValueChanged += SoulsValueChangedHandler;
+        TavernEventsManager.OnHappinessChanged += HappinessChangeHandler;
+        TavernEventsManager.OnCardsQuantityChanged += CardsQuantityChangedHandler;
+        TavernEventsManager.OnHeartRepaired += NightTimerHandler;
     }
 
     private void OnDisable()
@@ -27,16 +38,34 @@ public class UIManager : MonoBehaviour
         TavernEventsManager.OnSwitchedToNightCanvas -= SwitchToNightCanvas;
         TavernEventsManager.OnCoinsValueChanged -= CoinsValueChangedHandler;
         TavernEventsManager.OnSoulsValueChanged -= SoulsValueChangedHandler;
+        TavernEventsManager.OnHappinessChanged += HappinessChangeHandler;
+        TavernEventsManager.OnCardsQuantityChanged -= CardsQuantityChangedHandler;
+        TavernEventsManager.OnHeartRepaired -= NightTimerHandler;
     }
 
-    private void CoinsValueChangedHandler(int newValue)
-    {
-        coinsValueText.text = "Coins: " + newValue.ToString();
-    }
+    private void CoinsValueChangedHandler(int newValue) => coinsValueText.text = newValue.ToString();
+    
+    private void SoulsValueChangedHandler(int newValue) => soulsValueText.text = newValue.ToString();
 
-    private void SoulsValueChangedHandler(int newValue)
+    private void CardsQuantityChangedHandler(int newCardsQuantity) => cardsValueText.text = newCardsQuantity.ToString();
+    
+    private void HappinessChangeHandler(int currentHappinessValue)
     {
-        soulsValueText.text = "Souls: " + newValue.ToString();
+        happinessSlider.value = currentHappinessValue;
+        switch (currentHappinessValue)
+        {
+            case int happiness when currentHappinessValue < -5:
+                happinesIconImage.sprite = happinessBadSprite;
+                break;
+            case int happiness when currentHappinessValue > -5 && currentHappinessValue < 5:
+                happinesIconImage.sprite = happinessNormalSprite;
+                break;
+            case int happiness when currentHappinessValue > 6:
+                happinesIconImage.sprite = happinessGoodSprite;
+                break;
+            default:
+                break;
+        }
     }
 
     private void SwitchToDayCanvas()
@@ -51,4 +80,17 @@ public class UIManager : MonoBehaviour
         nightCanvas.SetActive(true);
     }
 
+    private void NightTimerHandler() => StartCoroutine(NightTimerCoroutine());
+    
+    private IEnumerator NightTimerCoroutine()
+    {
+        int counter = GameConfigManager.SecondsToNightStarts;
+        while(counter > 0)
+        {
+            counter--;
+            nigthTimerIndicator.fillAmount = (float)counter / GameConfigManager.SecondsToNightStarts;
+            yield return new WaitForSeconds(1);
+        }
+    }
+   
 }

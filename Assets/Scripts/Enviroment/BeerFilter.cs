@@ -2,21 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BeerFilter : PlayerInteractable
 {
-    [SerializeField] private TMP_Text filterStatusText;
     [SerializeField] private int fillingGlassTime;
     [SerializeField] private GameObject kegOfBeer;
+    [SerializeField] private Image beerProducingIndicator;
+    [SerializeField] private Image beerTypeImage;
+    [SerializeField] private Sprite redBeerGlassSprite;
+    [SerializeField] private Sprite greenBeerGlassSprite;
 
     private bool isFillingGlass = false;
     private int beerGlasses;
     private Coroutine fillingGlass;
+    private int currentBeerType;
 
     private void Start()
     {
         kegOfBeer.SetActive(false);
-        filterStatusText.text = "waiting for player";
+        beerTypeImage.enabled = false;
+        beerProducingIndicator.enabled = false;
     }
 
     private void OnTriggerExit(Collider other)
@@ -28,8 +34,7 @@ public class BeerFilter : PlayerInteractable
             {
                 StopCoroutine(fillingGlass);
                 isFillingGlass = false;
-                filterStatusText.text = "Filling Glass fail";
-                StartCoroutine(TextUpdateCoroutine());
+                beerProducingIndicator.enabled = false;
                 Debug.Log("FillingGlass fail");
             }
             outline.OutlineWidth = 0;
@@ -40,7 +45,7 @@ public class BeerFilter : PlayerInteractable
     {
         if (player.isHoldingBeerKeg)
         {
-            SetBeerKeg();
+            SetBeerKeg(player.CurrentBeerType);
         }
         else if (beerGlasses > 0 && !player.isHoldingGlassOfBeer)
         {
@@ -48,11 +53,14 @@ public class BeerFilter : PlayerInteractable
         }
     }
 
-    private void SetBeerKeg()
+    private void SetBeerKeg(int beerType)
     {
         player.ReleaseBeerKeg();
         kegOfBeer.SetActive(true);
         beerGlasses += 4;
+        currentBeerType = beerType;
+        UpdadeBeerTypeSprite();
+        beerTypeImage.enabled = true;
     }
 
     private void TryGiveGlassToPlayer()
@@ -62,6 +70,7 @@ public class BeerFilter : PlayerInteractable
             if(--beerGlasses <= 0)
             {
                 kegOfBeer.SetActive(false);
+                beerTypeImage.enabled = false;
             }
             fillingGlass = StartCoroutine(FillingGlassCroutine());
         } else
@@ -73,17 +82,18 @@ public class BeerFilter : PlayerInteractable
     private IEnumerator FillingGlassCroutine()
     {
         isFillingGlass = true;
-        filterStatusText.text = "Pouring glass with beer";
-        yield return new WaitForSeconds(fillingGlassTime);
-        filterStatusText.text = "Beer pouring success";
-        StartCoroutine(TextUpdateCoroutine());
+        beerProducingIndicator.enabled = true;
+        float counter = (float)fillingGlassTime;
+        while(counter > 0)
+        {
+            counter -= 0.5f;
+            beerProducingIndicator.fillAmount = (float)counter / fillingGlassTime;
+            yield return new WaitForSeconds(.5f);
+        }
         isFillingGlass = false;
-        player.TakeGlassOfBeer();
+        beerProducingIndicator.enabled = false;
+        player.TakeGlassOfBeer(currentBeerType);
     }
-
-    private IEnumerator TextUpdateCoroutine()
-    {
-        yield return new WaitForSeconds(1);
-        filterStatusText.text = "waiting for player";
-    }
+    
+    private void UpdadeBeerTypeSprite() => beerTypeImage.sprite = currentBeerType == 1 ? greenBeerGlassSprite : redBeerGlassSprite;
 }

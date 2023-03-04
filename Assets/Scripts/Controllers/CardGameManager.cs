@@ -63,7 +63,7 @@ public class CardGameManager : MonoBehaviour
         }
     }
 
-    private void AddCardToDeck(int cardType, int cardStrength, Transform deck, bool isPlayersDeck)
+    private void AddCardToDeck(VisitorType cardType, int cardStrength, Transform deck, bool isPlayersDeck)
     {
         PlayingCardView cardView = Instantiate(cardPrefab, deck);
         cardView.Init(cardType, cardStrength);
@@ -78,22 +78,22 @@ public class CardGameManager : MonoBehaviour
 
     private void TestGeneratingCards()
     {
-        AddCardToDeck(1, 10, playerDeckTransform,true);
-        AddCardToDeck(1, 15, playerDeckTransform, true);
-        AddCardToDeck(1, 5, playerDeckTransform, true);
-        AddCardToDeck(1, 7, playerDeckTransform, true);
-        AddCardToDeck(1, 10, enemyDeckTransform, false);
-        AddCardToDeck(1, 4, enemyDeckTransform, false);
-        AddCardToDeck(1, 9, enemyDeckTransform, false);
-        AddCardToDeck(1, 10, enemyDeckTransform, false);
+        AddCardToDeck(VisitorType.VisitorType1, 10, playerDeckTransform,true);
+        AddCardToDeck(VisitorType.VisitorType1, 15, playerDeckTransform, true);
+        AddCardToDeck(VisitorType.VisitorType1, 5, playerDeckTransform, true);
+        AddCardToDeck(VisitorType.VisitorType1, 7, playerDeckTransform, true);
+        AddCardToDeck(VisitorType.VisitorType1, 10, enemyDeckTransform, false);
+        AddCardToDeck(VisitorType.VisitorType2, 4, enemyDeckTransform, false);
+        AddCardToDeck(VisitorType.VisitorType2, 9, enemyDeckTransform, false);
+        AddCardToDeck(VisitorType.VisitorType2, 10, enemyDeckTransform, false);
     }
 
     private void GeneratePlayersCards(List<VisitorAI> defenders)
     {
         foreach (VisitorAI d in defenders)
         {
-            AddCardToDeck(d.DefenderType, d.Strength, playerDeckTransform, true);
-            AddCardToDeck(d.DefenderType, d.Strength - 1, enemyDeckTransform, false);
+            AddCardToDeck(d.CurrentType, d.Strength, playerDeckTransform, true);
+            AddCardToDeck(d.CurrentType, d.Strength - 1, enemyDeckTransform, false);
         }
     }
     

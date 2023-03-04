@@ -3,16 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private int attackDelay;
     [SerializeField] private int attackDamage;
-    [SerializeField] private GameObject glassOfBeer;
-    [SerializeField] private GameObject kegOfBeer;
-    [SerializeField] private GameObject carrots;
-    [SerializeField] private GameObject cleaningMaterials;
-
+    [SerializeField] private Sprite redBeerGlassSprite;
+    [SerializeField] private Sprite greenBeerGlassSprite;
+    [SerializeField] private Sprite greenBeerBarrelSprite;
+    [SerializeField] private Sprite redBeerBarrelSprite;
+    [SerializeField] private Image currentItem;
 
     public CharacterController controller;
     public PlayerInputActions playerInputActions;
@@ -27,11 +28,12 @@ public class PlayerController : MonoBehaviour
     private Vector2 moveDirection = Vector2.zero;
     private float turnSmoothTime = 0.1f;
     private float turnSmoothVelocity;
+    private int currentBeerType;
 
     public bool isHoldingBeerKeg;
     public bool isHoldingGlassOfBeer;
-    public bool isHoldingCarrots;
-    public bool isHoldingCleaningMaterials;
+
+    public int CurrentBeerType => currentBeerType;
 
     private void Awake()
     {
@@ -49,20 +51,15 @@ public class PlayerController : MonoBehaviour
         interaction.Enable();
         fire.Enable();
         movement.Enable();
-
-        kegOfBeer.SetActive(false);
-        glassOfBeer.SetActive(false);
-        carrots.SetActive(false);
-        cleaningMaterials.SetActive(false);
+      
+        currentItem.enabled = false;
 
         TavernEventsManager.OnDayStarted += DayStartsHandler;
         TavernEventsManager.OnNightStarted += NightStartsHandler;
 
         isHoldingBeerKeg = false;
         isHoldingGlassOfBeer = false;
-        isHoldingCarrots = false;
-        isHoldingCleaningMaterials = false;
-}
+    }
 
 private void OnDisable()
     {
@@ -85,6 +82,7 @@ private void OnDisable()
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
             controller.Move(moveDir.normalized * GameConfigManager.PlayerSpeed * Time.deltaTime);
+            //controller.Move(direction * GameConfigManager.PlayerSpeed * Time.deltaTime);
         }
     }
 
@@ -102,52 +100,34 @@ private void OnDisable()
         movement.Enable();
     }
 
-    public void TakeBeerKeg()
+    public void TakeBeerKeg(int beerType)
     {
+        currentItem.enabled = true;
+        currentItem.sprite = beerType == 1 ? greenBeerBarrelSprite : redBeerBarrelSprite;
         isHoldingBeerKeg = true;
-        kegOfBeer.SetActive(true);
+        //kegOfBeer.SetActive(true);
+        currentBeerType = beerType;
     }
 
     public void ReleaseBeerKeg()
     {
         isHoldingBeerKeg = false;
-        kegOfBeer.SetActive(false);
+        //kegOfBeer.SetActive(false);
+        currentItem.enabled = false;
     }
 
-    public void TakeGlassOfBeer()
+    public void TakeGlassOfBeer(int beerType)
     {
+        currentItem.enabled = true;
+        currentItem.sprite = beerType == 1 ? greenBeerGlassSprite : redBeerGlassSprite;
         isHoldingGlassOfBeer = true;
-        glassOfBeer.SetActive(true);
+
     }
 
     public void SellGlassOfBeer()
     {
         isHoldingGlassOfBeer = false;
-        glassOfBeer.SetActive(false);
-    }
-
-    public void FillCarrotBarrel()
-    {
-        isHoldingCarrots = false;
-        carrots.SetActive(false);
-    }
-
-    public void TakeCarrots()
-    {
-        isHoldingCarrots = true;
-        carrots.SetActive(true);
-    }
-
-    public void TakeCleaningMaterials()
-    {
-        isHoldingCleaningMaterials = true;
-        cleaningMaterials.SetActive(true);
-    }
-
-    public void ReleaseCleaningMaterials()
-    {
-        isHoldingCleaningMaterials = false;
-        cleaningMaterials.SetActive(false);
+        currentItem.enabled = false;
     }
 
     public void SetTarget(GameObject newTarget) => target = newTarget;

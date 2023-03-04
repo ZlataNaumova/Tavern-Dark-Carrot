@@ -30,6 +30,7 @@ public class GameConfigManager : MonoBehaviour
     private static int emptyCarrotBarrelHappinessEffect;
     private static int lowGramophoneVolumeHappinessEffect;
     private static int positiveHappinessEffect;
+    private static int happinessMaxLevel;
 
     public static int PlayerSpeed { get { return playerSpeed; } }
     public static int VisitorSecondsToLeave { get { return visitorSecondsToLeave; } }
@@ -52,10 +53,7 @@ public class GameConfigManager : MonoBehaviour
     public static int EmptyCarrotBarrelHappinessEffect { get { return emptyCarrotBarrelHappinessEffect; } }
     public static int LowGramophoneVolumeHappinessEffect { get { return lowGramophoneVolumeHappinessEffect; } }
     public static int PositiveHappinessEffect { get { return positiveHappinessEffect; } }
-
-
-
-
+    public static int HappinessMaxLevel { get { return happinessMaxLevel; } }
 
 
     private void Awake()
@@ -98,6 +96,7 @@ public class GameConfigManager : MonoBehaviour
             emptyCarrotBarrelHappinessEffect = presets[selectedPresetIndex].EmptyCarrotBarrelHappinessEffect;
             lowGramophoneVolumeHappinessEffect = presets[selectedPresetIndex].LowGramophoneVolumeHappinessEffect;
             positiveHappinessEffect = presets[selectedPresetIndex].PositiveHappinessEffect;
+            happinessMaxLevel = presets[selectedPresetIndex].HappinessMaxLevel;
 
         }
         else

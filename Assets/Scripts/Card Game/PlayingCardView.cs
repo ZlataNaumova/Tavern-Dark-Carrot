@@ -11,7 +11,7 @@ public class PlayingCardView : MonoBehaviour
     [SerializeField] private Button useButton;
 
     private int cardStrength;
-    private int cardType;
+    private VisitorType cardType;
 
     public int Strength => cardStrength;
 
@@ -27,7 +27,7 @@ public class PlayingCardView : MonoBehaviour
         useButton.onClick.RemoveListener(OnButtonClick);
     }
 
-    public void Init(int type, int str)
+    public void Init(VisitorType type, int str)
     {
         cardStrength = str;
         cardType = type;

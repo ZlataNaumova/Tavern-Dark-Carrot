@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.UI;
@@ -9,6 +10,13 @@ public class Table : PlayerInteractable
     [SerializeField] private Transform visitorTargetPoint;
     [SerializeField] private Image leaveTimerBar;
     [SerializeField] private GameObject dirt;
+
+    [SerializeField] private GameObject visitorCanvas;
+    [SerializeField] private TMP_Text strengthText;
+    [SerializeField] private Image orderImage;
+    [SerializeField] private Sprite redBeerSprite;
+    [SerializeField] private Sprite greenBeerSprite;
+
     private bool isEmpty = true;
     private bool isDirty = false;
     private bool isServed;
@@ -16,6 +24,8 @@ public class Table : PlayerInteractable
     private int drinksCount;
     private int secondsToLeave;
     private IObjectPool<GameObject> pool;
+    private VisitorType currentVisitorType;
+    private Sprite currentBeerSprite;
 
     private Coroutine visitorLeaveTimer = null;
     private Coroutine tryToTakeCarrotCoroutine = null;
@@ -29,17 +39,17 @@ public class Table : PlayerInteractable
         secondsToLeave = GameConfigManager.VisitorSecondsToLeave;
         leaveTimerBar.enabled = false;
         dirt.SetActive(false);
-
+        visitorCanvas.SetActive(false);
     }
 
-    public void GetDirty()
+    public void TableGetDirty()
     {
         isDirty = true;
         dirt.SetActive(true);
         TavernEventsManager.HappinessRateChanged(-GameConfigManager.DirtyTableHappinessEffect);
     }
 
-    public void GetCleaned()
+    public void TableCleaned()
     {
         isDirty = false;
         dirt.SetActive(false);
@@ -56,13 +66,13 @@ public class Table : PlayerInteractable
     {
         if (isDirty)
         {
-            GetCleaned();
+            TableCleaned();
         }
-        if (player.isHoldingGlassOfBeer)
+        if (player.isHoldingGlassOfBeer && !isEmpty)
         {
             if (!isDirty)
             {
-                GetDirty();
+                TableGetDirty();
             }
 
             if (!isServed)
@@ -75,6 +85,7 @@ public class Table : PlayerInteractable
             player.SellGlassOfBeer();
             drinksCount++;
             TavernEventsManager.OneBeerGlassSold(visitor);
+            UpdateVisitorUI();
             if (drinksCount >= GameConfigManager.DrinksToBecomeDefenderCard)
             {
                 VisitorBecomeDefenderCardHandler();
@@ -85,13 +96,16 @@ public class Table : PlayerInteractable
     private void VisitorBecomeDefenderCardHandler()
     {
         StopCoroutine(tryToTakeCarrotCoroutine);
+        visitorCanvas.SetActive(false);
         TavernEventsManager.VisitorBecomeDefenderCard(visitor);
     }
 
     public void SetVisitor(VisitorAI newVisitor)
     {
         visitor = newVisitor;
+        currentBeerSprite = visitor.CurrentType == VisitorType.VisitorType1 ? greenBeerSprite : redBeerSprite;
         isEmpty = false;
+        UpdateVisitorUI();
     }
 
     public void VisitorReachTheTable()
@@ -99,6 +113,7 @@ public class Table : PlayerInteractable
         leaveTimerBar.enabled = true;
         visitorLeaveTimer = StartCoroutine(VisitorLeaveTimer(GameConfigManager.VisitorSecondsToLeave));
         tryToTakeCarrotCoroutine = StartCoroutine(TryToTakeCarrotCoroutine(GameConfigManager.SecondsToGetHungry));
+        visitorCanvas.SetActive(true);
     }
 
     IEnumerator VisitorLeaveTimer(int secondsToLeave)
@@ -110,6 +125,7 @@ public class Table : PlayerInteractable
             leaveTimerBar.fillAmount = (float)counter / secondsToLeave;
             yield return new WaitForSeconds(1);
         }
+        visitorCanvas.SetActive(false);
         isEmpty = true;
         StopCoroutine(tryToTakeCarrotCoroutine);
         visitor.SetTarget(FindObjectOfType<TavernDoor>().VisitorTargetPoint, VisitorTargets.Door);
@@ -123,6 +139,12 @@ public class Table : PlayerInteractable
             TavernEventsManager.VisitorTriedTakeCarrot(visitor);
         }
 
+    }
+
+    private void UpdateVisitorUI()
+    {
+        strengthText.text = visitor.Strength.ToString();
+        orderImage.sprite = currentBeerSprite;
     }
 
 

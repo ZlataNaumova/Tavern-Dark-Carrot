@@ -48,11 +48,11 @@ public class VisitorsManager : MonoBehaviour
     private void OnGetVisitorFromPool(GameObject visitor)
     {
         visitor.SetActive(true);
-        visitor.GetComponent<VisitorAI>().SetStats(10, 1);
+        visitor.GetComponent<VisitorAI>().SetStats(10, GetRandomVisiterType());
     }
 
     private void OnReturnVisitorToPool(GameObject visitor) => visitor.SetActive(false);
-    
+
     private void HeartRepairedHandler() => spawnCoroutine = StartCoroutine(VisitorsSpawnCoroutine());
 
     private bool IsSpawnNeeded() => activeVisitors.Count <= GameConfigManager.MaxVisitersQuantity;
@@ -72,7 +72,7 @@ public class VisitorsManager : MonoBehaviour
             activeVisitors.Add(visitor);
             tempVisitor = visitor.GetComponent<VisitorAI>();
             tempVisitor.transform.position = visitorSpawnPoint.transform.position;
-            tempVisitor.SetStats(10, 1);
+            tempVisitor.SetStats(10, GetRandomVisiterType());
             tempVisitor.SetTarget(emptyTable.VisitorTargetPoint, VisitorTargets.Table);
             emptyTable.SetVisitor(tempVisitor);
             if (IsSpawnNeeded())
@@ -125,6 +125,8 @@ public class VisitorsManager : MonoBehaviour
         }
         activeVisitors.Clear();
     }
+
+    private VisitorType GetRandomVisiterType() => random.NextDouble() >= 0.5 ? VisitorType.VisitorType1 : VisitorType.VisitorType2;
 }
 
 public enum VisitorTargets

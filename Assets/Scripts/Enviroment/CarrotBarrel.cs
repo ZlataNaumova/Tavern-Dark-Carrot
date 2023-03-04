@@ -11,20 +11,11 @@ public class CarrotBarrel : PlayerInteractable
     private int currentCarrotsQuantity;
     private bool isCarrotBarrelEmpty;
 
-    private void OnEnable()
-    {
-        TavernEventsManager.OnVisitorTriedTakeCarrot += VisitorTriedTakeCarrotHandler;
-    }
+    private void OnEnable() => TavernEventsManager.OnVisitorTriedTakeCarrot += VisitorTriedTakeCarrotHandler;
+    
+    private void OnDisable() => TavernEventsManager.OnVisitorTriedTakeCarrot -= VisitorTriedTakeCarrotHandler;
 
-    private void OnDisable()
-    {
-        TavernEventsManager.OnVisitorTriedTakeCarrot -= VisitorTriedTakeCarrotHandler;
-    }
-
-    private void Start()
-    {
-        UpdateCarrotsText();
-    }
+    private void Start() => UpdateCarrotsText();
 
     private void VisitorTriedTakeCarrotHandler(VisitorAI visitor)
     {
@@ -34,14 +25,7 @@ public class CarrotBarrel : PlayerInteractable
         }
     }
 
-    public override void PlayerInteraction()
-    {
-        if (player.isHoldingCarrots)
-        {
-            AddCarrots(GameConfigManager.CarrotsPlayerHolding);
-            player.FillCarrotBarrel();
-        }
-    }
+    public override void PlayerInteraction() => AddCarrots(GameConfigManager.CarrotsPlayerHolding);
 
     public void AddCarrots(int carrotsValue)
     {
@@ -87,7 +71,6 @@ public class CarrotBarrel : PlayerInteractable
     {
         bool wasCarrotBarrelEmpty = isCarrotBarrelEmpty;
         isCarrotBarrelEmpty = (currentCarrotsQuantity <= 0);
-
         if (wasCarrotBarrelEmpty != isCarrotBarrelEmpty)
         {
             int happinessRateChange = isCarrotBarrelEmpty ?

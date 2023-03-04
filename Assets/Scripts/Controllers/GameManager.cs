@@ -8,8 +8,6 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     public static GameState State;
 
-    private static int secondsToNight;
-
     private void Awake()
     {
         if (Instance == null)
@@ -25,9 +23,6 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        secondsToNight = GameConfigManager.SecondsToNightStarts;
-        Debug.Log(secondsToNight);
-
         UpdateGameState(GameState.Day);
     }
 
@@ -85,7 +80,7 @@ public class GameManager : MonoBehaviour
 
     private static IEnumerator NightTimerCoroutine()
     {
-        yield return new WaitForSeconds(secondsToNight);
+        yield return new WaitForSeconds(GameConfigManager.SecondsToNightStarts);
         UpdateGameState(GameState.Night);
     }
 

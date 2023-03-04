@@ -28,6 +28,7 @@ public class GameConfig : ScriptableObject
     [SerializeField] private int emptyCarrotBarrelHappinessEffect;
     [SerializeField] private int lowGramophoneVolumeHappinessEffect;
     [SerializeField] private int positiveHappinessEffect;
+    [SerializeField] private int happinessMaxLevel;
 
     [Header("Main Config")]
     [SerializeField] private int secondsToNightStarts;
@@ -57,5 +58,6 @@ public class GameConfig : ScriptableObject
     public int EmptyCarrotBarrelHappinessEffect { get { return emptyCarrotBarrelHappinessEffect; } }
     public int LowGramophoneVolumeHappinessEffect { get { return lowGramophoneVolumeHappinessEffect; } }
     public int PositiveHappinessEffect { get { return positiveHappinessEffect; } }
+    public int HappinessMaxLevel { get { return happinessMaxLevel; } }
 
 }
