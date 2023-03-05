@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TavernHeart : PlayerInteractable
 {
@@ -11,7 +12,10 @@ public class TavernHeart : PlayerInteractable
     [SerializeField] private int beerKegProducingTime;
 
     [SerializeField] private GameObject kegOfBeer;
-    [SerializeField] private GameObject beerProducingIndicator;
+    [SerializeField] private Image beerProducingIndicator;
+    [SerializeField] private Image beerTypeImage;
+    [SerializeField] private Sprite redBeerSprite;
+    [SerializeField] private Sprite greenBeerSprite;
 
 
     private ResourcesManager resourcesManager;
@@ -20,15 +24,17 @@ public class TavernHeart : PlayerInteractable
     private bool isBeerProduced = false;
     private bool isBeerProducing = false;
 
+    private int currentBeerType;
+
+
     private void OnEnable()
     {
         TavernEventsManager.OnNightStarted += NigthStartsHandler;
-
         gameObject.GetComponent<Renderer>().material = damaged;
         resourcesManager = FindObjectOfType<ResourcesManager>();
         kegOfBeer.SetActive(false);
-        beerProducingIndicator.SetActive(false);
-
+        beerProducingIndicator.enabled = false;
+        beerTypeImage.enabled = false;
     }
 
     private void OnDisable()
@@ -43,6 +49,10 @@ public class TavernHeart : PlayerInteractable
             HeartRepair();
             return;
         }
+        if (player.isHoldingCleaningMaterials || isBeerProducing || player.isHoldingBeerKeg || player.isHoldingGlassOfBeer)
+        {
+            return;
+        }
         else if(isBeerProduced)
         {
             GivePlayerBeerKeg();
@@ -54,39 +64,51 @@ public class TavernHeart : PlayerInteractable
         }
     }
 
-   private void GivePlayerBeerKeg()
+    private void GivePlayerBeerKeg()
     {
-        if(!player.isHoldingBeerKeg && !player.isHoldingGlassOfBeer)
+        if (!player.isHoldingBeerKeg && !player.isHoldingGlassOfBeer)
         {
-            player.TakeBeerKeg(1);
+            player.TakeBeerKeg(currentBeerType);
             isBeerProduced = false;
             kegOfBeer.SetActive(false);
-
+            beerTypeImage.enabled = false;
         }
     }
 
     private bool TryProduceBeerKeg()
     {
-        if (!isBeerProducing && !player.isHoldingBeerKeg && resourcesManager.TrySpendSouls(beerKegPriceInSouls))
+        if (player.isHoldingBeerIngredient && resourcesManager.TrySpendSouls(beerKegPriceInSouls))
         {
             isBeerProducing = true;
-            beerProducingIndicator.SetActive(true);
+
+            player.ReleaseBeerIngredient();
             StartCoroutine(KegProducingCoroutine());
             return true;
-        } else
+        }
+        else
         {
-            Debug.Log("Not enought souls to produce beer");
+            Debug.Log("Can not produce beer right now.");
             return false;
         }
     }
 
     IEnumerator KegProducingCoroutine()
     {
-        yield return new WaitForSeconds(beerKegProducingTime);
+        currentBeerType = player.CurrentBeerType;
+        beerTypeImage.sprite = currentBeerType == 1 ? greenBeerSprite : redBeerSprite;
+        beerTypeImage.enabled = true;
+        beerProducingIndicator.enabled = true;
+        int counter = beerKegProducingTime;
+        while (counter > 0)
+        {
+            counter--;
+            beerProducingIndicator.fillAmount = 1 - (float)counter / beerKegProducingTime;
+            yield return new WaitForSeconds(1);
+        }
         kegOfBeer.SetActive(true);
         isBeerProducing = false;
         isBeerProduced = true;
-        beerProducingIndicator.SetActive(false);
+        beerProducingIndicator.fillAmount = 0;
     }
 
     private void HeartRepair()

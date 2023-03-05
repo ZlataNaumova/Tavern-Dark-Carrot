@@ -13,6 +13,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Sprite greenBeerGlassSprite;
     [SerializeField] private Sprite greenBeerBarrelSprite;
     [SerializeField] private Sprite redBeerBarrelSprite;
+    [SerializeField] private Sprite cleaningMaterialsSprite;
+    [SerializeField] private Sprite redBeerIngredientSprite;
+    [SerializeField] private Sprite greenBeerIngredientSprite;
     [SerializeField] private Image currentItem;
 
     public CharacterController controller;
@@ -32,6 +35,8 @@ public class PlayerController : MonoBehaviour
 
     public bool isHoldingBeerKeg;
     public bool isHoldingGlassOfBeer;
+    public bool isHoldingCleaningMaterials;
+    public bool isHoldingBeerIngredient;
 
     public int CurrentBeerType => currentBeerType;
 
@@ -59,6 +64,8 @@ public class PlayerController : MonoBehaviour
 
         isHoldingBeerKeg = false;
         isHoldingGlassOfBeer = false;
+        isHoldingCleaningMaterials = false;
+        isHoldingBeerIngredient = false;
     }
 
 private void OnDisable()
@@ -124,10 +131,58 @@ private void OnDisable()
 
     }
 
-    public void SellGlassOfBeer()
+    public void ReleaseGlassOfBeer()
     {
         isHoldingGlassOfBeer = false;
         currentItem.enabled = false;
+    }
+
+    public void TakeCleaningMaterials()
+    {
+        isHoldingCleaningMaterials = true;
+        currentItem.sprite = cleaningMaterialsSprite;
+        currentItem.enabled = true;
+    }
+
+    public void ReleaseCleaningMaterials()
+    {
+        isHoldingCleaningMaterials = false;
+        currentItem.enabled = false;
+    }
+
+    public void TakeBeerIngredient(int beerType)
+    {
+        currentBeerType = beerType;
+        isHoldingBeerIngredient = true;
+        currentItem.sprite = currentBeerType == 1 ? greenBeerIngredientSprite : redBeerIngredientSprite;
+        currentItem.enabled = true;
+    }
+
+    public void ReleaseBeerIngredient()
+    {
+        isHoldingBeerIngredient = false;
+        currentItem.enabled = false;
+    }
+
+    public void ReleaseAnyItem()
+    {
+        if (isHoldingCleaningMaterials)
+        {
+            ReleaseCleaningMaterials();
+        }
+        if (isHoldingBeerKeg)
+        {
+            ReleaseBeerKeg();
+        }
+        if (isHoldingGlassOfBeer)
+        {
+            ReleaseGlassOfBeer();
+        }
+        if (isHoldingBeerIngredient)
+        {
+            ReleaseBeerIngredient();
+        }
+
     }
 
     public void SetTarget(GameObject newTarget) => target = newTarget;

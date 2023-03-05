@@ -30,7 +30,7 @@ public class BeerFilter : PlayerInteractable
         if (other.CompareTag("Player"))
         {
             player.SetTarget(player.gameObject);
-            if(fillingGlass != null && isFillingGlass)
+            if (fillingGlass != null && isFillingGlass)
             {
                 StopCoroutine(fillingGlass);
                 isFillingGlass = false;
@@ -43,6 +43,10 @@ public class BeerFilter : PlayerInteractable
 
     public override void PlayerInteraction()
     {
+        if (player.isHoldingCleaningMaterials)
+        {
+            return;
+        }
         if (player.isHoldingBeerKeg)
         {
             SetBeerKeg(player.CurrentBeerType);
@@ -55,10 +59,16 @@ public class BeerFilter : PlayerInteractable
 
     private void SetBeerKeg(int beerType)
     {
+        if (currentBeerType == beerType)
+        {
+            beerGlasses += 4;
+        } else
+        {
+            currentBeerType = beerType;
+            beerGlasses = 4;
+        }
         player.ReleaseBeerKeg();
         kegOfBeer.SetActive(true);
-        beerGlasses += 4;
-        currentBeerType = beerType;
         UpdadeBeerTypeSprite();
         beerTypeImage.enabled = true;
     }
@@ -67,7 +77,7 @@ public class BeerFilter : PlayerInteractable
     {
         if (!isFillingGlass)
         {
-            if(--beerGlasses <= 0)
+            if (--beerGlasses <= 0)
             {
                 kegOfBeer.SetActive(false);
                 beerTypeImage.enabled = false;

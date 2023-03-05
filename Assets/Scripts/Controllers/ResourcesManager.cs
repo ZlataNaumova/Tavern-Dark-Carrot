@@ -15,8 +15,6 @@ public class ResourcesManager : MonoBehaviour
     private List<VisitorAI> defendersCards = new List<VisitorAI>();
     private Coroutine updateHappinessCoroutine;
 
-    private int CardsQuantity => defendersCards.Count;
-
     private void OnEnable()
     {
         TavernEventsManager.OnCoinsAdded += AddCoins;
@@ -75,8 +73,11 @@ public class ResourcesManager : MonoBehaviour
         return false;
     }
 
-    private void VisitorBecomeDefenderCardHandler(VisitorAI visitor) => defendersCards.Add(visitor);
-
+    private void VisitorBecomeDefenderCardHandler(VisitorAI visitor)
+    {
+        defendersCards.Add(visitor);
+        TavernEventsManager.CardsQuantityChanged(defendersCards.Count);
+    }
     private void NightStartedHandler()
     {
         StopCoroutine(updateHappinessCoroutine);

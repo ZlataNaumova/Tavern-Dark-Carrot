@@ -20,7 +20,7 @@ public class Brewery : PlayerInteractable
 
     private void Start()
     {
-        beerTypeImage.sprite = currentBeerType == 1 ? greenBeerType : redBeerSprite;
+        beerTypeImage.enabled = false;
         resourcesManager = FindObjectOfType<ResourcesManager>();
         beerProducingIndicator.fillAmount = 0;
         kegOfBeer.SetActive(false);
@@ -28,6 +28,10 @@ public class Brewery : PlayerInteractable
 
     public override void PlayerInteraction()
     {
+        if (player.isHoldingCleaningMaterials || isBeerProducing || player.isHoldingBeerKeg || player.isHoldingGlassOfBeer)
+        {
+            return;
+        }
         if (isBeerProduced)
         {
             GivePlayerBeerKeg();
@@ -46,27 +50,30 @@ public class Brewery : PlayerInteractable
             player.TakeBeerKeg(currentBeerType);
             isBeerProduced = false;
             kegOfBeer.SetActive(false);
-
+            beerTypeImage.enabled = false;
         }
     }
 
     private bool TryProduceBeerKeg()
     {
-        if (!isBeerProducing && !player.isHoldingBeerKeg && resourcesManager.TrySpendSouls(beerKegPriceInSouls))
+        if (player.isHoldingBeerIngredient && resourcesManager.TrySpendSouls(beerKegPriceInSouls))
         {
             isBeerProducing = true;
+            player.ReleaseBeerIngredient();
             StartCoroutine(KegProducingCoroutine());
             return true;
         }
         else
         {
-            Debug.Log("Not enought souls to produce beer");
+            Debug.Log("Can not produce beer right now.");
             return false;
         }
     }
 
     IEnumerator KegProducingCoroutine()
     {
+        beerTypeImage.sprite = currentBeerType == 1 ? greenBeerType : redBeerSprite;
+        beerTypeImage.enabled = true;
         int counter = beerKegProducingTime;
         while(counter > 0)
         {

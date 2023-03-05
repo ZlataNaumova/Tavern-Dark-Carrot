@@ -64,7 +64,7 @@ public class Table : PlayerInteractable
 
     public override void PlayerInteraction()
     {
-        if (isDirty)
+        if (isDirty && player.isHoldingCleaningMaterials)
         {
             TableCleaned();
         }
@@ -82,7 +82,7 @@ public class Table : PlayerInteractable
                 leaveTimerBar.enabled = false;
             }
 
-            player.SellGlassOfBeer();
+            player.ReleaseGlassOfBeer();
             drinksCount++;
             TavernEventsManager.OneBeerGlassSold(visitor);
             UpdateVisitorUI();

@@ -273,17 +273,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackDelay: 0
   attackDamage: 0
-  kegOfBeer: {fileID: 0}
-  carrots: {fileID: 0}
   redBeerGlassSprite: {fileID: 21300000, guid: 948cc00c20addb34fa09dc2594a40b02, type: 3}
   greenBeerGlassSprite: {fileID: 21300000, guid: 3acfbd1e89b375240932232fb48e2e24, type: 3}
   greenBeerBarrelSprite: {fileID: 21300000, guid: 6874c59edc376874592d3fea10d30717, type: 3}
   redBeerBarrelSprite: {fileID: 21300000, guid: 66e9235c2711ade43b18736c3f85c647, type: 3}
+  cleaningMaterialsSprite: {fileID: 21300000, guid: 30ebb1921e9ae1e4dbc21b98d4d34ac4, type: 3}
+  redBeerIngredientSprite: {fileID: 21300000, guid: 66e9235c2711ade43b18736c3f85c647, type: 3}
+  greenBeerIngredientSprite: {fileID: 21300000, guid: 6874c59edc376874592d3fea10d30717, type: 3}
   currentItem: {fileID: 1601976129380911481}
   controller: {fileID: 6725711740664703616}
   mainCamera: {fileID: 0}
   isHoldingBeerKeg: 0
   isHoldingGlassOfBeer: 0
+  isHoldingCleaningMaterials: 0
+  isHoldingBeerIngredient: 0
 --- !u!1 &6725711741315939433
 GameObject:
   m_ObjectHideFlags: 0
@@ -381,7 +384,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25d93dae78e1242ed857517bdc6cb9b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  freezeXZAxis: 1
+  freezeXZAxis: 0
 --- !u!1 &6725711742004497036
 GameObject:
   m_ObjectHideFlags: 0
