@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class BeerFilter : PlayerInteractable
 {
     [SerializeField] private int fillingGlassTime;
-    [SerializeField] private GameObject kegOfBeer;
+    //[SerializeField] private GameObject kegOfBeer;
     [SerializeField] private Image beerProducingIndicator;
     [SerializeField] private Image beerTypeImage;
     [SerializeField] private Sprite redBeerGlassSprite;
@@ -20,7 +20,7 @@ public class BeerFilter : PlayerInteractable
 
     private void Start()
     {
-        kegOfBeer.SetActive(false);
+        //kegOfBeer.SetActive(false);
         beerTypeImage.enabled = false;
         beerProducingIndicator.enabled = false;
     }
@@ -68,7 +68,7 @@ public class BeerFilter : PlayerInteractable
             beerGlasses = 4;
         }
         player.ReleaseBeerKeg();
-        kegOfBeer.SetActive(true);
+        //kegOfBeer.SetActive(true);
         UpdadeBeerTypeSprite();
         beerTypeImage.enabled = true;
     }
@@ -79,7 +79,7 @@ public class BeerFilter : PlayerInteractable
         {
             if (--beerGlasses <= 0)
             {
-                kegOfBeer.SetActive(false);
+                //kegOfBeer.SetActive(false);
                 beerTypeImage.enabled = false;
             }
             fillingGlass = StartCoroutine(FillingGlassCroutine());
