@@ -9,6 +9,8 @@ public class CarrotBarrel : PlayerInteractable
     [SerializeField] private TMP_Text carrotsQuantityText;
     [SerializeField] private TMP_Text barrelStatusText;
     [SerializeField] private Image warningSignImage;
+    [SerializeField] private GameObject carrots;
+
 
     private int currentCarrotsQuantity;
     private bool isCarrotBarrelEmpty;
@@ -21,6 +23,7 @@ public class CarrotBarrel : PlayerInteractable
     {
         UpdateCarrotsText();
         warningSignImage.enabled = false;
+        carrots.SetActive(false);
     }
     private void VisitorTriedTakeCarrotHandler(VisitorAI visitor)
     {
@@ -34,6 +37,7 @@ public class CarrotBarrel : PlayerInteractable
 
     public void AddCarrots(int carrotsValue)
     {
+        carrots.SetActive(true);
         currentCarrotsQuantity += carrotsValue;
         if (GameConfigManager.MaxCarrotsInBarrel < currentCarrotsQuantity)
         {
@@ -82,6 +86,7 @@ public class CarrotBarrel : PlayerInteractable
                 -GameConfigManager.EmptyCarrotBarrelHappinessEffect : GameConfigManager.EmptyCarrotBarrelHappinessEffect;
             TavernEventsManager.HappinessRateChanged(happinessRateChange);
             warningSignImage.enabled = isCarrotBarrelEmpty;
+            carrots.SetActive(!isCarrotBarrelEmpty);
         }
     }
 
