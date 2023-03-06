@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CarrotBarrel : PlayerInteractable
 {
     [SerializeField] private TMP_Text carrotsQuantityText;
     [SerializeField] private TMP_Text barrelStatusText;
+    [SerializeField] private Image warningSignImage;
 
     private int currentCarrotsQuantity;
     private bool isCarrotBarrelEmpty;
@@ -15,8 +17,11 @@ public class CarrotBarrel : PlayerInteractable
     
     private void OnDisable() => TavernEventsManager.OnVisitorTriedTakeCarrot -= VisitorTriedTakeCarrotHandler;
 
-    private void Start() => UpdateCarrotsText();
-
+    private void Start()
+    {
+        UpdateCarrotsText();
+        warningSignImage.enabled = false;
+    }
     private void VisitorTriedTakeCarrotHandler(VisitorAI visitor)
     {
         if (TryTakeCarrot())
@@ -76,6 +81,7 @@ public class CarrotBarrel : PlayerInteractable
             int happinessRateChange = isCarrotBarrelEmpty ?
                 -GameConfigManager.EmptyCarrotBarrelHappinessEffect : GameConfigManager.EmptyCarrotBarrelHappinessEffect;
             TavernEventsManager.HappinessRateChanged(happinessRateChange);
+            warningSignImage.enabled = isCarrotBarrelEmpty;
         }
     }
 

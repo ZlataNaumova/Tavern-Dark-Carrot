@@ -55,6 +55,9 @@ public class GameManager : MonoBehaviour
             case GameState.Night:
                 NightHandler();
                 break;
+            case GameState.NightAutoFight:
+                NightAutoFightHandler();
+                break;
             default:
                 break;
         }
@@ -63,6 +66,27 @@ public class GameManager : MonoBehaviour
     private static void StartScreenHandler()
     {
       
+    }
+
+    private static void NightAutoFightHandler()
+    {
+        TavernEventsManager.NightStarted();
+        Instance.StartCoroutine(NightAutoFightTimingCoroutine(5));
+    }
+
+    private static IEnumerator NightAutoFightTimingCoroutine(int seconds)
+    {
+        int counter = seconds;
+        TavernEventsManager.CameraSwitchedToCardGame();
+        while (counter > 0)
+        {
+            counter--;
+            if (counter == 3)
+            {
+                TavernEventsManager.SwitchedToNigthAutoFightCanvas();
+            }
+            yield return new WaitForSeconds(1);
+        }
     }
 
     private static void DayHandler()
@@ -81,7 +105,7 @@ public class GameManager : MonoBehaviour
     private static IEnumerator NightTimerCoroutine()
     {
         yield return new WaitForSeconds(GameConfigManager.SecondsToNightStarts);
-        UpdateGameState(GameState.Night);
+        UpdateGameState(GameState.NightAutoFight);
     }
 
     private static IEnumerator CardGameTiming(int seconds)
@@ -102,11 +126,14 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(1);
         }
     }
+
+    
     
     public enum GameState
     {
         GameStart,
         Day,
-        Night
+        Night,
+        NightAutoFight
     }
 }

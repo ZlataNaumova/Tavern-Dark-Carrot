@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] private GameObject dayCanvas;
     [SerializeField] private GameObject nightCanvas;
+    [SerializeField] private GameObject nightAutoFightCanvas;
     [SerializeField] private TMP_Text coinsValueText;
     [SerializeField] private TMP_Text soulsValueText;
     [SerializeField] private TMP_Text cardsValueText;
@@ -30,6 +31,7 @@ public class UIManager : MonoBehaviour
         TavernEventsManager.OnHappinessChanged += HappinessChangeHandler;
         TavernEventsManager.OnCardsQuantityChanged += CardsQuantityChangedHandler;
         TavernEventsManager.OnHeartRepaired += NightTimerHandler;
+        TavernEventsManager.OnSwitchedToNigthAutoFightCanvas += OnSwitchedToNigthAutoFightCanvasHandler;
     }
 
     private void OnDisable()
@@ -41,6 +43,7 @@ public class UIManager : MonoBehaviour
         TavernEventsManager.OnHappinessChanged += HappinessChangeHandler;
         TavernEventsManager.OnCardsQuantityChanged -= CardsQuantityChangedHandler;
         TavernEventsManager.OnHeartRepaired -= NightTimerHandler;
+        TavernEventsManager.OnSwitchedToNigthAutoFightCanvas -= OnSwitchedToNigthAutoFightCanvasHandler;
     }
 
     private void CoinsValueChangedHandler(int newValue) => coinsValueText.text = newValue.ToString();
@@ -68,16 +71,25 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    private void OnSwitchedToNigthAutoFightCanvasHandler()
+    {
+        dayCanvas.SetActive(false);
+        nightCanvas.SetActive(false);
+        nightAutoFightCanvas.SetActive(true);
+    }
+
     private void SwitchToDayCanvas()
     {
         dayCanvas.SetActive(true);
         nightCanvas.SetActive(false);
+        nightAutoFightCanvas.SetActive(false);
     }
 
     private void SwitchToNightCanvas()
     {
         dayCanvas.SetActive(false);
         nightCanvas.SetActive(true);
+        nightAutoFightCanvas.SetActive(false);
     }
 
     private void NightTimerHandler() => StartCoroutine(NightTimerCoroutine());

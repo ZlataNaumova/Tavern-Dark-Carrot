@@ -74,6 +74,12 @@ public static class TavernEventsManager
     public static event UnityAction OnCameraSwitchedToCardGame;
     public static void CameraSwitchedToCardGame() => OnCameraSwitchedToCardGame?.Invoke();
 
+    public static event UnityAction OnCameraSwitchedToNightAutoFight;
+    public static void CameraSwitchedToNightAutoFight() => OnCameraSwitchedToNightAutoFight?.Invoke();
+
+    public static event UnityAction OnSwitchedToNigthAutoFightCanvas;
+    public static void SwitchedToNigthAutoFightCanvas() => OnSwitchedToNigthAutoFightCanvas?.Invoke();
+    
     public static event UnityAction OnCameraSwitchedToFollowPlayer;
     public static void CameraSwitchedToFollowPlayer() => OnCameraSwitchedToFollowPlayer?.Invoke();
 

@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Gramophone : PlayerInteractable
 {
     [SerializeField] private TMP_Text gramophoneVolumeText;
+    [SerializeField] private Image warningSignImage;
+
     private int maxVolume = 100;
     private int currentVolume = 100;
     private bool isVolumeLow;
@@ -16,6 +19,7 @@ public class Gramophone : PlayerInteractable
     {
         volumeDecreaseCoroutine = StartCoroutine(VolumeDecreaseCoroutine());
         PlayerInteraction();
+        warningSignImage.enabled = false;
         
     }
 
@@ -40,6 +44,7 @@ public class Gramophone : PlayerInteractable
         }
     }
 
+    
     private void HappinessHandler()
     {
         bool wasVolumeLow = isVolumeLow;
@@ -50,6 +55,7 @@ public class Gramophone : PlayerInteractable
             int happinessRateChange = isVolumeLow ?
                 -GameConfigManager.LowGramophoneVolumeHappinessEffect : GameConfigManager.LowGramophoneVolumeHappinessEffect;
             TavernEventsManager.HappinessRateChanged(happinessRateChange);
+            warningSignImage.enabled = isVolumeLow;
         }
     }
 }

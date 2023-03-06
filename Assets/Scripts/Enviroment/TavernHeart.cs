@@ -5,15 +5,13 @@ using UnityEngine.UI;
 
 public class TavernHeart : PlayerInteractable
 {
-    [SerializeField] private Material damaged;
-    [SerializeField] private Material notDamaged;
-
     [SerializeField] private int beerKegPriceInSouls;
     [SerializeField] private int beerKegProducingTime;
 
     [SerializeField] private GameObject kegOfBeer;
     [SerializeField] private Image beerProducingIndicator;
     [SerializeField] private Image beerTypeImage;
+    [SerializeField] private Image warningSignImage;
     [SerializeField] private Sprite redBeerSprite;
     [SerializeField] private Sprite greenBeerSprite;
 
@@ -30,11 +28,11 @@ public class TavernHeart : PlayerInteractable
     private void OnEnable()
     {
         TavernEventsManager.OnNightStarted += NigthStartsHandler;
-        gameObject.GetComponent<Renderer>().material = damaged;
         resourcesManager = FindObjectOfType<ResourcesManager>();
         kegOfBeer.SetActive(false);
         beerProducingIndicator.enabled = false;
         beerTypeImage.enabled = false;
+        warningSignImage.enabled = true;
     }
 
     private void OnDisable()
@@ -115,13 +113,14 @@ public class TavernHeart : PlayerInteractable
     {
         isHeartDamaged = false;
         TavernEventsManager.HeartRepaired();
-        gameObject.GetComponent<Renderer>().material = notDamaged;
+        warningSignImage.enabled = false;
     }
 
     private void NigthStartsHandler()
     {
         isHeartDamaged = true;
-        gameObject.GetComponent<Renderer>().material = damaged;
+        warningSignImage.enabled = false;
+
     }
 
 

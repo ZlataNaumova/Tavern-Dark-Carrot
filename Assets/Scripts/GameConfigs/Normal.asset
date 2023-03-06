@@ -29,7 +29,7 @@ MonoBehaviour:
   lowGramophoneVolumeHappinessEffect: 3
   positiveHappinessEffect: 3
   happinessMaxLevel: 20
-  secondsToNightStarts: 120
+  secondsToNightStarts: 100
   beerSoldRewardInCoins: 1
   beerSoldRewardInSouls: 1
   carrotSoldRewardInSouls: 1

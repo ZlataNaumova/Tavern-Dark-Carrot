@@ -11,9 +11,10 @@ public class Table : PlayerInteractable
     [SerializeField] private Image leaveTimerBar;
     [SerializeField] private GameObject dirt;
 
-    [SerializeField] private GameObject visitorCanvas;
+    [SerializeField] private GameObject visitorInfoBar;
     [SerializeField] private TMP_Text strengthText;
     [SerializeField] private Image orderImage;
+    [SerializeField] private Image warningSignImage;
     [SerializeField] private Sprite redBeerSprite;
     [SerializeField] private Sprite greenBeerSprite;
 
@@ -38,8 +39,9 @@ public class Table : PlayerInteractable
     {
         secondsToLeave = GameConfigManager.VisitorSecondsToLeave;
         leaveTimerBar.enabled = false;
+        warningSignImage.enabled = false;
         dirt.SetActive(false);
-        visitorCanvas.SetActive(false);
+        visitorInfoBar.SetActive(false);
     }
 
     public void TableGetDirty()
@@ -47,6 +49,7 @@ public class Table : PlayerInteractable
         isDirty = true;
         dirt.SetActive(true);
         TavernEventsManager.HappinessRateChanged(-GameConfigManager.DirtyTableHappinessEffect);
+        warningSignImage.enabled = true;
     }
 
     public void TableCleaned()
@@ -54,12 +57,15 @@ public class Table : PlayerInteractable
         isDirty = false;
         dirt.SetActive(false);
         TavernEventsManager.HappinessRateChanged(GameConfigManager.DirtyTableHappinessEffect);
+        warningSignImage.enabled = false;
     }
 
     public void ClearVisitor()
     {
         isEmpty = true;
         visitor = null;
+        visitorInfoBar.SetActive(false);
+
     }
 
     public override void PlayerInteraction()
@@ -96,7 +102,7 @@ public class Table : PlayerInteractable
     private void VisitorBecomeDefenderCardHandler()
     {
         StopCoroutine(tryToTakeCarrotCoroutine);
-        visitorCanvas.SetActive(false);
+        visitorInfoBar.SetActive(false);
         TavernEventsManager.VisitorBecomeDefenderCard(visitor);
     }
 
@@ -113,7 +119,7 @@ public class Table : PlayerInteractable
         leaveTimerBar.enabled = true;
         visitorLeaveTimer = StartCoroutine(VisitorLeaveTimer(GameConfigManager.VisitorSecondsToLeave));
         tryToTakeCarrotCoroutine = StartCoroutine(TryToTakeCarrotCoroutine(GameConfigManager.SecondsToGetHungry));
-        visitorCanvas.SetActive(true);
+        visitorInfoBar.SetActive(true);
     }
 
     IEnumerator VisitorLeaveTimer(int secondsToLeave)
@@ -125,10 +131,10 @@ public class Table : PlayerInteractable
             leaveTimerBar.fillAmount = (float)counter / secondsToLeave;
             yield return new WaitForSeconds(1);
         }
-        visitorCanvas.SetActive(false);
+        visitorInfoBar.SetActive(false);
         isEmpty = true;
         StopCoroutine(tryToTakeCarrotCoroutine);
-        visitor.SetTarget(FindObjectOfType<TavernDoor>().VisitorTargetPoint, VisitorTargets.Door);
+        visitor?.SetTarget(FindObjectOfType<TavernDoor>().VisitorTargetPoint, VisitorTargets.Door);
     }
 
     IEnumerator TryToTakeCarrotCoroutine(int seconds)
