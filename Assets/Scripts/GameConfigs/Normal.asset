@@ -24,6 +24,9 @@ MonoBehaviour:
   onCarrotEatStrengthReward: 1
   carrotsPlayerHolding: 10
   maxCarrotsInBarrel: 30
+  decreaseRate: 2
+  decreaseStartDelay: 3
+  startVolumeLevel: 10
   dirtyTableHappinessEffect: 1
   emptyCarrotBarrelHappinessEffect: 2
   lowGramophoneVolumeHappinessEffect: 3

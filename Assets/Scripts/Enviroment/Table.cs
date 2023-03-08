@@ -74,6 +74,10 @@ public class Table : PlayerInteractable
         {
             TableCleaned();
         }
+        if (isDirty)
+        {
+            return;
+        }
         if (player.isHoldingGlassOfBeer && !isEmpty)
         {
             if (!isDirty)

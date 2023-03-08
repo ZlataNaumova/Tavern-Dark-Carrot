@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Sprite redBeerIngredientSprite;
     [SerializeField] private Sprite greenBeerIngredientSprite;
     [SerializeField] private Image currentItem;
+    [SerializeField] private GameObject rabbitSprite;
+    [SerializeField] private RectTransform itemRectTransform;
 
     public CharacterController controller;
     public PlayerInputActions playerInputActions;
@@ -33,6 +35,14 @@ public class PlayerController : MonoBehaviour
     private float turnSmoothVelocity;
     private int currentBeerType;
 
+    private Vector3 rabbitGameobjectScale;
+    private Animator rabbitAnimator;
+
+    private Vector3 itemScale;
+    private Vector3 itemPosition;
+
+    private bool isRabbitLookingLeft = true;
+
     public bool isHoldingBeerKeg;
     public bool isHoldingGlassOfBeer;
     public bool isHoldingCleaningMaterials;
@@ -43,6 +53,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         playerInputActions = new PlayerInputActions();
+        rabbitAnimator = GetComponentInChildren<Animator>();
     }
 
     private void OnEnable()
@@ -66,6 +77,9 @@ public class PlayerController : MonoBehaviour
         isHoldingGlassOfBeer = false;
         isHoldingCleaningMaterials = false;
         isHoldingBeerIngredient = false;
+
+        itemScale = itemRectTransform.localScale;
+        rabbitGameobjectScale = rabbitSprite.transform.localScale;
     }
 
 private void OnDisable()
@@ -81,16 +95,46 @@ private void OnDisable()
     void Update()
     {
         moveDirection = movement.ReadValue<Vector2>();
+        SideHandler(moveDirection.x);
         Vector3 direction = new Vector3(moveDirection.x, 0f, moveDirection.y).normalized;
         if (moveDirection.magnitude >= 0.1f)
         {
+            rabbitAnimator.SetBool("Moving", true);
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + mainCamera.eulerAngles.y;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
             controller.Move(moveDir.normalized * GameConfigManager.PlayerSpeed * Time.deltaTime);
             //controller.Move(direction * GameConfigManager.PlayerSpeed * Time.deltaTime);
+        } else
+        {
+            rabbitAnimator.SetBool("Moving", false);
         }
+    }
+
+    private void SideHandler(float xValue)
+    {
+       if(xValue > 0 && isRabbitLookingLeft)
+        {
+            FlipRabbitSprite();
+        }
+       else if(xValue < 0 && !isRabbitLookingLeft)
+        {
+            FlipRabbitSprite();
+        }
+
+    }
+
+    private void FlipRabbitSprite()
+    {
+        isRabbitLookingLeft = !isRabbitLookingLeft;
+        rabbitGameobjectScale.x *= -1;
+        rabbitSprite.transform.localScale = rabbitGameobjectScale;
+        itemScale.x *= -1;
+        itemRectTransform.localScale = itemScale;
+        itemPosition = itemRectTransform.localPosition;
+        itemPosition.x *= -1;
+        itemRectTransform.localPosition = itemPosition;
     }
 
     private void NightStartsHandler()
@@ -114,6 +158,7 @@ private void OnDisable()
         isHoldingBeerKeg = true;
         //kegOfBeer.SetActive(true);
         currentBeerType = beerType;
+        rabbitAnimator.SetBool("Carrying", true);
     }
 
     public void ReleaseBeerKeg()
@@ -121,6 +166,7 @@ private void OnDisable()
         isHoldingBeerKeg = false;
         //kegOfBeer.SetActive(false);
         currentItem.enabled = false;
+        rabbitAnimator.SetBool("Carrying", false);
     }
 
     public void TakeGlassOfBeer(int beerType)
@@ -128,6 +174,7 @@ private void OnDisable()
         currentItem.enabled = true;
         currentItem.sprite = beerType == 1 ? greenBeerGlassSprite : redBeerGlassSprite;
         isHoldingGlassOfBeer = true;
+        rabbitAnimator.SetBool("Carrying", true);
 
     }
 
@@ -135,6 +182,7 @@ private void OnDisable()
     {
         isHoldingGlassOfBeer = false;
         currentItem.enabled = false;
+        rabbitAnimator.SetBool("Carrying", false);
     }
 
     public void TakeCleaningMaterials()
@@ -142,12 +190,14 @@ private void OnDisable()
         isHoldingCleaningMaterials = true;
         currentItem.sprite = cleaningMaterialsSprite;
         currentItem.enabled = true;
+        rabbitAnimator.SetBool("Carrying", true);
     }
 
     public void ReleaseCleaningMaterials()
     {
         isHoldingCleaningMaterials = false;
         currentItem.enabled = false;
+        rabbitAnimator.SetBool("Carrying", false);
     }
 
     public void TakeBeerIngredient(int beerType)
@@ -156,12 +206,14 @@ private void OnDisable()
         isHoldingBeerIngredient = true;
         currentItem.sprite = currentBeerType == 1 ? greenBeerIngredientSprite : redBeerIngredientSprite;
         currentItem.enabled = true;
+        rabbitAnimator.SetBool("Carrying", true);
     }
 
     public void ReleaseBeerIngredient()
     {
         isHoldingBeerIngredient = false;
         currentItem.enabled = false;
+        rabbitAnimator.SetBool("Carrying", false);
     }
 
     public void ReleaseAnyItem()
@@ -182,7 +234,7 @@ private void OnDisable()
         {
             ReleaseBeerIngredient();
         }
-
+        rabbitAnimator.SetBool("Carrying", false);
     }
 
     public void SetTarget(GameObject newTarget) => target = newTarget;

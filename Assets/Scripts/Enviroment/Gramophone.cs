@@ -10,21 +10,27 @@ public class Gramophone : PlayerInteractable
     [SerializeField] private Image warningSignImage;
 
     private int maxVolume = 100;
-    private int currentVolume = 100;
+    private int currentVolume;
     private bool isVolumeLow;
     private int volumeThreshold = 50;
     private Coroutine volumeDecreaseCoroutine;
+    private Coroutine volumeDecreaseDelayCoroutine;
 
     private void Start()
     {
-        volumeDecreaseCoroutine = StartCoroutine(VolumeDecreaseCoroutine());
-        PlayerInteraction();
+        currentVolume = GameConfigManager.StartVolumeLevel;
+        gramophoneVolumeText.text = currentVolume.ToString();
+        volumeDecreaseDelayCoroutine = StartCoroutine(VolumeDecreaseDelayCoroutine());
         warningSignImage.enabled = false;
         
     }
 
     public override void PlayerInteraction()
     {
+        if(volumeDecreaseDelayCoroutine != null)
+        {
+            StopCoroutine(volumeDecreaseDelayCoroutine);
+        }
         if (currentVolume <= 0)
         {
             volumeDecreaseCoroutine = StartCoroutine(VolumeDecreaseCoroutine());
@@ -33,12 +39,23 @@ public class Gramophone : PlayerInteractable
         gramophoneVolumeText.text = currentVolume.ToString();
     }
 
+    IEnumerator VolumeDecreaseDelayCoroutine()
+    {
+        yield return new WaitForSeconds(GameConfigManager.DecreaseStartDelay);
+        volumeDecreaseCoroutine = StartCoroutine(VolumeDecreaseCoroutine());
+
+    }
+
     IEnumerator VolumeDecreaseCoroutine()
     {
         while(currentVolume > 0)
         {
             yield return new WaitForSeconds(1);
-            currentVolume--;
+            currentVolume = currentVolume - GameConfigManager.DecreaseRate;
+            if (currentVolume < 0)
+            {
+                currentVolume = 0;
+            }
             gramophoneVolumeText.text = currentVolume.ToString();
             HappinessHandler();
         }

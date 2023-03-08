@@ -31,6 +31,9 @@ public class GameConfigManager : MonoBehaviour
     private static int lowGramophoneVolumeHappinessEffect;
     private static int positiveHappinessEffect;
     private static int happinessMaxLevel;
+    private static int decreaseRate;
+    private static int decreaseStartDelay;
+    private static int startVolumeLevel;
 
     public static int PlayerSpeed { get { return playerSpeed; } }
     public static int VisitorSecondsToLeave { get { return visitorSecondsToLeave; } }
@@ -54,6 +57,9 @@ public class GameConfigManager : MonoBehaviour
     public static int LowGramophoneVolumeHappinessEffect { get { return lowGramophoneVolumeHappinessEffect; } }
     public static int PositiveHappinessEffect { get { return positiveHappinessEffect; } }
     public static int HappinessMaxLevel { get { return happinessMaxLevel; } }
+    public static int DecreaseRate { get { return decreaseRate; } }
+    public static int DecreaseStartDelay { get { return decreaseStartDelay; } }
+    public static int StartVolumeLevel { get { return startVolumeLevel; } }
 
 
     private void Awake()
@@ -97,8 +103,10 @@ public class GameConfigManager : MonoBehaviour
             lowGramophoneVolumeHappinessEffect = presets[selectedPresetIndex].LowGramophoneVolumeHappinessEffect;
             positiveHappinessEffect = presets[selectedPresetIndex].PositiveHappinessEffect;
             happinessMaxLevel = presets[selectedPresetIndex].HappinessMaxLevel;
-
-        }
+            decreaseRate = presets[selectedPresetIndex].DecreaseRate;
+            decreaseStartDelay = presets[selectedPresetIndex].DecreaseStartDelay;
+            startVolumeLevel = presets[selectedPresetIndex].StartVolumeLevel;
+}
         else
         {
             Debug.LogError("Invalid preset index!");
