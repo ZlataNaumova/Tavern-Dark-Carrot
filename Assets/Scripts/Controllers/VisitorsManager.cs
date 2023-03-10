@@ -16,7 +16,9 @@ public class VisitorsManager : MonoBehaviour
     private static List<GameObject> activeVisitors = new List<GameObject>();
     private ObjectPool<GameObject> pool;
     private Coroutine spawnCoroutine;
+    private Coroutine randomVisitersLeaveCoroutine;
     private Table emptyTable;
+    private bool isHappinessLevelLow;
 
     private void OnEnable()
     {
@@ -24,6 +26,7 @@ public class VisitorsManager : MonoBehaviour
         TavernEventsManager.OnVisitorLeftTavern += OnVisitorLeftHandler;
         TavernEventsManager.OnVisitorBecomeDefenderCard += OnVisitorBecomeDefenderCardHandler;
         TavernEventsManager.OnNightStarted += OnNightStartedHandler;
+        TavernEventsManager.OnHappinessChanged += HappinessLevelHandler;
     }
 
     private void OnDisable()
@@ -32,6 +35,7 @@ public class VisitorsManager : MonoBehaviour
         TavernEventsManager.OnVisitorLeftTavern -= OnVisitorLeftHandler;
         TavernEventsManager.OnVisitorBecomeDefenderCard -= OnVisitorBecomeDefenderCardHandler;
         TavernEventsManager.OnNightStarted -= OnNightStartedHandler;
+        TavernEventsManager.OnHappinessChanged += HappinessLevelHandler;
     }
 
     private void Start() => tables = FindObjectsOfType<Table>();
@@ -127,7 +131,45 @@ public class VisitorsManager : MonoBehaviour
     }
 
     private VisitorType GetRandomVisiterType() => random.NextDouble() >= 0.5 ? VisitorType.VisitorType1 : VisitorType.VisitorType2;
+
+    private void HappinessLevelHandler(int currentHappiness)
+    {
+
+        bool wasHappinesLevelLow = isHappinessLevelLow;
+        isHappinessLevelLow = currentHappiness <= -10;
+        if (wasHappinesLevelLow != isHappinessLevelLow)
+        {
+            if (isHappinessLevelLow)
+            {
+                randomVisitersLeaveCoroutine = StartCoroutine(RandomVisitersLeaveCoroutine());
+            }
+            else
+            {
+                if(randomVisitersLeaveCoroutine != null)
+                {
+                    StopCoroutine(randomVisitersLeaveCoroutine);
+                }
+            }
+        }
+    }
+
+    private IEnumerator RandomVisitersLeaveCoroutine()
+    {
+        while (activeVisitors.Count > 0)
+        {
+            RandomVisiterLeave();
+            yield return new WaitForSeconds(3);
+        }
+    }
+
+    private void RandomVisiterLeave()
+    {
+         activeVisitors.OrderBy(x => Guid.NewGuid()).FirstOrDefault().GetComponent<VisitorAI>().OccupiedTable.VisiterGoingOut();
+    }
+
 }
+
+
 
 public enum VisitorTargets
 {

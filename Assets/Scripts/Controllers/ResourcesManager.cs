@@ -22,6 +22,7 @@ public class ResourcesManager : MonoBehaviour
         TavernEventsManager.OnVisitorBecomeDefenderCard += VisitorBecomeDefenderCardHandler;
         TavernEventsManager.OnHappinessRateChanged += HappinessRateChangedHandler;
         TavernEventsManager.OnNightStarted += NightStartedHandler;
+        TavernEventsManager.OnDayStarted += DayStartedHandler;
     }
 
     private void OnDisable()
@@ -31,13 +32,14 @@ public class ResourcesManager : MonoBehaviour
         TavernEventsManager.OnVisitorBecomeDefenderCard -= VisitorBecomeDefenderCardHandler;
         TavernEventsManager.OnHappinessRateChanged -= HappinessRateChangedHandler;
         TavernEventsManager.OnNightStarted -= NightStartedHandler;
+        TavernEventsManager.OnDayStarted -= DayStartedHandler;
     }
 
     private void Start()
     {
         TavernEventsManager.CoinsValueChanged(coins);
         TavernEventsManager.SoulsValueChanged(souls);
-        updateHappinessCoroutine = StartCoroutine(UpdateHappiness());
+        //updateHappinessCoroutine = StartCoroutine(UpdateHappiness());
     }
 
     private void AddCoins(int value)
@@ -86,6 +88,11 @@ public class ResourcesManager : MonoBehaviour
         {
             TavernEventsManager.DefendersToCards(defendersCards);
         }
+    }
+
+    private void DayStartedHandler()
+    {
+        updateHappinessCoroutine = StartCoroutine(UpdateHappiness());
     }
 
     private IEnumerator UpdateHappiness()

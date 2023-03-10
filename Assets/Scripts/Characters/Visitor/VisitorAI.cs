@@ -18,6 +18,7 @@ public class VisitorAI : MonoBehaviour
 
     public int Strength => strength;
     public VisitorType CurrentType => visitorType;
+    public Table OccupiedTable => occupiedTable;
 
     private void Start() => characterController = GetComponent<CharacterController>();
 

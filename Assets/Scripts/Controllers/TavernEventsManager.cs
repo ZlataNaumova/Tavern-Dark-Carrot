@@ -34,7 +34,7 @@ public static class TavernEventsManager
 
     public static event UnityAction<int> OnHappinessChanged;
     public static void HappinessChanged(int newHappinessValue) => OnHappinessChanged?.Invoke(newHappinessValue);
-
+   
     public static event UnityAction<VisitorAI> OnOneBeerGlassSold;
     public static void OneBeerGlassSold(VisitorAI visitor)
     {
@@ -49,7 +49,7 @@ public static class TavernEventsManager
     {
         OnCoinsAdded?.Invoke(GameConfigManager.BeerSoldRewardInCoins);
         OnSoulsAdded?.Invoke(GameConfigManager.BeerSoldRewardInSouls);
-        visitor.OnCarrotEatEffect();
+        visitor?.OnCarrotEatEffect();
         OnOneCarrotSold?.Invoke(visitor);
     }
 

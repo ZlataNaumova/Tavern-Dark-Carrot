@@ -37,6 +37,7 @@ public class Gramophone : PlayerInteractable
         }
         currentVolume = maxVolume;
         gramophoneVolumeText.text = currentVolume.ToString();
+        HappinessHandler();
     }
 
     IEnumerator VolumeDecreaseDelayCoroutine()

@@ -9,14 +9,18 @@ public class Table : PlayerInteractable
 {
     [SerializeField] private Transform visitorTargetPoint;
     [SerializeField] private Image leaveTimerBar;
-    [SerializeField] private GameObject dirt;
-
     [SerializeField] private GameObject visitorInfoBar;
     [SerializeField] private TMP_Text strengthText;
     [SerializeField] private Image orderImage;
     [SerializeField] private Image warningSignImage;
     [SerializeField] private Sprite redBeerSprite;
     [SerializeField] private Sprite greenBeerSprite;
+    [SerializeField] private MeshRenderer tableMeshRenderer;
+    [SerializeField] private Texture cleanTableAlbedo;
+    [SerializeField] private Texture cleanTableMetallic;
+    [SerializeField] private Texture dirtyTableAlbedo;
+    [SerializeField] private Texture dirtyTableMetallic;
+
 
     private bool isEmpty = true;
     private bool isDirty = false;
@@ -27,6 +31,7 @@ public class Table : PlayerInteractable
     private IObjectPool<GameObject> pool;
     private VisitorType currentVisitorType;
     private Sprite currentBeerSprite;
+    private Material tableMaterial;
 
     private Coroutine visitorLeaveTimer = null;
     private Coroutine tryToTakeCarrotCoroutine = null;
@@ -40,24 +45,26 @@ public class Table : PlayerInteractable
         secondsToLeave = GameConfigManager.VisitorSecondsToLeave;
         leaveTimerBar.enabled = false;
         warningSignImage.enabled = false;
-        dirt.SetActive(false);
         visitorInfoBar.SetActive(false);
+        tableMaterial = tableMeshRenderer.material;
     }
 
     public void TableGetDirty()
     {
         isDirty = true;
-        dirt.SetActive(true);
         TavernEventsManager.HappinessRateChanged(-GameConfigManager.DirtyTableHappinessEffect);
         warningSignImage.enabled = true;
+        tableMaterial.SetTexture("_MainTex", dirtyTableAlbedo);
+        tableMaterial.SetTexture("_MetallicGlossMap", dirtyTableMetallic);
     }
 
     public void TableCleaned()
     {
         isDirty = false;
-        dirt.SetActive(false);
         TavernEventsManager.HappinessRateChanged(GameConfigManager.DirtyTableHappinessEffect);
         warningSignImage.enabled = false;
+        tableMaterial.SetTexture("_MainTex", cleanTableAlbedo);
+        tableMaterial.SetTexture("_MetallicGlossMap", cleanTableMetallic);
     }
 
     public void ClearVisitor()
@@ -135,6 +142,11 @@ public class Table : PlayerInteractable
             leaveTimerBar.fillAmount = (float)counter / secondsToLeave;
             yield return new WaitForSeconds(1);
         }
+        VisiterGoingOut();
+    }
+
+    public void VisiterGoingOut()
+    {
         visitorInfoBar.SetActive(false);
         isEmpty = true;
         StopCoroutine(tryToTakeCarrotCoroutine);
