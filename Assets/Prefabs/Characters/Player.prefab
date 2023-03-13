@@ -92,14 +92,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1339909597574130764}
-  m_LocalRotation: {x: -0, y: -0, z: -0.7994757, w: 0.60069835}
+  m_LocalRotation: {x: -0, y: -0, z: -0.953932, w: 0.30002305}
   m_LocalPosition: {x: -0.9463334, y: -1.3476982, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4509085235720726017}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -145.082}
 --- !u!1 &2273935741927443053
 GameObject:
   m_ObjectHideFlags: 0
@@ -1311,7 +1311,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25d93dae78e1242ed857517bdc6cb9b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  freezeXZAxis: 1
+  freezeXZAxis: 0
 --- !u!1001 &8852007846944420481
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1349,7 +1349,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8568506036098300370, guid: d5e19b2483a641243904e9ee40faefc6, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.97751075
+      value: -0.85140467
       objectReference: {fileID: 0}
     - target: {fileID: -8568506036098300370, guid: d5e19b2483a641243904e9ee40faefc6, type: 3}
       propertyPath: m_LocalRotation.x
@@ -1361,7 +1361,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8568506036098300370, guid: d5e19b2483a641243904e9ee40faefc6, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.21088594
+      value: 0.5245093
       objectReference: {fileID: 0}
     - target: {fileID: -8568506036098300370, guid: d5e19b2483a641243904e9ee40faefc6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -2081,19 +2081,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6853581376008095270, guid: d5e19b2483a641243904e9ee40faefc6, type: 3}
       propertyPath: m_Bounds.m_Center.x
-      value: 1.7434082
+      value: 1.3225098
       objectReference: {fileID: 0}
     - target: {fileID: 6853581376008095270, guid: d5e19b2483a641243904e9ee40faefc6, type: 3}
       propertyPath: m_Bounds.m_Center.y
-      value: -0.03570378
+      value: 0.17669356
       objectReference: {fileID: 0}
     - target: {fileID: 6853581376008095270, guid: d5e19b2483a641243904e9ee40faefc6, type: 3}
       propertyPath: m_Bounds.m_Extent.x
-      value: 1.5316088
+      value: 1.3793225
       objectReference: {fileID: 0}
     - target: {fileID: 6853581376008095270, guid: d5e19b2483a641243904e9ee40faefc6, type: 3}
       propertyPath: m_Bounds.m_Extent.y
-      value: 1.4391711
+      value: 1.2062699
       objectReference: {fileID: 0}
     - target: {fileID: 7156416432656329487, guid: d5e19b2483a641243904e9ee40faefc6, type: 3}
       propertyPath: m_Bounds.m_Center.x
@@ -2335,7 +2335,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25d93dae78e1242ed857517bdc6cb9b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  freezeXZAxis: 1
+  freezeXZAxis: 0
 --- !u!114 &4632904315971256543
 MonoBehaviour:
   m_ObjectHideFlags: 0
