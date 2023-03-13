@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class BeerFilter : PlayerInteractable
 {
-    [SerializeField] private int fillingGlassTime;
     //[SerializeField] private GameObject kegOfBeer;
     [SerializeField] private Image beerProducingIndicator;
     [SerializeField] private Image beerTypeImage;
@@ -93,11 +92,11 @@ public class BeerFilter : PlayerInteractable
     {
         isFillingGlass = true;
         beerProducingIndicator.enabled = true;
-        float counter = (float)fillingGlassTime;
+        float counter = (float)GameConfigManager.FillingBeerGlassTime;
         while(counter > 0)
         {
             counter -= 0.5f;
-            beerProducingIndicator.fillAmount = (float)counter / fillingGlassTime;
+            beerProducingIndicator.fillAmount = (float)counter / GameConfigManager.FillingBeerGlassTime;
             yield return new WaitForSeconds(.5f);
         }
         isFillingGlass = false;

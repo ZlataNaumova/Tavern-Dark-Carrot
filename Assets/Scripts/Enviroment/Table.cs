@@ -72,7 +72,7 @@ public class Table : PlayerInteractable
         isEmpty = true;
         visitor = null;
         visitorInfoBar.SetActive(false);
-
+        StopCoroutine(tryToTakeCarrotCoroutine);
     }
 
     public override void PlayerInteraction()
@@ -149,7 +149,10 @@ public class Table : PlayerInteractable
     {
         visitorInfoBar.SetActive(false);
         isEmpty = true;
-        StopCoroutine(tryToTakeCarrotCoroutine);
+        if(tryToTakeCarrotCoroutine != null)
+        {
+            StopCoroutine(tryToTakeCarrotCoroutine);
+        }
         visitor?.SetTarget(FindObjectOfType<TavernDoor>().VisitorTargetPoint, VisitorTargets.Door);
     }
 

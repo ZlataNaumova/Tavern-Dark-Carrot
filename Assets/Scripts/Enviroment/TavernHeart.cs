@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class TavernHeart : PlayerInteractable
 {
-    [SerializeField] private int beerKegPriceInSouls;
-    [SerializeField] private int beerKegProducingTime;
 
     [SerializeField] private GameObject kegOfBeer;
     [SerializeField] private Image beerProducingIndicator;
@@ -42,22 +40,21 @@ public class TavernHeart : PlayerInteractable
 
     public override void PlayerInteraction()
     {
-        if (isHeartDamaged)
-        {
-            HeartRepair();
-            return;
-        }
         if (player.isHoldingCleaningMaterials || isBeerProducing || player.isHoldingBeerKeg || player.isHoldingGlassOfBeer)
         {
             return;
         }
-        else if(isBeerProduced)
+        else if(isBeerProduced && !player.isHoldingCleaningMaterials && !player.isHoldingBeerKeg && !player.isHoldingGlassOfBeer && !player.isHoldingBeerIngredient)
         {
             GivePlayerBeerKeg();
             return;
         }
-        else
+        else if(!isBeerProduced && player.isHoldingBeerIngredient)
         {
+            if (isHeartDamaged)
+            {
+                HeartRepair();
+            }
             TryProduceBeerKeg();
         }
     }
@@ -75,7 +72,7 @@ public class TavernHeart : PlayerInteractable
 
     private bool TryProduceBeerKeg()
     {
-        if (player.isHoldingBeerIngredient && resourcesManager.TrySpendSouls(beerKegPriceInSouls))
+        if (player.isHoldingBeerIngredient && resourcesManager.TrySpendSouls(GameConfigManager.BeerKegPriceInSouls))
         {
             isBeerProducing = true;
 
@@ -96,11 +93,11 @@ public class TavernHeart : PlayerInteractable
         beerTypeImage.sprite = currentBeerType == 1 ? greenBeerSprite : redBeerSprite;
         beerTypeImage.enabled = true;
         beerProducingIndicator.enabled = true;
-        int counter = beerKegProducingTime;
+        int counter = GameConfigManager.BeerKegProducingTime;
         while (counter > 0)
         {
             counter--;
-            beerProducingIndicator.fillAmount = 1 - (float)counter / beerKegProducingTime;
+            beerProducingIndicator.fillAmount = 1 - (float)counter / GameConfigManager.BeerKegProducingTime;
             yield return new WaitForSeconds(1);
         }
         kegOfBeer.SetActive(true);
