@@ -24,14 +24,18 @@ MonoBehaviour:
   onCarrotEatStrengthReward: 1
   carrotsPlayerHolding: 10
   maxCarrotsInBarrel: 30
-  decreaseRate: 2
+  decreaseRate: 1
   decreaseStartDelay: 3
   startVolumeLevel: 10
+  startHappinesLevel: 20
   dirtyTableHappinessEffect: 1
   emptyCarrotBarrelHappinessEffect: 2
   lowGramophoneVolumeHappinessEffect: 3
   positiveHappinessEffect: 3
   happinessMaxLevel: 20
+  beerKegPriceInSouls: 1
+  beerKegProducingTime: 3
+  fillingBeerGlassTime: 3
   secondsToNightStarts: 100
   beerSoldRewardInCoins: 1
   beerSoldRewardInSouls: 1
