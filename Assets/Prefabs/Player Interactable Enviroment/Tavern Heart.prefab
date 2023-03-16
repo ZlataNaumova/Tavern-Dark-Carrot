@@ -319,8 +319,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cde54d3c3c504a06abb3e1ab28f580f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  beerKegPriceInSouls: 1
-  beerKegProducingTime: 2
   kegOfBeer: {fileID: 6421083002183772696}
   beerProducingIndicator: {fileID: 2313855361425434363}
   beerTypeImage: {fileID: 2944171478116205421}
@@ -338,8 +336,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.477303, y: 1.0888869, z: 3.3084214}
-  m_Center: {x: -0.12226987, y: 0.04444343, z: 0.9675728}
+  m_Size: {x: 1.3018188, y: 1.0888869, z: 1.381464}
+  m_Center: {x: 0.088327885, y: 0.04444343, z: 0.004094124}
 --- !u!114 &1398861589046036841
 MonoBehaviour:
   m_ObjectHideFlags: 0
