@@ -34,6 +34,10 @@ public class GameConfigManager : MonoBehaviour
     private static int decreaseRate;
     private static int decreaseStartDelay;
     private static int startVolumeLevel;
+    private static int beerKegPriceInSouls;
+    private static int beerKegProducingTime;
+    private static int fillingBeerGlassTime;
+    private static int startHappinesLevel;
 
     public static int PlayerSpeed { get { return playerSpeed; } }
     public static int VisitorSecondsToLeave { get { return visitorSecondsToLeave; } }
@@ -60,6 +64,11 @@ public class GameConfigManager : MonoBehaviour
     public static int DecreaseRate { get { return decreaseRate; } }
     public static int DecreaseStartDelay { get { return decreaseStartDelay; } }
     public static int StartVolumeLevel { get { return startVolumeLevel; } }
+    public static int BeerKegPriceInSouls { get { return beerKegPriceInSouls; } }
+    public static int BeerKegProducingTime { get { return beerKegProducingTime; } }
+    public static int FillingBeerGlassTime { get { return fillingBeerGlassTime; } }
+    public static int StartHappinesLevel { get { return startHappinesLevel; } }
+
 
 
     private void Awake()
@@ -106,7 +115,11 @@ public class GameConfigManager : MonoBehaviour
             decreaseRate = presets[selectedPresetIndex].DecreaseRate;
             decreaseStartDelay = presets[selectedPresetIndex].DecreaseStartDelay;
             startVolumeLevel = presets[selectedPresetIndex].StartVolumeLevel;
-}
+            beerKegPriceInSouls = presets[selectedPresetIndex].BeerKegPriceInSouls;
+            beerKegProducingTime = presets[selectedPresetIndex].BeerKegProducingTime;
+            fillingBeerGlassTime = presets[selectedPresetIndex].FillingBeerGlassTime;
+            startHappinesLevel = presets[selectedPresetIndex].StartHappinesLevel;
+        }
         else
         {
             Debug.LogError("Invalid preset index!");

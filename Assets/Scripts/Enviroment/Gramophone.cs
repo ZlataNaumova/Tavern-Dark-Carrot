@@ -14,41 +14,27 @@ public class Gramophone : PlayerInteractable
     private bool isVolumeLow;
     private int volumeThreshold = 50;
     private Coroutine volumeDecreaseCoroutine;
-    private Coroutine volumeDecreaseDelayCoroutine;
 
     private void Start()
     {
         currentVolume = GameConfigManager.StartVolumeLevel;
         gramophoneVolumeText.text = currentVolume.ToString();
-        volumeDecreaseDelayCoroutine = StartCoroutine(VolumeDecreaseDelayCoroutine());
+        volumeDecreaseCoroutine = StartCoroutine(VolumeDecreaseCoroutine());
         warningSignImage.enabled = false;
         
     }
 
     public override void PlayerInteraction()
     {
-        if(volumeDecreaseDelayCoroutine != null)
-        {
-            StopCoroutine(volumeDecreaseDelayCoroutine);
-        }
-        if (currentVolume <= 0)
-        {
-            volumeDecreaseCoroutine = StartCoroutine(VolumeDecreaseCoroutine());
-        }
         currentVolume = maxVolume;
         gramophoneVolumeText.text = currentVolume.ToString();
         HappinessHandler();
     }
 
-    IEnumerator VolumeDecreaseDelayCoroutine()
+        IEnumerator VolumeDecreaseCoroutine()
     {
         yield return new WaitForSeconds(GameConfigManager.DecreaseStartDelay);
-        volumeDecreaseCoroutine = StartCoroutine(VolumeDecreaseCoroutine());
 
-    }
-
-    IEnumerator VolumeDecreaseCoroutine()
-    {
         while(currentVolume > 0)
         {
             yield return new WaitForSeconds(1);
