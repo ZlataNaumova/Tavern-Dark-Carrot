@@ -40,6 +40,8 @@ public class GameConfigManager : MonoBehaviour
     private static int startHappinesLevel;
     private static int startCoinsValue;
     private static int startSoulsValue;
+    private static int visitorHappinessLevelToLeave;
+
 
     public static int PlayerSpeed { get { return playerSpeed; } }
     public static int VisitorSecondsToLeave { get { return visitorSecondsToLeave; } }
@@ -72,6 +74,7 @@ public class GameConfigManager : MonoBehaviour
     public static int StartHappinesLevel { get { return startHappinesLevel; } }
     public static int StartCoinsValue { get { return startCoinsValue; } }
     public static int StartSoulsValue { get { return startSoulsValue; } }
+    public static int VisitorHappinessLevelToLeave { get { return visitorHappinessLevelToLeave; } }
 
 
 
@@ -125,6 +128,7 @@ public class GameConfigManager : MonoBehaviour
             startHappinesLevel = presets[selectedPresetIndex].StartHappinesLevel;
             startCoinsValue = presets[selectedPresetIndex].StartCoinsValue;
             startSoulsValue = presets[selectedPresetIndex].StartSoulsValue;
+            visitorHappinessLevelToLeave = presets[selectedPresetIndex].VisitorHappinessLevelToLeave;
         }
         else
         {

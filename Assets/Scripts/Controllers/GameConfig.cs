@@ -18,6 +18,7 @@ public class GameConfig : ScriptableObject
     [SerializeField] private int secondsToGetHungry;
     [SerializeField] private int onBeerDrinkStrengthReward;
     [SerializeField] private int onCarrotEatStrengthReward;
+    [SerializeField] private int visitorHappinessLevelToLeave;
 
     [Header("Carrot Barrel")]
     [SerializeField] private int carrotsPlayerHolding;
@@ -81,7 +82,6 @@ public class GameConfig : ScriptableObject
     public int StartHappinesLevel { get { return startHappinesLevel; } }
     public int StartCoinsValue { get { return startCoinsValue; } }
     public int StartSoulsValue { get { return startSoulsValue; } }
-
-
-
+    public int VisitorHappinessLevelToLeave { get { return visitorHappinessLevelToLeave; } }
+   
 }

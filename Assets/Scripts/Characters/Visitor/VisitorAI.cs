@@ -20,8 +20,11 @@ public class VisitorAI : MonoBehaviour
     public VisitorType CurrentType => visitorType;
     public Table OccupiedTable => occupiedTable;
 
-    private void Start() => characterController = GetComponent<CharacterController>();
-
+    private void Start()
+    {
+        characterController = GetComponent<CharacterController>();
+        characterController.detectCollisions = false;
+    }
     private void Update()
     {
         if(target)

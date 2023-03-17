@@ -10,6 +10,8 @@ public class VisitorsManager : MonoBehaviour
     [SerializeField] private GameObject visitorPrefab;
     [SerializeField] private Transform visitorSpawnPoint;
     [SerializeField] private int visitorsSpawnQuantity;
+    [SerializeField] private Collider PlayersCollider;
+
 
     private System.Random random = new System.Random();
     private Table[] tables;
@@ -46,6 +48,7 @@ public class VisitorsManager : MonoBehaviour
     {
         var visitor = Instantiate(visitorPrefab, visitorSpawnPoint);
         visitor.SetActive(false);
+        Physics.IgnoreCollision(PlayersCollider, visitor.GetComponent<CharacterController>());
         return visitor;
     }
 
@@ -137,7 +140,7 @@ public class VisitorsManager : MonoBehaviour
     {
 
         bool wasHappinesLevelLow = isHappinessLevelLow;
-        isHappinessLevelLow = currentHappiness <= -10;
+        isHappinessLevelLow = currentHappiness <= GameConfigManager.VisitorHappinessLevelToLeave;
         if (wasHappinesLevelLow != isHappinessLevelLow)
         {
             if (isHappinessLevelLow)
