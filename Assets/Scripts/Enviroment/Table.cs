@@ -27,6 +27,8 @@ public class Table : PlayerInteractable
     private bool isServed;
     private VisitorAI visitor;
     private int drinksCount;
+    private int oneBeerPrice;
+    private int beerSellBonus;
     private int secondsToLeave;
     private IObjectPool<GameObject> pool;
     private VisitorType currentVisitorType;
@@ -47,6 +49,16 @@ public class Table : PlayerInteractable
         warningSignImage.enabled = false;
         visitorInfoBar.SetActive(false);
         tableMaterial = tableMeshRenderer.material;
+        oneBeerPrice = GameConfigManager.BeerSoldRewardInCoins;
+    }
+
+    private void OnEnable()
+    {
+        TavernEventsManager.OnBeerIncomeImproved += BeerIncomeImprovedHandler;
+    }
+    private void OnDisable()
+    {
+        TavernEventsManager.OnBeerIncomeImproved -= BeerIncomeImprovedHandler;
     }
 
     public void TableGetDirty()
@@ -72,7 +84,10 @@ public class Table : PlayerInteractable
         isEmpty = true;
         visitor = null;
         visitorInfoBar.SetActive(false);
-        StopCoroutine(tryToTakeCarrotCoroutine);
+        if(tryToTakeCarrotCoroutine != null)
+        {
+            StopCoroutine(tryToTakeCarrotCoroutine);
+        }
     }
 
     public override void PlayerInteraction()
@@ -101,8 +116,10 @@ public class Table : PlayerInteractable
 
             player.ReleaseGlassOfBeer();
             drinksCount++;
-            TavernEventsManager.OneBeerGlassSold(visitor);
+            //TavernEventsManager.OneBeerGlassSold(visitor);
+            visitor.OnBeerDrinkEffect();
             UpdateVisitorUI();
+            TavernEventsManager.CoinsAdded(oneBeerPrice + beerSellBonus);
             if (drinksCount >= GameConfigManager.DrinksToBecomeDefenderCard)
             {
                 VisitorBecomeDefenderCardHandler();
@@ -172,5 +189,9 @@ public class Table : PlayerInteractable
         orderImage.sprite = currentBeerSprite;
     }
 
+    private void BeerIncomeImprovedHandler()
+    {
+        beerSellBonus++;
+    }
 
 }

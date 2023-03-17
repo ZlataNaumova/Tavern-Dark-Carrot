@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour
     private float turnSmoothTime = 0.1f;
     private float turnSmoothVelocity;
     private int currentBeerType;
+    private int playerSpeed;
 
     private Vector3 rabbitGameobjectScale;
     private Animator rabbitAnimator;
@@ -56,6 +57,12 @@ public class PlayerController : MonoBehaviour
         rabbitAnimator = GetComponentInChildren<Animator>();
     }
 
+    private void Start()
+    {
+        playerSpeed = GameConfigManager.PlayerSpeed;
+
+    }
+
     private void OnEnable()
     {
         movement = playerInputActions.Player.Move;
@@ -72,6 +79,7 @@ public class PlayerController : MonoBehaviour
 
         TavernEventsManager.OnDayStarted += DayStartsHandler;
         TavernEventsManager.OnNightStarted += NightStartsHandler;
+        TavernEventsManager.OnSpeedImproved += SpeedImprovedHandler; 
 
         isHoldingBeerKeg = false;
         isHoldingGlassOfBeer = false;
@@ -90,6 +98,7 @@ private void OnDisable()
 
         TavernEventsManager.OnDayStarted -= DayStartsHandler;
         TavernEventsManager.OnNightStarted -= NightStartsHandler;
+        TavernEventsManager.OnSpeedImproved -= SpeedImprovedHandler;
     }
 
     void Update()
@@ -104,7 +113,7 @@ private void OnDisable()
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            controller.Move(moveDir.normalized * GameConfigManager.PlayerSpeed * Time.deltaTime);
+            controller.Move(moveDir.normalized * playerSpeed * Time.deltaTime);
             //controller.Move(direction * GameConfigManager.PlayerSpeed * Time.deltaTime);
         } else
         {
@@ -272,5 +281,11 @@ private void OnDisable()
     {
         yield return new WaitForSeconds(attackDelay);
         attackBlocked = false;
+    }
+
+    private void SpeedImprovedHandler()
+    {
+        playerSpeed++;
+        print("player speed " + playerSpeed);
     }
 }

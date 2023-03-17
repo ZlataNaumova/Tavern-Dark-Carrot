@@ -12,8 +12,14 @@ public class BeerIngredientBarrel :PlayerInteractable
 
     private void Start() => currentBeerIngredientImage.sprite = beerIngredientType == 1 ? greenBeerIngredientSprite : redBeerIngredientSprite;
 
-    public override void PlayerInteraction() => player.TakeBeerIngredient(beerIngredientType);
-    
+    public override void PlayerInteraction()
+    {
+        if(!player.isHoldingBeerKeg && !player.isHoldingCleaningMaterials && !player.isHoldingGlassOfBeer)
+        {
+            player.TakeBeerIngredient(beerIngredientType);
+        }
+        
+    }
 
    
 }

@@ -26,6 +26,10 @@ public class Gramophone : PlayerInteractable
 
     public override void PlayerInteraction()
     {
+        if(currentVolume <= 0)
+        {
+            volumeDecreaseCoroutine = StartCoroutine(VolumeDecreaseCoroutine());
+        }
         currentVolume = maxVolume;
         gramophoneVolumeText.text = currentVolume.ToString();
         HappinessHandler();

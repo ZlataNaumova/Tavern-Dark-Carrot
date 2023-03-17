@@ -63,6 +63,7 @@ public class VisitorsManager : MonoBehaviour
 
     IEnumerator VisitorsSpawnCoroutine()
     {
+        print("visitersSpawn");
         yield return new WaitForSeconds(random.Next(GameConfigManager.VisitorsSpawnDelayMin, GameConfigManager.VisitorsSpawnDelayMax));
         TrySpawnVisitor();
     }

@@ -35,14 +35,14 @@ public static class TavernEventsManager
     public static event UnityAction<int> OnHappinessChanged;
     public static void HappinessChanged(int newHappinessValue) => OnHappinessChanged?.Invoke(newHappinessValue);
    
-    public static event UnityAction<VisitorAI> OnOneBeerGlassSold;
-    public static void OneBeerGlassSold(VisitorAI visitor)
-    {
-        OnCoinsAdded?.Invoke(GameConfigManager.BeerSoldRewardInCoins);
-        OnSoulsAdded?.Invoke(GameConfigManager.BeerSoldRewardInSouls);
-        visitor.OnBeerDrinkEffect();
-        OnOneBeerGlassSold?.Invoke(visitor);
-    }
+    //public static event UnityAction<VisitorAI> OnOneBeerGlassSold;
+    //public static void OneBeerGlassSold(VisitorAI visitor)
+    //{
+    //    OnCoinsAdded?.Invoke(GameConfigManager.BeerSoldRewardInCoins);
+    //    OnSoulsAdded?.Invoke(GameConfigManager.BeerSoldRewardInSouls);
+    //    visitor.OnBeerDrinkEffect();
+    //    OnOneBeerGlassSold?.Invoke(visitor);
+    //}
 
     public static event UnityAction<VisitorAI> OnOneCarrotSold;
     public static void OneCarrotSold(VisitorAI visitor)
@@ -89,5 +89,12 @@ public static class TavernEventsManager
     public static event UnityAction<PlayingCardView> OnPlayerChoseCard;
     public static void PlayerChoseCard(PlayingCardView card) => OnPlayerChoseCard?.Invoke(card);
 
-   
+    public static event UnityAction OnSpeedImproved;
+    public static void SpeedImproved() => OnSpeedImproved?.Invoke();
+
+    public static event UnityAction OnBeerIncomeImproved;
+    public static void BeerIncomeImproved() => OnBeerIncomeImproved?.Invoke();
+
+    public static event UnityAction OnHappinessImproved;
+    public static void HappinessImproved() => OnHappinessImproved?.Invoke();
 }

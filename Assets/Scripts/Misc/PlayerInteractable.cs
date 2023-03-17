@@ -15,6 +15,7 @@ public abstract class PlayerInteractable : MonoBehaviour
         outline = GetComponent<Outline>();
         outline.OutlineWidth = 0;
         outline.OutlineColor = Color.green;
+        //#678873
     }
 
     private void OnTriggerEnter(Collider other)
