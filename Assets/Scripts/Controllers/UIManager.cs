@@ -20,7 +20,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Sprite happinessBadSprite;
     [SerializeField] private Slider happinessSlider;
 
-    private void Start() => happinesIconImage.sprite = happinessNormalSprite;
+    private void Start()
+    {
+        happinesIconImage.sprite = happinessNormalSprite;
+        happinessSlider.minValue = -GameConfigManager.HappinessMaxLevel;
+        happinessSlider.maxValue = GameConfigManager.HappinessMaxLevel;
+        HappinessChangeHandler(GameConfigManager.StartHappinesLevel);
+    }
     
     private void OnEnable()
     {
@@ -59,15 +65,16 @@ public class UIManager : MonoBehaviour
     private void HappinessChangeHandler(int currentHappinessValue)
     {
         happinessSlider.value = currentHappinessValue;
+        int threshold = GameConfigManager.HappinessMaxLevel / 2;
         switch (currentHappinessValue)
         {
-            case int happiness when currentHappinessValue < -5:
+            case int happiness when currentHappinessValue < -threshold:
                 happinesIconImage.sprite = happinessBadSprite;
                 break;
-            case int happiness when currentHappinessValue > -5 && currentHappinessValue < 5:
+            case int happiness when currentHappinessValue > -threshold && currentHappinessValue < threshold:
                 happinesIconImage.sprite = happinessNormalSprite;
                 break;
-            case int happiness when currentHappinessValue > 6:
+            case int happiness when currentHappinessValue > threshold:
                 happinesIconImage.sprite = happinessGoodSprite;
                 break;
             default:

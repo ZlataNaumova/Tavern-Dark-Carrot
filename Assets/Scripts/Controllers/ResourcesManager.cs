@@ -45,6 +45,7 @@ public class ResourcesManager : MonoBehaviour
     {
         coins = GameConfigManager.StartCoinsValue;
         souls = GameConfigManager.StartSoulsValue;
+        happiness = GameConfigManager.StartHappinesLevel;
         TavernEventsManager.CoinsValueChanged(coins);
         TavernEventsManager.SoulsValueChanged(souls);
         //updateHappinessCoroutine = StartCoroutine(UpdateHappiness());

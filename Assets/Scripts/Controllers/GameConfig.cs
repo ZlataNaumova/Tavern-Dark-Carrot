@@ -29,12 +29,12 @@ public class GameConfig : ScriptableObject
     [SerializeField] private int startVolumeLevel;
 
     [Header("Happiness")]
-    [SerializeField] [Range(-20, 20)] private int startHappinesLevel;
+    [SerializeField] private int startHappinesLevel;
+    [SerializeField] private int happinessMaxLevel;
     [SerializeField] private int dirtyTableHappinessEffect;
     [SerializeField] private int emptyCarrotBarrelHappinessEffect;
     [SerializeField] private int lowGramophoneVolumeHappinessEffect;
     [SerializeField] private int positiveHappinessEffect;
-    [SerializeField] private int happinessMaxLevel;
 
     [Header("Beer Producing")]
     [SerializeField] private int beerKegPriceInSouls; 

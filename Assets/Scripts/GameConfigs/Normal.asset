@@ -27,19 +27,19 @@ MonoBehaviour:
   decreaseRate: 1
   decreaseStartDelay: 3
   startVolumeLevel: 10
-  startHappinesLevel: 20
+  startHappinesLevel: 10
+  happinessMaxLevel: 100
   dirtyTableHappinessEffect: 1
   emptyCarrotBarrelHappinessEffect: 2
   lowGramophoneVolumeHappinessEffect: 3
   positiveHappinessEffect: 3
-  happinessMaxLevel: 20
   beerKegPriceInSouls: 1
   beerKegProducingTime: 3
   fillingBeerGlassTime: 3
-  secondsToNightStarts: 100
+  secondsToNightStarts: 60
   beerSoldRewardInCoins: 10
   beerSoldRewardInSouls: 1
   carrotSoldRewardInSouls: 1
   carrotSoldRewardInCoins: 1
-  startCoinsValue: 99
+  startCoinsValue: 9999
   startSoulsValue: 99
