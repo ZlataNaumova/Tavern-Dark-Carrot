@@ -46,7 +46,11 @@ public class UIManager : MonoBehaviour
         TavernEventsManager.OnSwitchedToNigthAutoFightCanvas -= OnSwitchedToNigthAutoFightCanvasHandler;
     }
 
-    private void CoinsValueChangedHandler(int newValue) => coinsValueText.text = newValue.ToString();
+    private void CoinsValueChangedHandler(int newValue)
+    {
+        print("coins added " + newValue);
+        coinsValueText.text = newValue.ToString();
+    }   
     
     private void SoulsValueChangedHandler(int newValue) => soulsValueText.text = newValue.ToString();
 
@@ -73,7 +77,7 @@ public class UIManager : MonoBehaviour
 
     private void OnSwitchedToNigthAutoFightCanvasHandler()
     {
-        dayCanvas.SetActive(false);
+        //dayCanvas.SetActive(false);
         nightCanvas.SetActive(false);
         nightAutoFightCanvas.SetActive(true);
     }

@@ -22,21 +22,21 @@ public class ImprovementsManager : MonoBehaviour
         improvementListItem.RenderListItem(imp.Icon, imp.ItemName, imp.ItemEffect, imp.ItemDescription, imp.ItemPrice, imp.effect);
     }
 
-    public void ImprovePlayerSpeed()
+    public void ImprovePlayerSpeed(int price)
     {
-        TavernEventsManager.SpeedImproved();
+        TavernEventsManager.TryToSpendCoins(TavernEventsManager.SpeedImproved, price);
 
     }
 
-    public void ImproveCoinsIncome()
+    public void ImproveCoinsIncome(int price)
     {
-        TavernEventsManager.BeerIncomeImproved();
+        TavernEventsManager.TryToSpendCoins(TavernEventsManager.BeerIncomeImproved, price);
 
     }
 
-    public void ImproveHappinessDrop()
+    public void ImproveHappinessDrop(int price)
     {
-        TavernEventsManager.HappinessImproved();
+        TavernEventsManager.TryToSpendCoins(TavernEventsManager.HappinessImproved, price);
     }
 
     public void NextButtonClickHandler()

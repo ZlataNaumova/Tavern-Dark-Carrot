@@ -38,6 +38,8 @@ public class GameConfigManager : MonoBehaviour
     private static int beerKegProducingTime;
     private static int fillingBeerGlassTime;
     private static int startHappinesLevel;
+    private static int startCoinsValue;
+    private static int startSoulsValue;
 
     public static int PlayerSpeed { get { return playerSpeed; } }
     public static int VisitorSecondsToLeave { get { return visitorSecondsToLeave; } }
@@ -68,6 +70,8 @@ public class GameConfigManager : MonoBehaviour
     public static int BeerKegProducingTime { get { return beerKegProducingTime; } }
     public static int FillingBeerGlassTime { get { return fillingBeerGlassTime; } }
     public static int StartHappinesLevel { get { return startHappinesLevel; } }
+    public static int StartCoinsValue { get { return startCoinsValue; } }
+    public static int StartSoulsValue { get { return startSoulsValue; } }
 
 
 
@@ -119,6 +123,8 @@ public class GameConfigManager : MonoBehaviour
             beerKegProducingTime = presets[selectedPresetIndex].BeerKegProducingTime;
             fillingBeerGlassTime = presets[selectedPresetIndex].FillingBeerGlassTime;
             startHappinesLevel = presets[selectedPresetIndex].StartHappinesLevel;
+            startCoinsValue = presets[selectedPresetIndex].StartCoinsValue;
+            startSoulsValue = presets[selectedPresetIndex].StartSoulsValue;
         }
         else
         {

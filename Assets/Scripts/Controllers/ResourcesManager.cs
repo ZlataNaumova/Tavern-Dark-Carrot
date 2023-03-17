@@ -2,16 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ResourcesManager : MonoBehaviour
 {
     [SerializeField] private TMP_Text happinessText;
     [SerializeField] private TMP_Text happinessRateText;
 
-    private int coins = 0;
-    private int souls = 10;
-    private int happiness = 0;
-    private int happinessRate = 0;
+    private int coins;
+    private int souls;
+    private int happiness;
+    private int happinessRate;
+    private int happinessImprovementBonus;
     private List<VisitorAI> defendersCards = new List<VisitorAI>();
     private Coroutine updateHappinessCoroutine;
 
@@ -23,6 +25,8 @@ public class ResourcesManager : MonoBehaviour
         TavernEventsManager.OnHappinessRateChanged += HappinessRateChangedHandler;
         TavernEventsManager.OnNightStarted += NightStartedHandler;
         TavernEventsManager.OnHeartRepaired += DayStartedHandler;
+        TavernEventsManager.OnHappinessImproved += HappinessImprovedHandler;
+        TavernEventsManager.OnTryToSpendCoins += TryToSpendCoinsHandler;
     }
 
     private void OnDisable()
@@ -33,10 +37,14 @@ public class ResourcesManager : MonoBehaviour
         TavernEventsManager.OnHappinessRateChanged -= HappinessRateChangedHandler;
         TavernEventsManager.OnNightStarted -= NightStartedHandler;
         TavernEventsManager.OnHeartRepaired -= DayStartedHandler;
+        TavernEventsManager.OnHappinessImproved -= HappinessImprovedHandler;
+        TavernEventsManager.OnTryToSpendCoins -= TryToSpendCoinsHandler;
     }
 
     private void Start()
     {
+        coins = GameConfigManager.StartCoinsValue;
+        souls = GameConfigManager.StartSoulsValue;
         TavernEventsManager.CoinsValueChanged(coins);
         TavernEventsManager.SoulsValueChanged(souls);
         //updateHappinessCoroutine = StartCoroutine(UpdateHappiness());
@@ -58,6 +66,15 @@ public class ResourcesManager : MonoBehaviour
         }
         return false;
     }
+
+    private void TryToSpendCoinsHandler(UnityAction successAction, int tryToSpendValue)
+    {
+        if (TrySpendCoins(tryToSpendValue))
+        {
+            successAction?.Invoke();
+        }
+    }
+
     private void AddSouls(int value)
     {
         souls += value;
@@ -111,7 +128,7 @@ public class ResourcesManager : MonoBehaviour
             {
                 happiness = -GameConfigManager.HappinessMaxLevel;
             }
-            happiness += happinessRate;
+            happiness += happinessRate+happinessImprovementBonus;
             TavernEventsManager.HappinessChanged(happiness);
             UpdateText();
             yield return new WaitForSeconds(1);
@@ -127,5 +144,9 @@ public class ResourcesManager : MonoBehaviour
     private void HappinessRateChangedHandler(int value)
     {
         happinessRate += value;
+    }
+    private void HappinessImprovedHandler()
+    {
+        happinessImprovementBonus++;
     }
 }

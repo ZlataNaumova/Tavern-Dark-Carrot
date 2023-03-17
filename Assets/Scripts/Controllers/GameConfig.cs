@@ -47,6 +47,8 @@ public class GameConfig : ScriptableObject
     [SerializeField] private int beerSoldRewardInSouls;
     [SerializeField] private int carrotSoldRewardInSouls;
     [SerializeField] private int carrotSoldRewardInCoins;
+    [SerializeField] private int startCoinsValue;
+    [SerializeField] private int startSoulsValue;
 
     public int PlayerSpeed { get { return playerSpeed; } }
     public int VisitorSecondsToLeave { get { return visitorSecondsToLeave; } }
@@ -77,6 +79,9 @@ public class GameConfig : ScriptableObject
     public int BeerKegProducingTime { get { return beerKegProducingTime; } }
     public int FillingBeerGlassTime { get { return fillingBeerGlassTime; } }
     public int StartHappinesLevel { get { return startHappinesLevel; } }
+    public int StartCoinsValue { get { return startCoinsValue; } }
+    public int StartSoulsValue { get { return startSoulsValue; } }
+
 
 
 }
