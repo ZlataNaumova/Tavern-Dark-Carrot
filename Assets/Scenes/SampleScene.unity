@@ -7495,6 +7495,7 @@ MonoBehaviour:
   visitorPrefab: {fileID: 4619408317014488120, guid: eb9875a1710294d398282e2ca2fbcf54, type: 3}
   visitorSpawnPoint: {fileID: 271333894}
   visitorsSpawnQuantity: 8
+  PlayersCollider: {fileID: 1501122628}
 --- !u!1 &1171840459
 GameObject:
   m_ObjectHideFlags: 0
@@ -9514,6 +9515,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2dcbf59ac1864345bfb1f6acfa09358, type: 3}
+--- !u!143 &1501122628 stripped
+CharacterController:
+  m_CorrespondingSourceObject: {fileID: 6725711740664703616, guid: 197b3813702c348c0b2a4ca5224a547b, type: 3}
+  m_PrefabInstance: {fileID: 1704286345}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1519274216
 GameObject:
   m_ObjectHideFlags: 0
@@ -14334,7 +14340,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2578672873205553716, guid: 7321d1c4b6f334a3daed7919c1fb7aa2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.98
+      value: -1.29
       objectReference: {fileID: 0}
     - target: {fileID: 2578672873205553716, guid: 7321d1c4b6f334a3daed7919c1fb7aa2, type: 3}
       propertyPath: m_LocalPosition.y
@@ -14342,7 +14348,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2578672873205553716, guid: 7321d1c4b6f334a3daed7919c1fb7aa2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.73
+      value: -5.34
       objectReference: {fileID: 0}
     - target: {fileID: 2578672873205553716, guid: 7321d1c4b6f334a3daed7919c1fb7aa2, type: 3}
       propertyPath: m_LocalRotation.w

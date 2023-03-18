@@ -49,7 +49,12 @@ public class PlayerController : MonoBehaviour
     public bool isHoldingCleaningMaterials;
     public bool isHoldingBeerIngredient;
 
-    public int CurrentBeerType => currentBeerType;
+    public int CurrentBeerType { get { return currentBeerType; } }
+    public int PlayerSpeed
+    {
+        get { return playerSpeed; }
+        set { playerSpeed = value; }
+    }
 
     private void Awake()
     {

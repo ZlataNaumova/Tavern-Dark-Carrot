@@ -12,7 +12,7 @@ public class TavernHeart : PlayerInteractable
     [SerializeField] private Image warningSignImage;
     [SerializeField] private Sprite redBeerSprite;
     [SerializeField] private Sprite greenBeerSprite;
-
+    [SerializeField] private Transform bubblesTransform;
 
     private ResourcesManager resourcesManager;
 
@@ -36,6 +36,20 @@ public class TavernHeart : PlayerInteractable
     private void OnDisable()
     {
         TavernEventsManager.OnNightStarted -= NigthStartsHandler;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            player = other.GetComponent<PlayerController>();
+            if (player.isHoldingBeerIngredient)
+            {
+                player.SetTarget(gameObject);
+                outline.OutlineWidth = 2.5f;
+            }
+           
+        }
     }
 
     public override void PlayerInteraction()
@@ -93,12 +107,14 @@ public class TavernHeart : PlayerInteractable
         beerTypeImage.sprite = currentBeerType == 1 ? greenBeerSprite : redBeerSprite;
         beerTypeImage.enabled = true;
         beerProducingIndicator.enabled = true;
-        int counter = GameConfigManager.BeerKegProducingTime;
-        while (counter > 0)
+        float time = GameConfigManager.BeerKegProducingTime;
+        float elapsedTime = 0f;
+        while (elapsedTime < time)
         {
-            counter--;
-            beerProducingIndicator.fillAmount = 1 - (float)counter / GameConfigManager.BeerKegProducingTime;
-            yield return new WaitForSeconds(1);
+            elapsedTime += Time.deltaTime;
+            beerProducingIndicator.fillAmount = Mathf.Lerp(0f, 1f, elapsedTime / time);
+            bubblesTransform.Rotate(new Vector3(0f, 2f, 0f));
+            yield return null;
         }
         kegOfBeer.SetActive(true);
         isBeerProducing = false;

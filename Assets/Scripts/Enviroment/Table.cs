@@ -61,6 +61,20 @@ public class Table : PlayerInteractable
         TavernEventsManager.OnBeerIncomeImproved -= BeerIncomeImprovedHandler;
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            player = other.GetComponent<PlayerController>();
+            if (player.isHoldingCleaningMaterials || player.isHoldingGlassOfBeer)
+            {
+                player.SetTarget(gameObject);
+                outline.OutlineWidth = 2.5f;
+            }
+
+        }
+    }
+
     public void TableGetDirty()
     {
         isDirty = true;

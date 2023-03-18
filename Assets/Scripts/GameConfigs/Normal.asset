@@ -22,6 +22,7 @@ MonoBehaviour:
   secondsToGetHungry: 3
   onBeerDrinkStrengthReward: 10
   onCarrotEatStrengthReward: 1
+  visitorHappinessLevelToLeave: -50
   carrotsPlayerHolding: 10
   maxCarrotsInBarrel: 30
   decreaseRate: 1
