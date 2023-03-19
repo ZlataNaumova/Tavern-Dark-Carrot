@@ -42,5 +42,5 @@ MonoBehaviour:
   beerSoldRewardInSouls: 1
   carrotSoldRewardInSouls: 1
   carrotSoldRewardInCoins: 1
-  startCoinsValue: 9999
-  startSoulsValue: 99
+  startCoinsValue: 10
+  startSoulsValue: 10

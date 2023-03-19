@@ -134,6 +134,8 @@ public class Table : PlayerInteractable
             visitor.OnBeerDrinkEffect();
             UpdateVisitorUI();
             TavernEventsManager.CoinsAdded(oneBeerPrice + beerSellBonus);
+            TavernEventsManager.SoulsAdded(GameConfigManager.BeerSoldRewardInSouls);
+
             if (drinksCount >= GameConfigManager.DrinksToBecomeDefenderCard)
             {
                 VisitorBecomeDefenderCardHandler();
@@ -166,18 +168,21 @@ public class Table : PlayerInteractable
 
     IEnumerator VisitorLeaveTimer(int secondsToLeave)
     {
-        int counter = secondsToLeave;
-        while (counter > 0)
+       float time = secondsToLeave;
+       float elapsedTime = 0f;
+        while (elapsedTime < time)
         {
-            counter--;
-            leaveTimerBar.fillAmount = (float)counter / secondsToLeave;
-            yield return new WaitForSeconds(1);
+            elapsedTime += Time.deltaTime;
+            leaveTimerBar.fillAmount = Mathf.Lerp(0f, 1f, elapsedTime / time);
+            yield return null;
         }
         VisiterGoingOut();
     }
 
-    public void VisiterGoingOut()
+    
+public void VisiterGoingOut()
     {
+        drinksCount = 0;
         visitorInfoBar.SetActive(false);
         isEmpty = true;
         if(tryToTakeCarrotCoroutine != null)

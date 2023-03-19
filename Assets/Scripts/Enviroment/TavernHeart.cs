@@ -43,7 +43,7 @@ public class TavernHeart : PlayerInteractable
         if (other.CompareTag("Player"))
         {
             player = other.GetComponent<PlayerController>();
-            if (player.isHoldingBeerIngredient)
+            if (player.isHoldingBeerIngredient || isBeerProduced)
             {
                 player.SetTarget(gameObject);
                 outline.OutlineWidth = 2.5f;

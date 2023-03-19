@@ -63,6 +63,7 @@ public class ResourcesManager : MonoBehaviour
         {
             coins -= value;
             TavernEventsManager.CoinsValueChanged(coins);
+            TavernEventsManager.CoinsSubtracted(value);
             return true;
         }
         return false;
@@ -88,6 +89,7 @@ public class ResourcesManager : MonoBehaviour
         {
             souls -= value;
             TavernEventsManager.SoulsValueChanged(souls);
+            TavernEventsManager.SoulsSubtracted(value);
             return true;
         }
         return false;

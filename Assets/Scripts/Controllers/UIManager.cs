@@ -107,13 +107,14 @@ public class UIManager : MonoBehaviour
     
     private IEnumerator NightTimerCoroutine()
     {
-        int counter = GameConfigManager.SecondsToNightStarts;
-        while(counter > 0)
+        float time = GameConfigManager.SecondsToNightStarts;
+        float elapsedTime = 0f;
+        while (elapsedTime < time)
         {
-            counter--;
-            nigthTimerIndicator.fillAmount = (float)counter / GameConfigManager.SecondsToNightStarts;
-            yield return new WaitForSeconds(1);
+            elapsedTime += Time.deltaTime;
+            nigthTimerIndicator.fillAmount = Mathf.Lerp(0f, 1f, elapsedTime / time);
+            yield return null;
         }
     }
-   
+
 }

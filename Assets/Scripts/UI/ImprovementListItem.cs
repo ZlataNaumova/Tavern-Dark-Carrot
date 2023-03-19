@@ -15,8 +15,11 @@ public class ImprovementListItem : MonoBehaviour
     [SerializeField] private Button buyButton;
 
     private bool isApplied;
+    private int price;
 
+    private UnityEvent improvementEffectEvent;
     private UnityEvent onClickEvent;
+
 
     public void RenderListItem(Sprite icon, string itemName, string itemEffect,
         string itemDesc, int itemPrice, UnityEvent effectEvent)
@@ -26,26 +29,32 @@ public class ImprovementListItem : MonoBehaviour
         itemEffectText.text = itemEffect;
         itemDescriptionText.text = itemDesc;
         itemPriceText.text = itemPrice.ToString();
-        onClickEvent = effectEvent;
+        price = itemPrice;
+        improvementEffectEvent = effectEvent;
         
     }
 
     private void OnEnable()
     {
-        buyButton.onClick.AddListener(OnBuyButtonClickHandler);
+        buyButton.onClick.AddListener(TryToBuyImprovementHandler);
     }
 
     private void OnDisable()
     {
-        buyButton.onClick.RemoveListener(OnBuyButtonClickHandler);
-
+        buyButton.onClick.RemoveListener(TryToBuyImprovementHandler);
     }
 
-    private void OnBuyButtonClickHandler()
+    private void OnBuySuccessHandler()
     {
         isApplied = true;
         buyButton.GetComponent<Image>().color = Color.gray;
         buyButton.enabled = false;
         onClickEvent?.Invoke();
+    }
+
+    private void TryToBuyImprovementHandler()
+    {
+        TavernEventsManager.TryToSpendCoins(OnBuySuccessHandler, price);
+       
     }
 }

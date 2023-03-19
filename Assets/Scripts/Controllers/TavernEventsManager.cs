@@ -29,6 +29,12 @@ public static class TavernEventsManager
     public static event UnityAction<int> OnSoulsAdded;
     public static void SoulsAdded(int soulsValue) => OnSoulsAdded?.Invoke(soulsValue);
 
+    public static event UnityAction<int> OnCoinsSubtracted;
+    public static void CoinsSubtracted(int coinsValue) => OnCoinsSubtracted?.Invoke(coinsValue);
+
+    public static event UnityAction<int> OnSoulsSubtracted;
+    public static void SoulsSubtracted(int soulsValue) => OnSoulsSubtracted?.Invoke(soulsValue);
+
     public static event UnityAction<int> OnHappinessRateChanged;
     public static void HappinessRateChanged(int value) => OnHappinessRateChanged?.Invoke(value);
 
@@ -103,4 +109,6 @@ public static class TavernEventsManager
 
     public static event UnityAction<UnityAction, int> OnTryToSpendCoins;
     public static void TryToSpendCoins(UnityAction successAction, int tryToSpendValue) => OnTryToSpendCoins?.Invoke(successAction, tryToSpendValue);
+
+
 }
