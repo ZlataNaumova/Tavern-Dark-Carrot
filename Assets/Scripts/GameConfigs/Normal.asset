@@ -37,10 +37,10 @@ MonoBehaviour:
   beerKegPriceInSouls: 1
   beerKegProducingTime: 3
   fillingBeerGlassTime: 3
-  secondsToNightStarts: 60
+  secondsToNightStarts: 120
   beerSoldRewardInCoins: 10
   beerSoldRewardInSouls: 1
   carrotSoldRewardInSouls: 1
   carrotSoldRewardInCoins: 1
-  startCoinsValue: 10
+  startCoinsValue: 500
   startSoulsValue: 10
