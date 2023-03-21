@@ -60,15 +60,26 @@ public class VisitorsManager : MonoBehaviour
 
     private void OnReturnVisitorToPool(GameObject visitor) => visitor.SetActive(false);
 
-    private void HeartRepairedHandler() => spawnCoroutine = StartCoroutine(VisitorsSpawnCoroutine());
+    private void HeartRepairedHandler() => StartCoroutine(HeartRepairedHandlerCoroutine());
 
+    private IEnumerator HeartRepairedHandlerCoroutine()
+    {
+        yield return new WaitForSeconds(GameConfigManager.FirstVisiterSpawnDelay);
+        spawnCoroutine = StartCoroutine(VisitorsSpawnCoroutine());
+    }
     private bool IsSpawnNeeded() => activeVisitors.Count <= GameConfigManager.MaxVisitersQuantity;
 
     IEnumerator VisitorsSpawnCoroutine()
     {
-        print("visitersSpawn");
-        yield return new WaitForSeconds(random.Next(GameConfigManager.VisitorsSpawnDelayMin, GameConfigManager.VisitorsSpawnDelayMax));
-        TrySpawnVisitor();
+        while (true)
+        {
+            yield return new WaitForSeconds(random.Next(GameConfigManager.VisitorsSpawnDelayMin, GameConfigManager.VisitorsSpawnDelayMax));
+            if (IsSpawnNeeded())
+            {
+                TrySpawnVisitor();
+            }
+        }
+       
     }
 
     private void TrySpawnVisitor()
@@ -83,10 +94,7 @@ public class VisitorsManager : MonoBehaviour
             tempVisitor.SetStats(10, GetRandomVisiterType());
             tempVisitor.SetTarget(emptyTable.VisitorTargetPoint, VisitorTargets.Table);
             emptyTable.SetVisitor(tempVisitor);
-            if (IsSpawnNeeded())
-            {
-                spawnCoroutine = StartCoroutine(VisitorsSpawnCoroutine());
-            }
+            
         }
         else
         {
@@ -104,10 +112,7 @@ public class VisitorsManager : MonoBehaviour
     {
         activeVisitors.Remove(visitor);
         pool.Release(visitor);
-        if (IsSpawnNeeded())
-        {
-            spawnCoroutine = StartCoroutine(VisitorsSpawnCoroutine());
-        }
+        
     }
 
     private void OnVisitorBecomeDefenderCardHandler(VisitorAI visitor)
@@ -118,7 +123,6 @@ public class VisitorsManager : MonoBehaviour
 
     private void OnNightStartedHandler()
     {
-
         if (spawnCoroutine != null)
         {
             StopCoroutine(spawnCoroutine);
@@ -162,7 +166,7 @@ public class VisitorsManager : MonoBehaviour
         while (activeVisitors.Count > 0)
         {
             RandomVisiterLeave();
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(GameConfigManager.DelayBetweenVisitersLeave);
         }
     }
 

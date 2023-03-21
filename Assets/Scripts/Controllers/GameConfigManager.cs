@@ -41,6 +41,8 @@ public class GameConfigManager : MonoBehaviour
     private static int startCoinsValue;
     private static int startSoulsValue;
     private static int visitorHappinessLevelToLeave;
+    private static int firstVisiterSpawnDelay;
+    private static int delayBetweenVisitersLeave;
 
 
     public static int PlayerSpeed { get { return playerSpeed; } }
@@ -75,6 +77,8 @@ public class GameConfigManager : MonoBehaviour
     public static int StartCoinsValue { get { return startCoinsValue; } }
     public static int StartSoulsValue { get { return startSoulsValue; } }
     public static int VisitorHappinessLevelToLeave { get { return visitorHappinessLevelToLeave; } }
+    public static int FirstVisiterSpawnDelay { get { return firstVisiterSpawnDelay; } }
+    public static int DelayBetweenVisitersLeave { get { return delayBetweenVisitersLeave; } }
 
 
 
@@ -129,6 +133,8 @@ public class GameConfigManager : MonoBehaviour
             startCoinsValue = presets[selectedPresetIndex].StartCoinsValue;
             startSoulsValue = presets[selectedPresetIndex].StartSoulsValue;
             visitorHappinessLevelToLeave = presets[selectedPresetIndex].VisitorHappinessLevelToLeave;
+            firstVisiterSpawnDelay = presets[selectedPresetIndex].FirstVisiterSpawnDelay;
+            delayBetweenVisitersLeave = presets[selectedPresetIndex].DelayBetweenVisitersLeave;
         }
         else
         {
