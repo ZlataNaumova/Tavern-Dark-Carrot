@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Normal
   m_EditorClassIdentifier: 
   playerSpeed: 6
-  visitorSpeed: 3
-  visitorSecondsToLeave: 10
+  visitorSpeed: 5
+  visitorSecondsToLeave: 4
   drinksToBecomeDefenderCard: 2
   visitorsSpawnDelayMin: 2
   visitorsSpawnDelayMax: 5
@@ -23,7 +23,7 @@ MonoBehaviour:
   onBeerDrinkStrengthReward: 10
   onCarrotEatStrengthReward: 1
   visitorHappinessLevelToLeave: -50
-  firstVisiterSpawnDelay: 7
+  firstVisiterSpawnDelay: 2
   delayBetweenVisitersLeave: 3
   carrotsPlayerHolding: 10
   maxCarrotsInBarrel: 30
@@ -39,7 +39,7 @@ MonoBehaviour:
   beerKegPriceInSouls: 1
   beerKegProducingTime: 3
   fillingBeerGlassTime: 3
-  secondsToNightStarts: 120
+  secondsToNightStarts: 20
   beerSoldRewardInCoins: 10
   beerSoldRewardInSouls: 1
   carrotSoldRewardInSouls: 1

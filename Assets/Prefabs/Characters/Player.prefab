@@ -1482,8 +1482,8 @@ MonoBehaviour:
   greenBeerBarrelSprite: {fileID: 21300000, guid: 6874c59edc376874592d3fea10d30717, type: 3}
   redBeerBarrelSprite: {fileID: 21300000, guid: 66e9235c2711ade43b18736c3f85c647, type: 3}
   cleaningMaterialsSprite: {fileID: 21300000, guid: b79e0e31627b8f5438f341dffabed551, type: 3}
-  redBeerIngredientSprite: {fileID: 21300000, guid: 66e9235c2711ade43b18736c3f85c647, type: 3}
-  greenBeerIngredientSprite: {fileID: 21300000, guid: 6874c59edc376874592d3fea10d30717, type: 3}
+  redBeerIngredientSprite: {fileID: 21300000, guid: bc156973aa668b24ea084a295b97e542, type: 3}
+  greenBeerIngredientSprite: {fileID: 21300000, guid: a8f08e66586036346a09c1d691e8b68e, type: 3}
   currentItem: {fileID: 1601976129380911481}
   rabbitSprite: {fileID: 9025048603706069820}
   itemRectTransform: {fileID: 4286871314547158972}
