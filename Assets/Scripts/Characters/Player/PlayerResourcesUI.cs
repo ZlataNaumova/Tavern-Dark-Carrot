@@ -13,8 +13,8 @@ public class PlayerResourcesUI : MonoBehaviour
     [SerializeField] private Transform coinsUI;
     [SerializeField] private Transform soulsUI;
 
-    private float uiShowDuration = 0.5f;
-    private Vector3 uiMoveVector3 = new Vector3(0f, 0.02f, 0f);
+    private float uiShowDuration = 1f;
+    private Vector3 uiMoveVector3 = new Vector3(0f, 0.005f, 0f);
 
     private void OnEnable()
     {
