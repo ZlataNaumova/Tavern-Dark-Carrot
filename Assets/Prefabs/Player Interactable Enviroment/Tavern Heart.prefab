@@ -325,6 +325,7 @@ MonoBehaviour:
   warningSignImage: {fileID: 1918962999961762597}
   redBeerSprite: {fileID: 21300000, guid: 66e9235c2711ade43b18736c3f85c647, type: 3}
   greenBeerSprite: {fileID: 21300000, guid: 6874c59edc376874592d3fea10d30717, type: 3}
+  bubblesTransform: {fileID: 2867220940885464687}
 --- !u!65 &4587350974134235932
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -838,8 +839,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: beer_machine
       objectReference: {fileID: 0}
+    - target: {fileID: 7869170901391131720, guid: 68c359a09fecc404a9ab8109abf796ea, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: da0b8447460dc494d931f00e384d4e99, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68c359a09fecc404a9ab8109abf796ea, type: 3}
+--- !u!4 &2867220940885464687 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4856671349544109636, guid: 68c359a09fecc404a9ab8109abf796ea, type: 3}
+  m_PrefabInstance: {fileID: 7254233149845983275}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7144556051119192000 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 68c359a09fecc404a9ab8109abf796ea, type: 3}

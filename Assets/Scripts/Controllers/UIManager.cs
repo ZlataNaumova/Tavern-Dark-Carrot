@@ -20,7 +20,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Sprite happinessBadSprite;
     [SerializeField] private Slider happinessSlider;
 
-    private void Start() => happinesIconImage.sprite = happinessNormalSprite;
+    private void Start()
+    {
+        happinesIconImage.sprite = happinessNormalSprite;
+        happinessSlider.minValue = -GameConfigManager.HappinessMaxLevel;
+        happinessSlider.maxValue = GameConfigManager.HappinessMaxLevel;
+        HappinessChangeHandler(GameConfigManager.StartHappinesLevel);
+    }
     
     private void OnEnable()
     {
@@ -46,7 +52,11 @@ public class UIManager : MonoBehaviour
         TavernEventsManager.OnSwitchedToNigthAutoFightCanvas -= OnSwitchedToNigthAutoFightCanvasHandler;
     }
 
-    private void CoinsValueChangedHandler(int newValue) => coinsValueText.text = newValue.ToString();
+    private void CoinsValueChangedHandler(int newValue)
+    {
+        print("coins added " + newValue);
+        coinsValueText.text = newValue.ToString();
+    }   
     
     private void SoulsValueChangedHandler(int newValue) => soulsValueText.text = newValue.ToString();
 
@@ -55,15 +65,16 @@ public class UIManager : MonoBehaviour
     private void HappinessChangeHandler(int currentHappinessValue)
     {
         happinessSlider.value = currentHappinessValue;
+        int threshold = GameConfigManager.HappinessMaxLevel / 2;
         switch (currentHappinessValue)
         {
-            case int happiness when currentHappinessValue < -5:
+            case int happiness when currentHappinessValue < -threshold:
                 happinesIconImage.sprite = happinessBadSprite;
                 break;
-            case int happiness when currentHappinessValue > -5 && currentHappinessValue < 5:
+            case int happiness when currentHappinessValue > -threshold && currentHappinessValue < threshold:
                 happinesIconImage.sprite = happinessNormalSprite;
                 break;
-            case int happiness when currentHappinessValue > 6:
+            case int happiness when currentHappinessValue > threshold:
                 happinesIconImage.sprite = happinessGoodSprite;
                 break;
             default:
@@ -73,7 +84,7 @@ public class UIManager : MonoBehaviour
 
     private void OnSwitchedToNigthAutoFightCanvasHandler()
     {
-        dayCanvas.SetActive(false);
+        //dayCanvas.SetActive(false);
         nightCanvas.SetActive(false);
         nightAutoFightCanvas.SetActive(true);
     }
@@ -96,13 +107,14 @@ public class UIManager : MonoBehaviour
     
     private IEnumerator NightTimerCoroutine()
     {
-        int counter = GameConfigManager.SecondsToNightStarts;
-        while(counter > 0)
+        float time = GameConfigManager.SecondsToNightStarts;
+        float elapsedTime = 0f;
+        while (elapsedTime < time)
         {
-            counter--;
-            nigthTimerIndicator.fillAmount = (float)counter / GameConfigManager.SecondsToNightStarts;
-            yield return new WaitForSeconds(1);
+            elapsedTime += Time.deltaTime;
+            nigthTimerIndicator.fillAmount = Mathf.Lerp(0f, 1f, elapsedTime / time);
+            yield return null;
         }
     }
-   
+
 }

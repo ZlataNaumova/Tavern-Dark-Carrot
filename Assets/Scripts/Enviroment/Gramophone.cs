@@ -15,17 +15,44 @@ public class Gramophone : PlayerInteractable
     private int volumeThreshold = 50;
     private Coroutine volumeDecreaseCoroutine;
 
+    private void OnEnable()
+    {
+        TavernEventsManager.OnHeartRepaired += HeartRepairedHander;
+        TavernEventsManager.OnNightStarted += NightStartedHandler;
+    }
+
+    private void OnDisable()
+    {
+        TavernEventsManager.OnHeartRepaired -= HeartRepairedHander;
+        TavernEventsManager.OnNightStarted -= NightStartedHandler;
+    }
+
     private void Start()
     {
         currentVolume = GameConfigManager.StartVolumeLevel;
         gramophoneVolumeText.text = currentVolume.ToString();
-        volumeDecreaseCoroutine = StartCoroutine(VolumeDecreaseCoroutine());
         warningSignImage.enabled = false;
+        isInteractable = false;
         
+    }
+
+    private void HeartRepairedHander()
+    {
+        isInteractable = true;
+        volumeDecreaseCoroutine = StartCoroutine(VolumeDecreaseCoroutine());
+    }
+
+    private void NightStartedHandler()
+    {
+        isInteractable = false;
     }
 
     public override void PlayerInteraction()
     {
+        if(currentVolume <= 0)
+        {
+            volumeDecreaseCoroutine = StartCoroutine(VolumeDecreaseCoroutine());
+        }
         currentVolume = maxVolume;
         gramophoneVolumeText.text = currentVolume.ToString();
         HappinessHandler();

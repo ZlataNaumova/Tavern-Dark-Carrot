@@ -16,12 +16,27 @@ public class BeerFilter : PlayerInteractable
     private int beerGlasses;
     private Coroutine fillingGlass;
     private int currentBeerType;
+    private int currentPlayerSpeed;
+
 
     private void Start()
     {
         //kegOfBeer.SetActive(false);
         beerTypeImage.enabled = false;
         beerProducingIndicator.enabled = false;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            player = other.GetComponent<PlayerController>();
+            if ((beerGlasses > 0) || player.isHoldingBeerKeg)
+            {
+                player.SetTarget(gameObject);
+                outline.OutlineWidth = 2.5f;
+            }
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -92,17 +107,21 @@ public class BeerFilter : PlayerInteractable
     {
         isFillingGlass = true;
         beerProducingIndicator.enabled = true;
-        float counter = (float)GameConfigManager.FillingBeerGlassTime;
-        while(counter > 0)
+        currentPlayerSpeed = player.PlayerSpeed;
+        player.PlayerSpeed = 0;
+        float time = GameConfigManager.FillingBeerGlassTime;
+        float elapsedTime = 0f;
+        while(elapsedTime < time)
         {
-            counter -= 0.5f;
-            beerProducingIndicator.fillAmount = (float)counter / GameConfigManager.FillingBeerGlassTime;
-            yield return new WaitForSeconds(.5f);
+            elapsedTime += Time.deltaTime;
+            beerProducingIndicator.fillAmount = Mathf.Lerp(0f, 1f, elapsedTime / time);
+            yield return null;
         }
+        player.PlayerSpeed = currentPlayerSpeed;
         isFillingGlass = false;
         beerProducingIndicator.enabled = false;
         player.TakeGlassOfBeer(currentBeerType);
     }
-    
-    private void UpdadeBeerTypeSprite() => beerTypeImage.sprite = currentBeerType == 1 ? greenBeerGlassSprite : redBeerGlassSprite;
+   
+private void UpdadeBeerTypeSprite() => beerTypeImage.sprite = currentBeerType == 1 ? greenBeerGlassSprite : redBeerGlassSprite;
 }

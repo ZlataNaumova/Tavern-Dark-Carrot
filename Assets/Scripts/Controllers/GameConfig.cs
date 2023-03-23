@@ -18,6 +18,10 @@ public class GameConfig : ScriptableObject
     [SerializeField] private int secondsToGetHungry;
     [SerializeField] private int onBeerDrinkStrengthReward;
     [SerializeField] private int onCarrotEatStrengthReward;
+    [SerializeField] private int visitorHappinessLevelToLeave;
+    [SerializeField] private int firstVisiterSpawnDelay;
+    [SerializeField] private int delayBetweenVisitersLeave;
+
 
     [Header("Carrot Barrel")]
     [SerializeField] private int carrotsPlayerHolding;
@@ -29,12 +33,12 @@ public class GameConfig : ScriptableObject
     [SerializeField] private int startVolumeLevel;
 
     [Header("Happiness")]
-    [SerializeField] [Range(-20, 20)] private int startHappinesLevel;
+    [SerializeField] private int startHappinesLevel;
+    [SerializeField] private int happinessMaxLevel;
     [SerializeField] private int dirtyTableHappinessEffect;
     [SerializeField] private int emptyCarrotBarrelHappinessEffect;
     [SerializeField] private int lowGramophoneVolumeHappinessEffect;
     [SerializeField] private int positiveHappinessEffect;
-    [SerializeField] private int happinessMaxLevel;
 
     [Header("Beer Producing")]
     [SerializeField] private int beerKegPriceInSouls; 
@@ -47,6 +51,8 @@ public class GameConfig : ScriptableObject
     [SerializeField] private int beerSoldRewardInSouls;
     [SerializeField] private int carrotSoldRewardInSouls;
     [SerializeField] private int carrotSoldRewardInCoins;
+    [SerializeField] private int startCoinsValue;
+    [SerializeField] private int startSoulsValue;
 
     public int PlayerSpeed { get { return playerSpeed; } }
     public int VisitorSecondsToLeave { get { return visitorSecondsToLeave; } }
@@ -77,6 +83,11 @@ public class GameConfig : ScriptableObject
     public int BeerKegProducingTime { get { return beerKegProducingTime; } }
     public int FillingBeerGlassTime { get { return fillingBeerGlassTime; } }
     public int StartHappinesLevel { get { return startHappinesLevel; } }
+    public int StartCoinsValue { get { return startCoinsValue; } }
+    public int StartSoulsValue { get { return startSoulsValue; } }
+    public int VisitorHappinessLevelToLeave { get { return visitorHappinessLevelToLeave; } }
+    public int FirstVisiterSpawnDelay { get { return firstVisiterSpawnDelay; } }
+    public int DelayBetweenVisitersLeave { get { return delayBetweenVisitersLeave; } }
 
 
 }

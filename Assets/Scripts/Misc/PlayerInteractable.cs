@@ -9,17 +9,21 @@ public abstract class PlayerInteractable : MonoBehaviour
 {
     protected PlayerController player;
     protected Outline outline;
+    protected bool isInteractable;
+
 
     private void Awake()
     {
         outline = GetComponent<Outline>();
         outline.OutlineWidth = 0;
         outline.OutlineColor = Color.green;
+        isInteractable = true;
+        //#678873
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && isInteractable)
         {
             player = other.GetComponent<PlayerController>();
             player.SetTarget(gameObject);

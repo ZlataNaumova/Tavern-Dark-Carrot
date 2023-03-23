@@ -12,32 +12,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38a508a575996493ba56a2e8753830d2, type: 3}
   m_Name: Normal
   m_EditorClassIdentifier: 
-  playerSpeed: 7
-  visitorSpeed: 3
-  visitorSecondsToLeave: 13
+  playerSpeed: 6
+  visitorSpeed: 5
+  visitorSecondsToLeave: 4
   drinksToBecomeDefenderCard: 2
-  visitorsSpawnDelayMin: 4
-  visitorsSpawnDelayMax: 15
+  visitorsSpawnDelayMin: 2
+  visitorsSpawnDelayMax: 5
   maxVisitersQuantity: 6
-  secondsToGetHungry: 6
-  onBeerDrinkStrengthReward: 0
+  secondsToGetHungry: 3
+  onBeerDrinkStrengthReward: 10
   onCarrotEatStrengthReward: 1
-  carrotsPlayerHolding: 15
+  visitorHappinessLevelToLeave: -50
+  firstVisiterSpawnDelay: 2
+  delayBetweenVisitersLeave: 3
+  carrotsPlayerHolding: 10
   maxCarrotsInBarrel: 30
   decreaseRate: 1
-  decreaseStartDelay: 2
-  startVolumeLevel: 100
-  startHappinesLevel: 20
+  decreaseStartDelay: 3
+  startVolumeLevel: 10
+  startHappinesLevel: 10
+  happinessMaxLevel: 100
   dirtyTableHappinessEffect: 1
   emptyCarrotBarrelHappinessEffect: 2
   lowGramophoneVolumeHappinessEffect: 3
-  positiveHappinessEffect: 4
-  happinessMaxLevel: 20
+  positiveHappinessEffect: 3
   beerKegPriceInSouls: 1
-  beerKegProducingTime: 7
-  fillingBeerGlassTime: 1
-  secondsToNightStarts: 120
-  beerSoldRewardInCoins: 3
+  beerKegProducingTime: 3
+  fillingBeerGlassTime: 3
+  secondsToNightStarts: 20
+  beerSoldRewardInCoins: 10
   beerSoldRewardInSouls: 1
-  carrotSoldRewardInSouls: 0
-  carrotSoldRewardInCoins: 0
+  carrotSoldRewardInSouls: 1
+  carrotSoldRewardInCoins: 1
+  startCoinsValue: 500
+  startSoulsValue: 10

@@ -769,6 +769,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: beer_machine_mesh
       objectReference: {fileID: 0}
+    - target: {fileID: 7869170901391131720, guid: 68c359a09fecc404a9ab8109abf796ea, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: da0b8447460dc494d931f00e384d4e99, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68c359a09fecc404a9ab8109abf796ea, type: 3}
 --- !u!4 &9112101065671631096 stripped
